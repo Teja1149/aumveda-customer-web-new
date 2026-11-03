@@ -13,8 +13,9 @@ import {
 
 import {
   ArrowRight,
+  Award,
   ChevronRight,
-  Heart,
+  Flower2,
   Leaf,
   PackageSearch,
   RotateCcw,
@@ -32,27 +33,29 @@ import {
   getProducts,
 } from "../services/productService";
 
-import { useWishlist } from "../context/WishlistContext";
-import { useCart } from "../context/CartContext";
-
 import "../styles/products.css";
 
 /* ============================================================
    AUMVEDA — PRODUCTS PAGE
 
-   Product-first shopping experience
-   Main categories in sidebar
-   Maximum 6 subcategory choices
-   Four category-specific promotional banners
-   2.5-second automatic rotation
-   Individually clickable product images
-   Product-first advertisement compositions
-   No new stylesheet or backend dependencies
+   - Category and subcategory navigation
+   - Price, availability, offers and rating filters
+   - Product search and sorting
+   - Best Sellers discovery
+   - New Arrivals discovery
+   - Promotional carousel
+   - Responsive catalog and mobile filter drawer
+
+   Toolbar icons:
+   Best Sellers = Award
+   New Arrivals = Flower2
 ============================================================ */
 
 const MAX_VISIBLE_SUBCATEGORIES = 5;
 const AD_AFTER_PRODUCTS = 8;
 const AD_INTERVAL_MS = 2500;
+
+const NEW_ARRIVALS_DAYS = 60;
 
 const AD_CAMPAIGNS = [
   {
@@ -141,8 +144,8 @@ function toId(value) {
 }
 
 function toNumber(value) {
-  const result = Number(value);
-  return Number.isFinite(result) ? result : 0;
+  const number = Number(value);
+  return Number.isFinite(number) ? number : 0;
 }
 
 function slugify(value) {
@@ -154,7 +157,9 @@ function slugify(value) {
 }
 
 function extractList(response) {
-  if (Array.isArray(response)) return response;
+  if (Array.isArray(response)) {
+    return response;
+  }
 
   const candidates = [
     response?.data?.data?.products,
@@ -165,9 +170,18 @@ function extractList(response) {
     response?.data,
     response?.products,
     response?.categories,
+    response?.items,
   ];
 
   return candidates.find(Array.isArray) || [];
+}
+
+function dateTimestamp(value) {
+  if (!value) return null;
+
+  const result = Date.parse(value);
+
+  return Number.isFinite(result) ? result : null;
 }
 
 /* ============================================================
@@ -212,6 +226,7 @@ function normalizeCategories(source) {
   }
 
   visit(source);
+
   return [...result.values()];
 }
 
@@ -235,6 +250,7 @@ function createCategoryTree(categories) {
       byId.has(parent)
     ) {
       const group = children.get(parent) || [];
+
       group.push(category);
       children.set(parent, group);
     } else {
@@ -265,7 +281,10 @@ function createCategoryTree(categories) {
   }
 
   roots.sort(sortCategories);
-  children.forEach((items) => items.sort(sortCategories));
+
+  children.forEach((items) =>
+    items.sort(sortCategories)
+  );
 
   function descendants(id) {
     const result = new Set();
@@ -345,12 +364,24 @@ function getProductCategoryIds(product) {
 ============================================================ */
 
 function getDefaultVariant(product) {
+  const variants = Array.isArray(
+    product?.product_variants
+  )
+    ? product.product_variants
+    : [];
+
+  const activeVariants = variants.filter(
+    (variant) => variant.is_active !== false
+  );
+
   return (
-    product.product_variants?.find(
-      (variant) => variant.is_default
+    activeVariants.find(
+      (variant) =>
+        variant.is_default === true ||
+        variant.attributes?.is_default === true
     ) ||
-    product.product_variants?.[0] ||
-    product.variant ||
+    activeVariants[0] ||
+    product?.variant ||
     null
   );
 }
@@ -384,7 +415,10 @@ function productInStock(product) {
 }
 
 function productHasOffer(product) {
-  return comparePrice(product) > productPrice(product);
+  const price = productPrice(product);
+  const original = comparePrice(product);
+
+  return price > 0 && original > price;
 }
 
 function productRating(product) {
@@ -412,8 +446,77 @@ function getProductImage(product) {
   );
 }
 
+function isActiveProduct(product) {
+  return (
+    !product.status ||
+    String(product.status).toLowerCase() === "active"
+  );
+}
+
 /* ============================================================
-   SIDEBAR
+   DISCOVERY HELPERS
+
+   Best Sellers requires explicit backend sales metadata.
+   It is not inferred from reviews or ratings.
+============================================================ */
+
+function getSalesCount(product) {
+  const possibleValues = [
+    product.sales_count,
+    product.total_sold,
+    product.sold_count,
+    product.units_sold,
+    product.completed_sales_count,
+  ];
+
+  const value = possibleValues.find(
+    (item) =>
+      item !== null &&
+      item !== undefined &&
+      item !== ""
+  );
+
+  if (value === undefined) {
+    return null;
+  }
+
+  const count = Number(value);
+
+  return Number.isFinite(count)
+    ? Math.max(0, count)
+    : null;
+}
+
+function hasBestSellerEvidence(product) {
+  return (
+    product.is_best_seller === true ||
+    product.is_bestseller === true ||
+    (
+      getSalesCount(product) !== null &&
+      getSalesCount(product) > 0
+    )
+  );
+}
+
+function isNewArrival(product, now) {
+  const createdAt = dateTimestamp(
+    product.created_at
+  );
+
+  if (createdAt === null) {
+    return false;
+  }
+
+  const elapsed = now - createdAt;
+
+  return (
+    elapsed >= 0 &&
+    elapsed <= NEW_ARRIVALS_DAYS * 86400000
+  );
+}
+
+/* ============================================================
+   FILTER SIDEBAR
 ============================================================ */
 
 function ProductsFilterSidebar({
@@ -440,10 +543,13 @@ function ProductsFilterSidebar({
 
   return (
     <div className="product-filters">
+
       <div className="product-filters__heading">
         <span>REFINE YOUR SHOPPING</span>
         <h2>Filters</h2>
       </div>
+
+      {/* CATEGORIES */}
 
       <div className="product-filters__group">
         <h3>Categories</h3>
@@ -483,15 +589,19 @@ function ProductsFilterSidebar({
                 aria-pressed={active}
               >
                 <span>{category.name}</span>
+
                 <small>
                   {categoryCounts[category.id] || 0}
                 </small>
+
                 <ChevronRight size={14} />
               </button>
             );
           })}
         </div>
       </div>
+
+      {/* PRICE */}
 
       <div className="product-filters__group">
         <div className="product-filters__group-title">
@@ -501,6 +611,7 @@ function ProductsFilterSidebar({
 
         <div className="product-filters__price-labels">
           <span>₹0</span>
+
           <strong>
             ₹{displayedPrice.toLocaleString("en-IN")}
           </strong>
@@ -525,6 +636,8 @@ function ProductsFilterSidebar({
         </p>
       </div>
 
+      {/* STOCK */}
+
       <div className="product-filters__group">
         <h3>Availability</h3>
 
@@ -536,9 +649,12 @@ function ProductsFilterSidebar({
               onStockChange(event.target.checked)
             }
           />
+
           <span>In Stock Only</span>
         </label>
       </div>
+
+      {/* OFFERS */}
 
       <div className="product-filters__group">
         <h3>Special Offers</h3>
@@ -551,9 +667,12 @@ function ProductsFilterSidebar({
               onOffersChange(event.target.checked)
             }
           />
+
           <span>Discounted Products</span>
         </label>
       </div>
+
+      {/* RATING */}
 
       <div className="product-filters__group">
         <h3>Customer Rating</h3>
@@ -568,8 +687,11 @@ function ProductsFilterSidebar({
                 type="radio"
                 name="catalog-rating"
                 checked={minRating === rating}
-                onChange={() => onRatingChange(rating)}
+                onChange={() =>
+                  onRatingChange(rating)
+                }
               />
+
               <span>
                 {rating === 0
                   ? "All Ratings"
@@ -588,13 +710,13 @@ function ProductsFilterSidebar({
         <RotateCcw size={14} />
         Reset All Filters
       </button>
+
     </div>
   );
 }
 
 /* ============================================================
-   SUBCATEGORY STRIP
-   Maximum six options including All
+   SUBCATEGORIES
 ============================================================ */
 
 function SubcategoryStrip({
@@ -674,15 +796,7 @@ function SubcategoryStrip({
 }
 
 /* ============================================================
-   CATEGORY-BASED PROMOTIONAL BANNERS
-
-   Product selection prioritizes:
-   1. Exact category membership, including descendants
-   2. Matching product keywords
-   3. No unrelated product fallback
-
-   Each slide uses its own theme, product combination,
-   and category destination.
+   PROMOTIONAL SLIDE GENERATION
 ============================================================ */
 
 function buildAdSlides(products, categories, tree) {
@@ -725,7 +839,9 @@ function buildAdSlides(products, categories, tree) {
       const ids = getProductCategoryIds(product);
 
       const categoryMatch =
-        [...ids].some((id) => categoryIds.has(id));
+        [...ids].some(
+          (id) => categoryIds.has(id)
+        );
 
       const searchable = [
         product.name,
@@ -753,9 +869,8 @@ function buildAdSlides(products, categories, tree) {
       ? directMatches
       : keywordMatches;
 
-    // Keep each campaign relevant to its named category.
-    // When no category is found, keyword matching is used.
-    const selectedProducts = matchingProducts.slice(0, 3);
+    const selectedProducts =
+      matchingProducts.slice(0, 3);
 
     const destination = category
       ? `/products?category=${encodeURIComponent(
@@ -770,7 +885,9 @@ function buildAdSlides(products, categories, tree) {
       products: selectedProducts,
       destination,
     };
-  }).filter((slide) => slide.products.length > 0);
+  }).filter(
+    (slide) => slide.products.length > 0
+  );
 }
 
 /* ============================================================
@@ -784,7 +901,6 @@ function CatalogAdvertisement({
 }) {
   const [activeSlide, setActiveSlide] = useState(0);
   const [paused, setPaused] = useState(false);
-
   const [reducedMotion, setReducedMotion] =
     useState(false);
 
@@ -849,7 +965,11 @@ function CatalogAdvertisement({
       window.clearInterval(timerRef.current);
       timerRef.current = null;
     };
-  }, [paused, reducedMotion, slides.length]);
+  }, [
+    paused,
+    reducedMotion,
+    slides.length,
+  ]);
 
   if (slides.length === 0) {
     return null;
@@ -889,11 +1009,11 @@ function CatalogAdvertisement({
       <div
         className="products-catalog-ad__slide"
         key={currentSlide.id}
-        aria-label={`Promotion ${currentIndex + 1} of ${slides.length}`}
+        aria-label={
+          `Promotion ${currentIndex + 1} of ${slides.length}`
+        }
         aria-roledescription="slide"
       >
-        {/* CAMPAIGN COPY */}
-
         <div className="products-catalog-ad__copy">
           <span className="products-catalog-ad__eyebrow">
             <Leaf size={13} />
@@ -921,41 +1041,39 @@ function CatalogAdvertisement({
           </Link>
         </div>
 
-        {/* FEATURED PRODUCTS — INDIVIDUAL LINKS */}
-
         <div className="products-catalog-ad__images">
-          {currentSlide.products.map((product, index) => (
-            <Link
-              key={product.id}
-              to={`/products/${encodeURIComponent(
-                product.slug
-              )}`}
-              className={
-                "products-catalog-ad__product " +
-                `products-catalog-ad__product--${index + 1}`
-              }
-              aria-label={`View ${product.name}`}
-              title={product.name}
-            >
-              <img
-                src={getProductImage(product)}
-                alt={product.name}
-                loading="lazy"
-                decoding="async"
-                draggable={false}
-              />
-            </Link>
-          ))}
+          {currentSlide.products.map(
+            (product, index) => (
+              <Link
+                key={product.id}
+                to={`/products/${encodeURIComponent(
+                  product.slug
+                )}`}
+                className={
+                  "products-catalog-ad__product " +
+                  `products-catalog-ad__product--${index + 1}`
+                }
+                aria-label={`View ${product.name}`}
+                title={product.name}
+              >
+                <img
+                  src={getProductImage(product)}
+                  alt={product.name}
+                  loading="lazy"
+                  decoding="async"
+                  draggable={false}
+                />
+              </Link>
+            )
+          )}
         </div>
       </div>
-
-      {/* SLIDE INDICATORS */}
 
       <div className="products-catalog-ad__pagination">
         {slides.map((slide, index) => (
           <button
-            key={slide.id}
             type="button"
+            key={slide.id}
             className={
               "products-catalog-ad__dot" +
               (index === currentIndex
@@ -998,7 +1116,9 @@ export default function Products() {
   const [retry, setRetry] = useState(0);
 
   const [sortBy, setSortBy] = useState("popular");
-  const [wishlistOnly, setWishlistOnly] = useState(false);
+
+  const [discoveryMode, setDiscoveryMode] =
+    useState("all");
 
   const [priceLimit, setPriceLimit] = useState(null);
   const [inStockOnly, setInStockOnly] = useState(false);
@@ -1008,25 +1128,12 @@ export default function Products() {
   const [mobileFiltersOpen, setMobileFiltersOpen] =
     useState(false);
 
-  const wishlist = useWishlist();
-  const cart = useCart();
-
-  const wishlistIds = wishlist.wishlistIds || [];
-  const wishlistCount = wishlist.wishlistCount || 0;
-
-  const cartCount = toNumber(
-    cart.totalQuantity ??
-    cart.items?.reduce(
-      (sum, item) => sum + toNumber(item.quantity),
-      0
-    ) ??
-    0
-  );
-
   const searchQuery =
     searchParams.get("search") || "";
 
-  /* LOAD API DATA */
+  /* ==========================================================
+     LOAD API DATA
+  ========================================================== */
 
   useEffect(() => {
     let active = true;
@@ -1036,11 +1143,13 @@ export default function Products() {
       setError("");
 
       try {
-        const [productResponse, categoryResponse] =
-          await Promise.all([
-            getProducts(),
-            getCategories(),
-          ]);
+        const [
+          productResponse,
+          categoryResponse,
+        ] = await Promise.all([
+          getProducts(),
+          getCategories(),
+        ]);
 
         if (!active) return;
 
@@ -1058,7 +1167,9 @@ export default function Products() {
           "Unable to load products. Please try again."
         );
       } finally {
-        if (active) setLoading(false);
+        if (active) {
+          setLoading(false);
+        }
       }
     }
 
@@ -1069,10 +1180,14 @@ export default function Products() {
     };
   }, [retry]);
 
-  /* MOBILE FILTER KEYBOARD SUPPORT */
+  /* ==========================================================
+     MOBILE DRAWER KEYBOARD SUPPORT
+  ========================================================== */
 
   useEffect(() => {
-    if (!mobileFiltersOpen) return undefined;
+    if (!mobileFiltersOpen) {
+      return undefined;
+    }
 
     function handleEscape(event) {
       if (event.key === "Escape") {
@@ -1093,7 +1208,9 @@ export default function Products() {
     };
   }, [mobileFiltersOpen]);
 
-  /* CATEGORY HIERARCHY */
+  /* ==========================================================
+     CATEGORY TREE
+  ========================================================== */
 
   const normalizedCategories = useMemo(
     () => normalizeCategories(categories),
@@ -1147,7 +1264,9 @@ export default function Products() {
     tree.byId.get(selectedRoot) || null;
 
   const availableSubcategories = useMemo(() => {
-    if (selectedRoot === "all") return [];
+    if (selectedRoot === "all") {
+      return [];
+    }
 
     const allowed = tree.descendants(selectedRoot);
 
@@ -1167,7 +1286,9 @@ export default function Products() {
 
     const candidate =
       subcategoryId ||
-      (categoryId !== selectedRoot ? categoryId : "");
+      (categoryId !== selectedRoot
+        ? categoryId
+        : "");
 
     return availableSubcategories.some(
       (category) => category.id === candidate
@@ -1184,7 +1305,9 @@ export default function Products() {
   const effectiveCategory =
     selectedSubcategory || selectedRoot;
 
-  /* CATEGORY COUNTS */
+  /* ==========================================================
+     CATEGORY COUNTS
+  ========================================================== */
 
   const categoryCounts = useMemo(() => {
     const counts = {};
@@ -1201,9 +1324,15 @@ export default function Products() {
     }
 
     return counts;
-  }, [products, normalizedCategories, tree]);
+  }, [
+    products,
+    normalizedCategories,
+    tree,
+  ]);
 
-  /* PRICE LIMIT */
+  /* ==========================================================
+     PRICE LIMIT
+  ========================================================== */
 
   const maximumPrice = useMemo(() => {
     const highest = products.reduce(
@@ -1218,10 +1347,32 @@ export default function Products() {
     );
   }, [products]);
 
-  /* FILTER AND SORT PRODUCTS */
+  /* ==========================================================
+     DATA AVAILABILITY
+
+     These checks avoid misleading customers.
+  ========================================================== */
+
+  const hasSalesMetadata = products.some(
+    (product) =>
+      getSalesCount(product) !== null ||
+      typeof product.is_best_seller === "boolean" ||
+      typeof product.is_bestseller === "boolean"
+  );
+
+  const hasCreationDates = products.some(
+    (product) =>
+      dateTimestamp(product.created_at) !== null
+  );
+
+  /* ==========================================================
+     FILTER AND SORT
+  ========================================================== */
 
   const filteredProducts = useMemo(() => {
-    let result = [...products];
+    let result = products.filter(isActiveProduct);
+
+    /* CATEGORY */
 
     if (effectiveCategory !== "all") {
       const allowed = tree.descendants(
@@ -1235,6 +1386,8 @@ export default function Products() {
           )
       );
     }
+
+    /* SEARCH */
 
     const query = searchQuery.trim().toLowerCase();
 
@@ -1258,13 +1411,7 @@ export default function Products() {
       });
     }
 
-    if (wishlistOnly) {
-      const ids = new Set(wishlistIds.map(toId));
-
-      result = result.filter(
-        (product) => ids.has(toId(product.id))
-      );
-    }
+    /* PRICE */
 
     if (priceLimit !== null) {
       result = result.filter(
@@ -1273,13 +1420,19 @@ export default function Products() {
       );
     }
 
+    /* AVAILABILITY */
+
     if (inStockOnly) {
       result = result.filter(productInStock);
     }
 
+    /* OFFERS */
+
     if (offersOnly) {
       result = result.filter(productHasOffer);
     }
+
+    /* RATING */
 
     if (minRating > 0) {
       result = result.filter(
@@ -1288,31 +1441,106 @@ export default function Products() {
       );
     }
 
-    result.sort((a, b) => {
-      switch (sortBy) {
-        case "price_low":
-          return productPrice(a) - productPrice(b);
+    /* DISCOVERY */
 
-        case "price_high":
-          return productPrice(b) - productPrice(a);
+    if (discoveryMode === "best-sellers") {
+      result = result.filter(
+        hasBestSellerEvidence
+      );
 
-        case "rating":
-          return productRating(b) - productRating(a);
+      result.sort((a, b) => {
+        const aCount = getSalesCount(a) ?? 0;
+        const bCount = getSalesCount(b) ?? 0;
 
-        case "name":
-          return String(a.name || "").localeCompare(
-            String(b.name || "")
-          );
-
-        default: {
-          const score = (product) =>
-            productRating(product) * 1000 +
-            toNumber(product.review_count);
-
-          return score(b) - score(a);
+        if (bCount !== aCount) {
+          return bCount - aCount;
         }
-      }
-    });
+
+        if (
+          a.is_best_seller === true &&
+          b.is_best_seller !== true
+        ) {
+          return -1;
+        }
+
+        if (
+          b.is_best_seller === true &&
+          a.is_best_seller !== true
+        ) {
+          return 1;
+        }
+
+        return productRating(b) - productRating(a);
+      });
+    } else if (discoveryMode === "new-arrivals") {
+      const now = Date.now();
+
+      result = result.filter(
+        (product) => isNewArrival(product, now)
+      );
+
+      result.sort(
+        (a, b) =>
+          (dateTimestamp(b.created_at) ?? 0) -
+          (dateTimestamp(a.created_at) ?? 0)
+      );
+    } else {
+      /* EXISTING SORTING */
+
+      result = [...result].sort((a, b) => {
+        switch (sortBy) {
+          case "price_low":
+            return productPrice(a) - productPrice(b);
+
+          case "price_high":
+            return productPrice(b) - productPrice(a);
+
+          case "rating":
+            return productRating(b) - productRating(a);
+
+          case "name":
+            return String(a.name || "").localeCompare(
+              String(b.name || "")
+            );
+
+          default: {
+            const score = (product) =>
+              productRating(product) * 1000 +
+              toNumber(product.review_count);
+
+            return score(b) - score(a);
+          }
+        }
+      });
+    }
+
+    /* OPTIONAL SORT OVERRIDE FOR DISCOVERY MODES */
+
+    if (
+      discoveryMode !== "all" &&
+      sortBy !== "popular"
+    ) {
+      result.sort((a, b) => {
+        switch (sortBy) {
+          case "price_low":
+            return productPrice(a) - productPrice(b);
+
+          case "price_high":
+            return productPrice(b) - productPrice(a);
+
+          case "rating":
+            return productRating(b) - productRating(a);
+
+          case "name":
+            return String(a.name || "").localeCompare(
+              String(b.name || "")
+            );
+
+          default:
+            return 0;
+        }
+      });
+    }
 
     return result;
   }, [
@@ -1321,19 +1549,22 @@ export default function Products() {
     tree,
     searchQuery,
     categoryNames,
-    wishlistOnly,
-    wishlistIds,
     priceLimit,
     inStockOnly,
     offersOnly,
     minRating,
     sortBy,
+    discoveryMode,
   ]);
 
-  /* CATEGORY FILTER ACTIONS */
+  /* ==========================================================
+     CATEGORY ACTIONS
+  ========================================================== */
 
   function changeCategory(id) {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(
+      searchParams
+    );
 
     if (id === "all") {
       params.delete("category");
@@ -1348,7 +1579,10 @@ export default function Products() {
   function changeSubcategory(id) {
     if (selectedRoot === "all") return;
 
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(
+      searchParams
+    );
+
     params.set("category", selectedRoot);
 
     if (id) {
@@ -1361,14 +1595,21 @@ export default function Products() {
   }
 
   function removeSearch() {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(
+      searchParams
+    );
+
     params.delete("search");
     setSearchParams(params);
   }
 
+  /* ==========================================================
+     CLEAR FILTERS
+  ========================================================== */
+
   function clearFilters() {
     setSortBy("popular");
-    setWishlistOnly(false);
+    setDiscoveryMode("all");
     setPriceLimit(null);
     setInStockOnly(false);
     setOffersOnly(false);
@@ -1380,12 +1621,11 @@ export default function Products() {
     Boolean(searchQuery.trim()) ||
     selectedRoot !== "all" ||
     Boolean(selectedSubcategory) ||
-    wishlistOnly ||
     priceLimit !== null ||
     inStockOnly ||
     offersOnly ||
     minRating > 0 ||
-    sortBy !== "popular";
+    discoveryMode !== "all";
 
   const filterProps = {
     categoryTree: tree,
@@ -1411,7 +1651,9 @@ export default function Products() {
       ? categoryNames[selectedRoot]
       : "";
 
-  /* GROUP PRODUCTS AROUND ADVERTISEMENT */
+  /* ==========================================================
+     PROMOTIONAL BANNER POSITION
+  ========================================================== */
 
   const showAdvertisement =
     !loading &&
@@ -1426,9 +1668,50 @@ export default function Products() {
     ? filteredProducts.slice(AD_AFTER_PRODUCTS)
     : [];
 
+  /* ==========================================================
+     EMPTY-STATE MESSAGE
+  ========================================================== */
+
+  let emptyTitle = "No products found";
+  let emptyMessage =
+    "Try adjusting your selected filters.";
+
+  if (
+    discoveryMode === "best-sellers" &&
+    !hasSalesMetadata
+  ) {
+    emptyTitle = "Best Sellers coming soon";
+    emptyMessage =
+      "Verified sales rankings are not yet available from the product catalog. Browse all products in the meantime.";
+  } else if (
+    discoveryMode === "best-sellers"
+  ) {
+    emptyTitle = "No Best Sellers found";
+    emptyMessage =
+      "No products match the selected categories and bestseller criteria.";
+  } else if (
+    discoveryMode === "new-arrivals" &&
+    !hasCreationDates
+  ) {
+    emptyTitle = "New Arrivals coming soon";
+    emptyMessage =
+      "Product creation dates are not yet included in the catalog response.";
+  } else if (
+    discoveryMode === "new-arrivals"
+  ) {
+    emptyTitle = "No new arrivals found";
+    emptyMessage =
+      "There are no products added within the last 60 days that match your filters.";
+  }
+
+  /* ==========================================================
+     RENDER
+  ========================================================== */
+
   return (
     <main className="products-page">
       <section className="products-shop">
+
         {/* FILTER SIDEBAR */}
 
         <aside className="products-shop__sidebar">
@@ -1463,14 +1746,19 @@ export default function Products() {
             onChange={changeSubcategory}
           />
 
-          {/* TOOLBAR */}
+          {/* ==================================================
+              TOOLBAR — SELECTED ICON PAIR 5
+          ================================================== */}
 
           <div className="products-toolbar">
+
             <div className="products-toolbar__left">
               <button
                 type="button"
                 className="products-mobile-filter"
-                onClick={() => setMobileFiltersOpen(true)}
+                onClick={() =>
+                  setMobileFiltersOpen(true)
+                }
               >
                 <SlidersHorizontal size={16} />
                 Filters
@@ -1498,41 +1786,72 @@ export default function Products() {
             </div>
 
             <div className="products-toolbar__right">
+
+              {/* BEST SELLERS — AWARD */}
+
               <button
                 type="button"
                 className={
-                  "products-toolbar-action" +
-                  (wishlistOnly ? " is-active" : "")
+                  "products-toolbar-action products-toolbar-action--quick" +
+                  (discoveryMode === "best-sellers"
+                    ? " is-active"
+                    : "")
                 }
                 onClick={() =>
-                  setWishlistOnly((value) => !value)
+                  setDiscoveryMode((current) =>
+                    current === "best-sellers"
+                      ? "all"
+                      : "best-sellers"
+                  )
                 }
-                aria-pressed={wishlistOnly}
+                aria-pressed={
+                  discoveryMode === "best-sellers"
+                }
+                title="Discover products with verified bestseller data"
               >
-                <Heart
-                  size={15}
-                  fill={
-                    wishlistOnly
-                      ? "currentColor"
-                      : "none"
-                  }
+                <Award
+                  size={16}
+                  strokeWidth={1.8}
                 />
 
-                Wishlist
-
-                {wishlistCount > 0 && (
-                  <span>{wishlistCount}</span>
-                )}
+                <span className="products-toolbar-action__label">
+                  Best Sellers
+                </span>
               </button>
 
-              <div className="products-cart-summary">
-                <ShoppingBag size={15} />
-                Cart
+              {/* NEW ARRIVALS — FLOWER */}
 
-                {cartCount > 0 && (
-                  <span>{cartCount}</span>
-                )}
-              </div>
+              <button
+                type="button"
+                className={
+                  "products-toolbar-action products-toolbar-action--quick" +
+                  (discoveryMode === "new-arrivals"
+                    ? " is-active"
+                    : "")
+                }
+                onClick={() =>
+                  setDiscoveryMode((current) =>
+                    current === "new-arrivals"
+                      ? "all"
+                      : "new-arrivals"
+                  )
+                }
+                aria-pressed={
+                  discoveryMode === "new-arrivals"
+                }
+                title="Discover recently added products"
+              >
+                <Flower2
+                  size={16}
+                  strokeWidth={1.8}
+                />
+
+                <span className="products-toolbar-action__label">
+                  New Arrivals
+                </span>
+              </button>
+
+              {/* SORT */}
 
               <ProductSort
                 value={sortBy}
@@ -1541,7 +1860,7 @@ export default function Products() {
             </div>
           </div>
 
-          {/* SEARCH SUMMARY */}
+          {/* SEARCH */}
 
           {searchQuery.trim() && (
             <div className="products-search-summary">
@@ -1550,10 +1869,11 @@ export default function Products() {
             </div>
           )}
 
-          {/* ACTIVE FILTER CHIPS */}
+          {/* ACTIVE FILTERS */}
 
           {hasActiveFilters && (
             <div className="products-active-filters">
+
               {selectedRoot !== "all" && (
                 <span>
                   Category:
@@ -1581,15 +1901,30 @@ export default function Products() {
                 </span>
               )}
 
-              {inStockOnly && <span>In Stock</span>}
-              {offersOnly && <span>Offers Only</span>}
+              {inStockOnly && (
+                <span>In Stock</span>
+              )}
+
+              {offersOnly && (
+                <span>Offers Only</span>
+              )}
 
               {minRating > 0 && (
                 <span>{minRating}★ & above</span>
               )}
 
-              {wishlistOnly && (
-                <span>Wishlist Only</span>
+              {discoveryMode === "best-sellers" && (
+                <span>
+                  <Award size={12} />
+                  Best Sellers
+                </span>
+              )}
+
+              {discoveryMode === "new-arrivals" && (
+                <span>
+                  <Flower2 size={12} />
+                  New Arrivals
+                </span>
               )}
 
               {searchQuery.trim() && (
@@ -1633,7 +1968,9 @@ export default function Products() {
           ) : error ? (
             <div className="products-state">
               <PackageSearch size={38} />
+
               <h3>Collection unavailable</h3>
+
               <p>{error}</p>
 
               <button
@@ -1648,22 +1985,23 @@ export default function Products() {
           ) : filteredProducts.length === 0 ? (
             <div className="products-state">
               <PackageSearch size={38} />
-              <h3>No products found</h3>
 
-              <p>
-                Try adjusting your selected filters.
-              </p>
+              <h3>{emptyTitle}</h3>
+
+              <p>{emptyMessage}</p>
 
               <button
                 type="button"
                 onClick={clearFilters}
               >
-                Clear Filters
+                View All Products
               </button>
             </div>
           ) : (
             <div className="products-catalog-results">
-              <ProductGrid products={firstProducts} />
+              <ProductGrid
+                products={firstProducts}
+              />
 
               {showAdvertisement && (
                 <CatalogAdvertisement
@@ -1680,6 +2018,7 @@ export default function Products() {
               )}
             </div>
           )}
+
         </div>
       </section>
 
@@ -1688,7 +2027,9 @@ export default function Products() {
       {mobileFiltersOpen && (
         <div
           className="products-filter-overlay"
-          onClick={() => setMobileFiltersOpen(false)}
+          onClick={() =>
+            setMobileFiltersOpen(false)
+          }
         >
           <aside
             className="products-filter-drawer"
