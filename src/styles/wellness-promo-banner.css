@@ -1,0 +1,796 @@
+
+/* ============================================================
+   AUMVEDA — PREMIUM EDITORIAL TRIO
+   STEP 13A.5.3
+
+   Three distinctive panels:
+   1. Golden product slider
+   2. Chocolate-brown editorial
+   3. Cream featured product
+
+   Optimized vertical space.
+   Original design identity preserved.
+============================================================ */
+
+.wellness-promo,
+.wellness-promo * {
+    box-sizing: border-box;
+}
+
+/* ============================================================
+   SECTION & GRID
+============================================================ */
+
+.wellness-promo {
+    width: 100%;
+    padding: 7px 14px 9px;
+
+    background: #f8f3e9;
+}
+
+.wellness-promo__container {
+    width: min(100%, 1560px);
+    margin: 0 auto;
+}
+
+.wellness-promo__grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.05fr)
+        minmax(0, 1.1fr)
+        minmax(0, .9fr);
+
+    gap: 9px;
+    height: 258px;
+}
+
+/* ============================================================
+   SHARED PANELS
+============================================================ */
+
+.wellness-promo__slider-panel,
+.wellness-promo__editorial,
+.wellness-promo__featured {
+    position: relative;
+
+    min-width: 0;
+    min-height: 0;
+
+    overflow: hidden;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 4px 14px rgba(65, 40, 25, .09);
+}
+
+/* ============================================================
+   LEFT — GOLDEN PRODUCT SLIDER
+============================================================ */
+
+.wellness-promo__slider-panel {
+    display: flex;
+    flex-direction: column;
+
+    background: linear-gradient(
+        135deg,
+        #ead8b9 0%,
+        #d7bb8d 55%,
+        #bf9767 100%
+    );
+}
+
+/* HEADER */
+
+.wellness-promo__slider-header {
+    position: relative;
+    z-index: 5;
+
+    flex: 0 0 29px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 8px;
+    padding: 0 13px;
+
+    color: #5b3b28;
+
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .12em;
+}
+
+.wellness-promo__counter {
+    color: #74543b;
+
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: .02em;
+
+    white-space: nowrap;
+}
+
+/* PRODUCT IMAGE STAGE */
+
+.wellness-promo__slider-stage {
+    position: relative;
+
+    flex: 1 1 auto;
+
+    min-width: 0;
+    min-height: 0;
+
+    overflow: hidden;
+
+    background: radial-gradient(
+        ellipse at 50% 45%,
+        rgba(255, 251, 235, .75) 0%,
+        rgba(246, 224, 187, .22) 55%,
+        transparent 90%
+    );
+}
+
+.wellness-promo__slide {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 10px 2px;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        opacity .7s ease,
+        visibility .7s ease;
+}
+
+.wellness-promo__slide--active {
+    z-index: 2;
+
+    opacity: 1;
+    visibility: visible;
+
+    pointer-events: auto;
+}
+
+.wellness-promo__slide img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    object-position: center;
+
+    filter: drop-shadow(
+        0 7px 8px rgba(64, 44, 25, .14)
+    );
+
+    transition: transform .35s ease;
+}
+
+.wellness-promo__slide--active:hover img {
+    transform: scale(1.045);
+}
+
+/* IMAGE FALLBACK */
+
+.wellness-promo__image-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 15px;
+
+    color: #61472f;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 19px;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.wellness-promo__image-placeholder--empty {
+    position: absolute;
+    inset: 0;
+}
+
+/* FOOTER */
+
+.wellness-promo__slider-footer {
+    position: relative;
+    z-index: 5;
+
+    flex: 0 0 54px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    min-width: 0;
+    gap: 6px;
+
+    padding: 7px 13px;
+
+    background: #4d3025;
+}
+
+.wellness-promo__slider-product-name {
+    display: block;
+
+    min-width: 0;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    color: #fff5e9;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.15;
+
+    text-decoration: none;
+}
+
+.wellness-promo__slider-product-name:hover {
+    color: #f3d4a8;
+}
+
+/* PROGRESS INDICATORS */
+
+.wellness-promo__slider-progress {
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+    min-height: 4px;
+}
+
+.wellness-promo__progress-item {
+    flex: 0 0 auto;
+
+    width: 11px;
+    height: 3px;
+
+    padding: 0;
+
+    border: 0;
+    border-radius: 999px;
+
+    background: rgba(255, 255, 255, .38);
+
+    cursor: pointer;
+
+    transition:
+        width .2s ease,
+        background .2s ease;
+}
+
+.wellness-promo__progress-item--active {
+    width: 27px;
+    background: #e4bf88;
+}
+
+.wellness-promo__progress-item:focus-visible {
+    outline: 2px solid #fff5e9;
+    outline-offset: 3px;
+}
+
+/* ============================================================
+   MIDDLE — EDITORIAL PANEL
+============================================================ */
+
+.wellness-promo__editorial {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding: 16px clamp(16px, 2.1vw, 28px);
+
+    background: linear-gradient(
+        120deg,
+        #43291f 0%,
+        #593529 62%,
+        #43291f 100%
+    );
+}
+
+.wellness-promo__eyebrow {
+    color: #d7b381;
+
+    font-size: 9px;
+    font-weight: 850;
+    letter-spacing: .15em;
+}
+
+.wellness-promo__editorial-content {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+.wellness-promo__editorial-content h2 {
+    margin: 0;
+
+    color: #fff4e7;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(30px, 2.8vw, 43px);
+    font-weight: 600;
+    line-height: 1.035;
+    letter-spacing: -.046em;
+}
+
+.wellness-promo__editorial-content h2 span {
+    display: block;
+}
+
+.wellness-promo__editorial-content p {
+    margin: 0;
+
+    color: #e6d1bf;
+
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+/* EDITORIAL CTA */
+
+.wellness-promo__editorial-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    width: 100%;
+    min-height: 37px;
+
+    padding: 0 12px;
+
+    border-radius: 7px;
+
+    color: #40281d;
+    background: #d5b17e;
+
+    font-size: 10px;
+    font-weight: 850;
+    letter-spacing: .065em;
+
+    text-decoration: none;
+
+    transition:
+        background .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.wellness-promo__editorial-button:hover {
+    color: #40281d;
+    background: #ebc999;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 5px 12px rgba(19, 11, 7, .15);
+}
+
+/* ============================================================
+   RIGHT — FEATURED PRODUCT PANEL
+============================================================ */
+
+.wellness-promo__featured {
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+
+    padding: 12px 13px;
+
+    color: #4b3022;
+    text-decoration: none;
+
+    background: linear-gradient(
+        135deg,
+        #f2e7d2 0%,
+        #e6d6b7 58%,
+        #d9bf99 100%
+    );
+
+    transition: box-shadow .2s ease;
+}
+
+.wellness-promo__featured:hover {
+    color: #4b3022;
+
+    box-shadow:
+        0 8px 19px rgba(65, 40, 25, .15);
+}
+
+.wellness-promo__featured-label {
+    flex: 0 0 auto;
+
+    color: #73563a;
+
+    font-size: 9px;
+    font-weight: 850;
+    letter-spacing: .14em;
+}
+
+/* FEATURED IMAGE */
+
+.wellness-promo__featured-visual {
+    flex: 1 1 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 0;
+    min-height: 0;
+
+    overflow: hidden;
+}
+
+.wellness-promo__featured-visual img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+    max-height: 145px;
+
+    object-fit: contain;
+
+    filter: drop-shadow(
+        0 7px 8px rgba(66, 47, 30, .13)
+    );
+
+    transition: transform .3s ease;
+}
+
+.wellness-promo__featured:hover
+.wellness-promo__featured-visual img {
+    transform: scale(1.055);
+}
+
+.wellness-promo__featured-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 10px;
+
+    color: #6d5237;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 17px;
+    text-align: center;
+}
+
+/* FEATURED PRODUCT DETAILS */
+
+.wellness-promo__featured-bottom {
+    flex: 0 0 auto;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+.wellness-promo__featured-bottom h3 {
+    display: -webkit-box;
+
+    margin: 0;
+
+    overflow: hidden;
+
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+    color: #4b3022;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+.wellness-promo__featured-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    color: #4b3022;
+
+    font-size: 9px;
+    font-weight: 850;
+    letter-spacing: .07em;
+}
+
+.wellness-promo__featured-arrow {
+    flex: 0 0 auto;
+
+    display: grid;
+    place-items: center;
+
+    width: 27px;
+    height: 27px;
+
+    border-radius: 50%;
+
+    color: #fff3df;
+    background: #4b3022;
+
+    transition:
+        transform .2s ease,
+        background .2s ease;
+}
+
+.wellness-promo__featured:hover
+.wellness-promo__featured-arrow {
+    background: #67402c;
+    transform: translate(2px, -2px);
+}
+
+/* ============================================================
+   LAPTOP / TABLET
+============================================================ */
+
+@media (max-width: 1050px) {
+    .wellness-promo__grid {
+        grid-template-columns:
+            minmax(0, 1fr)
+            minmax(0, 1.07fr)
+            minmax(0, .94fr);
+
+        height: 250px;
+    }
+
+    .wellness-promo__editorial {
+        padding: 14px;
+        gap: 9px;
+    }
+
+    .wellness-promo__editorial-content h2 {
+        font-size: clamp(26px, 3.2vw, 37px);
+    }
+
+    .wellness-promo__editorial-content p {
+        font-size: 10px;
+    }
+
+    .wellness-promo__featured {
+        padding: 11px;
+    }
+
+    .wellness-promo__featured-bottom h3 {
+        font-size: 16px;
+    }
+
+    .wellness-promo__slider-product-name {
+        font-size: 14px;
+    }
+}
+
+/* ============================================================
+   SMALL TABLET — STILL THREE COLUMNS
+============================================================ */
+
+@media (max-width: 780px) and (min-width: 651px) {
+    .wellness-promo {
+        padding: 6px 8px;
+    }
+
+    .wellness-promo__grid {
+        gap: 7px;
+        height: 235px;
+    }
+
+    .wellness-promo__slider-header {
+        padding: 0 9px;
+        font-size: 8px;
+    }
+
+    .wellness-promo__slider-footer {
+        flex-basis: 49px;
+        padding: 6px 9px;
+    }
+
+    .wellness-promo__slider-product-name {
+        font-size: 12px;
+    }
+
+    .wellness-promo__editorial {
+        padding: 11px;
+        gap: 7px;
+    }
+
+    .wellness-promo__eyebrow {
+        font-size: 8px;
+    }
+
+    .wellness-promo__editorial-content {
+        gap: 6px;
+    }
+
+    .wellness-promo__editorial-content h2 {
+        font-size: clamp(22px, 3.15vw, 28px);
+    }
+
+    .wellness-promo__editorial-content p {
+        font-size: 10px;
+    }
+
+    .wellness-promo__editorial-button {
+        min-height: 33px;
+        padding: 0 9px;
+        font-size: 9px;
+    }
+
+    .wellness-promo__featured {
+        padding: 9px;
+    }
+
+    .wellness-promo__featured-label {
+        font-size: 8px;
+    }
+
+    .wellness-promo__featured-bottom h3 {
+        font-size: 14px;
+    }
+
+    .wellness-promo__featured-action {
+        font-size: 8px;
+    }
+
+    .wellness-promo__featured-arrow {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+/* ============================================================
+   MOBILE — COMPACT STACKED PANELS
+============================================================ */
+
+@media (max-width: 650px) {
+    .wellness-promo {
+        padding: 6px 7px 8px;
+    }
+
+    .wellness-promo__grid {
+        grid-template-columns: 1fr;
+
+        height: auto;
+        gap: 7px;
+    }
+
+    .wellness-promo__slider-panel,
+    .wellness-promo__editorial,
+    .wellness-promo__featured {
+        border-radius: 10px;
+    }
+
+    /* LEFT SLIDER */
+
+    .wellness-promo__slider-panel {
+        height: 235px;
+    }
+
+    .wellness-promo__slider-header {
+        flex-basis: 27px;
+        padding: 0 11px;
+    }
+
+    .wellness-promo__slider-footer {
+        flex-basis: 50px;
+        padding: 6px 11px;
+    }
+
+    .wellness-promo__slider-product-name {
+        font-size: 15px;
+    }
+
+    /* CENTER EDITORIAL */
+
+    .wellness-promo__editorial {
+        min-height: 188px;
+
+        padding: 14px 16px;
+        gap: 9px;
+    }
+
+    .wellness-promo__eyebrow {
+        font-size: 9px;
+    }
+
+    .wellness-promo__editorial-content h2 {
+        font-size: clamp(30px, 7.5vw, 39px);
+    }
+
+    .wellness-promo__editorial-content p {
+        font-size: 11px;
+    }
+
+    .wellness-promo__editorial-button {
+        min-height: 36px;
+        font-size: 10px;
+    }
+
+    /* RIGHT FEATURED */
+
+    .wellness-promo__featured {
+        height: 235px;
+        padding: 12px;
+    }
+
+    .wellness-promo__featured-visual img {
+        max-height: 135px;
+    }
+
+    .wellness-promo__featured-bottom h3 {
+        font-size: 18px;
+    }
+}
+
+/* ============================================================
+   VERY SMALL MOBILE
+============================================================ */
+
+@media (max-width: 390px) {
+    .wellness-promo__slider-panel {
+        height: 220px;
+    }
+
+    .wellness-promo__editorial {
+        min-height: 180px;
+        padding: 12px 14px;
+    }
+
+    .wellness-promo__editorial-content h2 {
+        font-size: 29px;
+    }
+
+    .wellness-promo__featured {
+        height: 225px;
+        padding: 11px;
+    }
+}
+
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    .wellness-promo__slide,
+    .wellness-promo__slide img,
+    .wellness-promo__progress-item,
+    .wellness-promo__editorial-button,
+    .wellness-promo__featured,
+    .wellness-promo__featured-visual img,
+    .wellness-promo__featured-arrow {
+        transition: none !important;
+    }
+}

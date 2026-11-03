@@ -1,3094 +1,1452 @@
+
 /* ============================================================
-   AUMVEDA CUSTOMER PROFILE
+   AUMVEDA — CUSTOMER PROFILE
+   STEP 17H.6 — PREMIUM RESPONSIVE EDITION
 ============================================================ */
 
 .profile-page {
-    position: relative;
+  --pf-green: #173e30;
+  --pf-green-mid: #315e46;
+  --pf-gold: #b9934a;
+  --pf-paper: #fffdf8;
+  --pf-ink: #38291e;
+  --pf-muted: #74695e;
+  --pf-border: rgba(99, 74, 44, 0.12);
 
-    width: 100%;
-
-    min-height:
-        calc(100vh - 90px);
-
-    padding:
-        42px 28px 70px;
-
-    overflow-x: hidden;
-
-    box-sizing: border-box;
-
-    background:
-        linear-gradient(
-            180deg,
-            #f7f3eb 0%,
-            #eeeae2 100%
-        );
-
-    color:
-        #381f12;
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: calc(100vh - 180px);
+  padding: 26px 24px 36px;
+  overflow-x: clip;
+  color: var(--pf-ink);
+  background:
+    radial-gradient(
+      ellipse at 96% 4%,
+      #e9eee2 0%,
+      transparent 35%
+    ),
+    linear-gradient(180deg, #f8f4eb, #f2ede4);
 }
 
+.profile-page *,
+.profile-page *::before,
+.profile-page *::after {
+  box-sizing: border-box;
+}
+
+.profile-page button,
+.profile-page input,
+.profile-page select {
+  font: inherit;
+}
+
+.profile-page button {
+  cursor: pointer;
+}
+
+.profile-page button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
 
 /* ============================================================
-   DECORATION
+   BACKGROUND
 ============================================================ */
 
 .profile-page__orb {
-    position: absolute;
-
-    border-radius: 50%;
-
-    pointer-events: none;
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
 }
-
 
 .profile-page__orb--one {
-    width: 360px;
-    height: 360px;
-
-    top: -170px;
-    left: -170px;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(185, 147, 74, .09),
-            transparent 68%
-        );
+  top: -150px;
+  left: -150px;
+  width: 310px;
+  height: 310px;
+  background: radial-gradient(
+    circle,
+    rgba(185, 147, 74, 0.09),
+    transparent 70%
+  );
 }
-
 
 .profile-page__orb--two {
-    width: 440px;
-    height: 440px;
-
-    right: -220px;
-    bottom: -240px;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(87, 102, 84, .09),
-            transparent 68%
-        );
+  right: -200px;
+  bottom: -190px;
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(
+    circle,
+    rgba(87, 120, 84, 0.1),
+    transparent 70%
+  );
 }
-
-
-/* ============================================================
-   CONTAINER
-============================================================ */
 
 .profile-container {
-    position: relative;
-
-    z-index: 2;
-
-    width:
-        min(
-            100%,
-            1280px
-        );
-
-    margin:
-        0 auto;
+  position: relative;
+  width: min(100%, 1260px);
+  margin: 0 auto;
 }
 
-
 /* ============================================================
-   PAGE HEADER
+   HEADER
 ============================================================ */
 
 .profile-page__header {
-    width:
-        min(
-            100%,
-            700px
-        );
-
-    margin:
-        0 auto 30px;
-
-    text-align: center;
+  margin: 0 auto 20px;
+  text-align: center;
 }
-
 
 .profile-page__eyebrow-text {
-    display: inline-block;
-
-    margin-bottom: 7px;
-
-    color:
-        #657162;
-
-    font-size:
-        8px;
-
-    font-weight:
-        750;
-
-    letter-spacing:
-        2px;
-
-    text-transform:
-        uppercase;
+  display: inline-block;
+  margin-bottom: 5px;
+  color: #896b43;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
 }
-
 
 .profile-page__header h1 {
-    margin:
-        0;
-
-    color:
-        #381f12;
-
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-    font-size:
-        clamp(
-            39px,
-            4vw,
-            54px
-        );
-
-    font-weight:
-        600;
-
-    line-height:
-        1;
-
-    letter-spacing:
-        -.03em;
+  margin: 0;
+  color: #34261e;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(30px, 3vw, 39px);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
 }
-
 
 .profile-page__header > p {
-    max-width:
-        590px;
-
-    margin:
-        10px auto 0;
-
-    color:
-        #786c62;
-
-    font-size:
-        12px;
-
-    line-height:
-        1.55;
+  margin: 7px auto 0;
+  color: var(--pf-muted);
+  font-size: 12px;
+  line-height: 1.5;
 }
-
 
 /* ============================================================
    GLOBAL MESSAGES
 ============================================================ */
 
 .profile-global-message {
-    width:
-        min(
-            100%,
-            900px
-        );
-
-    margin:
-        0 auto 18px;
-
-    padding:
-        11px 15px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 8px;
-
-    border-radius:
-        12px;
-
-    font-size:
-        10px;
-
-    font-weight:
-        600;
+  width: min(100%, 900px);
+  margin: 0 auto 14px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 15px;
+  font-size: 11px;
+  font-weight: 650;
 }
-
 
 .profile-global-message--success {
-    border:
-        1px solid
-        rgba(87, 102, 84, .13);
-
-    background:
-        rgba(87, 102, 84, .10);
-
-    color:
-        #4d604b;
+  color: #245a3b;
+  background: #e7f0e4;
+  border: 1px solid #cee2ce;
 }
-
 
 .profile-global-message--error {
-    border:
-        1px solid
-        rgba(130, 65, 49, .12);
-
-    background:
-        rgba(130, 65, 49, .08);
-
-    color:
-        #824131;
+  color: #974638;
+  background: #fff0ea;
+  border: 1px solid #f0d1c8;
 }
 
-
 /* ============================================================
-   PAGE LAYOUT
+   MAIN LAYOUT
 ============================================================ */
 
 .profile-layout {
-    display: grid;
-
-    grid-template-columns:
-        300px
-        minmax(0, 1fr);
-
-    gap:
-        24px;
-
-    align-items:
-        start;
+  display: grid;
+  grid-template-columns: 265px minmax(0, 1fr);
+  align-items: start;
+  gap: 18px;
 }
 
-
 /* ============================================================
-   PROFILE SIDEBAR
+   SIDEBAR
 ============================================================ */
 
 .profile-identity-card {
-    position: sticky;
-
-    top:
-        112px;
-
-    padding:
-        28px 22px 20px;
-
-    border:
-        1px solid
-        rgba(56, 31, 18, .07);
-
-    border-radius:
-        24px;
-
-    background:
-        rgba(255, 252, 246, .72);
-
-    box-shadow:
-        0 17px 45px
-        rgba(56, 31, 18, .07);
-
-    backdrop-filter:
-        blur(14px);
-
-    -webkit-backdrop-filter:
-        blur(14px);
-
-    text-align:
-        center;
+  position: sticky;
+  top: 100px;
+  min-width: 0;
+  padding: 22px 17px 18px;
+  text-align: center;
+  border: 1px solid var(--pf-border);
+  border-radius: 23px;
+  background: var(--pf-paper);
+  box-shadow: 0 8px 24px rgba(57, 43, 28, 0.055);
 }
-
-
-/* ============================================================
-   AVATAR
-============================================================ */
 
 .profile-avatar-shell {
-    position: relative;
-
-    width:
-        96px;
-
-    height:
-        96px;
-
-    margin:
-        0 auto 16px;
+  position: relative;
+  width: 78px;
+  height: 78px;
+  margin: 0 auto 11px;
 }
-
 
 .profile-avatar,
 .profile-avatar-image {
-    width:
-        96px;
-
-    height:
-        96px;
-
-    border:
-        5px solid
-        rgba(255, 255, 255, .82);
-
-    border-radius:
-        50%;
-
-    box-shadow:
-        0 13px 30px
-        rgba(56, 31, 18, .15);
+  width: 78px;
+  height: 78px;
+  border: 4px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 5px 17px rgba(38, 65, 43, 0.14);
 }
-
 
 .profile-avatar {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    background:
-        linear-gradient(
-            145deg,
-            #647460,
-            #3f503e
-        );
-
-    color:
-        #ffffff;
-
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-    font-size:
-        29px;
-
-    font-weight:
-        600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  background: linear-gradient(
+    135deg,
+    #416a4d,
+    #173e30
+  );
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 25px;
+  font-weight: 650;
 }
-
 
 .profile-avatar-image {
-    display: block;
-
-    object-fit: cover;
+  display: block;
+  object-fit: cover;
 }
-
 
 .profile-avatar__status {
-    position: absolute;
-
-    right:
-        2px;
-
-    bottom:
-        6px;
-
-    width:
-        25px;
-
-    height:
-        25px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    border:
-        3px solid
-        #f7f3eb;
-
-    border-radius:
-        50%;
-
-    background:
-        #b9934a;
-
-    color:
-        #ffffff;
+  position: absolute;
+  right: 0;
+  bottom: 3px;
+  width: 21px;
+  height: 21px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #fffdf8;
+  border-radius: 50%;
+  color: #ffffff;
+  background: #3c8655;
 }
-
-
-/* ============================================================
-   SIDEBAR TEXT
-============================================================ */
 
 .profile-identity-card h2 {
-    margin:
-        0;
-
-    color:
-        #381f12;
-
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-    font-size:
-        23px;
-
-    font-weight:
-        600;
+  margin: 0;
+  color: #34291e;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 21px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
 }
-
 
 .profile-identity-card__email {
-    margin:
-        5px 0 0;
-
-    color:
-        #80746a;
-
-    font-size:
-        11px;
-
-    overflow-wrap:
-        anywhere;
+  margin: 5px 0 0;
+  color: #7d7165;
+  font-size: 11px;
+  overflow-wrap: anywhere;
 }
-
 
 .profile-member-chip {
-    width:
-        fit-content;
-
-    margin:
-        13px auto 0;
-
-    padding:
-        7px 10px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap:
-        6px;
-
-    border-radius:
-        999px;
-
-    background:
-        rgba(87, 102, 84, .09);
-
-    color:
-        #576654;
-
-    font-size:
-        9px;
-
-    font-weight:
-        650;
+  width: fit-content;
+  max-width: 100%;
+  margin: 11px auto 0;
+  padding: 7px 11px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  color: #386449;
+  background: #ecf2e9;
+  font-size: 10px;
+  font-weight: 650;
 }
-
 
 .profile-identity-card__divider {
-    height:
-        1px;
-
-    margin:
-        22px 0 16px;
-
-    background:
-        rgba(56, 31, 18, .08);
+  height: 1px;
+  margin: 17px 0 12px;
+  background: var(--pf-border);
 }
 
-
 /* ============================================================
-   QUICK LINKS
+   QUICK LINKS — INCLUDES MY ORDERS
 ============================================================ */
 
 .profile-quick-links {
-    display: flex;
-
-    flex-direction: column;
-
-    gap:
-        6px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
-
 
 .profile-quick-link {
-    min-height:
-        57px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap:
-        10px;
-
-    padding:
-        8px 10px;
-
-    border-radius:
-        14px;
-
-    color:
-        #4f443c;
-
-    text-decoration:
-        none;
-
-    text-align:
-        left;
-
-    transition:
-        background 220ms ease,
-        transform 220ms ease;
+  min-height: 51px;
+  padding: 7px 9px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border-radius: 15px;
+  color: #51463e;
+  text-align: left;
+  text-decoration: none;
+  transition:
+    background 0.2s,
+    transform 0.2s;
 }
-
 
 .profile-quick-link:hover {
-    background:
-        #eee8dc;
-
-    transform:
-        translateX(3px);
+  color: #173e30;
+  background: #f0f4eb;
+  transform: translateX(2px);
 }
-
 
 .profile-quick-link__icon {
-    width:
-        35px;
-
-    height:
-        35px;
-
-    flex-shrink:
-        0;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    border-radius:
-        50%;
-
-    background:
-        rgba(87, 102, 84, .10);
-
-    color:
-        #576654;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  color: #386649;
+  background: #e7eee3;
 }
-
 
 .profile-quick-link__content {
-    flex:
-        1;
-
-    min-width:
-        0;
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap:
-        2px;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
-
 
 .profile-quick-link__content strong {
-    color:
-        #493d35;
-
-    font-size:
-        11px;
+  color: #40362e;
+  font-size: 11px;
+  font-weight: 750;
 }
-
 
 .profile-quick-link__content small {
-    color:
-        #91847a;
-
-    font-size:
-        8.5px;
+  color: #887d70;
+  font-size: 10px;
 }
-
 
 .profile-quick-link > svg {
-    flex-shrink:
-        0;
-
-    color:
-        #9a8c80;
+  flex-shrink: 0;
+  color: #96897b;
 }
 
-
 /* ============================================================
-   LOGOUT
+   LOGOUT BUTTON
 ============================================================ */
 
 .profile-logout-button {
-    width:
-        100%;
-
-    min-height:
-        42px;
-
-    margin-top:
-        16px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap:
-        8px;
-
-    border:
-        1px solid
-        rgba(130, 65, 49, .15);
-
-    border-radius:
-        999px;
-
-    background:
-        rgba(130, 65, 49, .045);
-
-    color:
-        #824131;
-
-    font-size:
-        10px;
-
-    font-weight:
-        700;
-
-    cursor:
-        pointer;
-
-    transition:
-        background 220ms ease,
-        color 220ms ease,
-        transform 220ms ease;
+  width: 100%;
+  min-height: 35px;
+  margin-top: 13px;
+  padding: 0 12px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid #ecd1c9;
+  border-radius: 999px;
+  color: #954d3e;
+  background: #fff4ef;
+  font-size: 11px;
+  font-weight: 700;
+  transition:
+    background 0.2s,
+    color 0.2s;
 }
 
-
-.profile-logout-button:hover {
-    background:
-        #824131;
-
-    color:
-        #ffffff;
-
-    transform:
-        translateY(-2px);
+.profile-logout-button:hover:not(:disabled) {
+  color: #ffffff;
+  background: #954d3e;
 }
-
-
-.profile-logout-button:disabled {
-    opacity:
-        .55;
-
-    cursor:
-        not-allowed;
-}
-
 
 /* ============================================================
-   MAIN
+   MAIN CONTENT CARDS
 ============================================================ */
 
 .profile-main {
-    min-width:
-        0;
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap:
-        17px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
-
-
-/* ============================================================
-   CARD
-============================================================ */
 
 .profile-card {
-    position: relative;
-
-    padding:
-        25px 26px;
-
-    border:
-        1px solid
-        rgba(56, 31, 18, .07);
-
-    border-radius:
-        22px;
-
-    background:
-        rgba(255, 252, 246, .68);
-
-    box-shadow:
-        0 13px 34px
-        rgba(56, 31, 18, .052);
-
-    backdrop-filter:
-        blur(12px);
-
-    -webkit-backdrop-filter:
-        blur(12px);
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--pf-border);
+  border-radius: 23px;
+  background: var(--pf-paper);
+  box-shadow: 0 7px 21px rgba(57, 43, 28, 0.045);
 }
-
 
 .profile-card__header {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap:
-        15px;
-
-    margin-bottom:
-        19px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 13px;
+  margin-bottom: 15px;
 }
-
 
 .profile-card__label {
-    color:
-        #7a886f;
-
-    font-size:
-        7.5px;
-
-    font-weight:
-        750;
-
-    letter-spacing:
-        1.7px;
+  color: #88734f;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
 }
-
 
 .profile-card__header h2 {
-    margin:
-        5px 0 0;
-
-    color:
-        #381f12;
-
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-    font-size:
-        23px;
-
-    font-weight:
-        600;
+  margin: 4px 0 0;
+  color: #34291f;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(20px, 2vw, 24px);
+  font-weight: 600;
+  line-height: 1.2;
 }
 
-
-/* ============================================================
-   EDIT BUTTON
-============================================================ */
+.profile-edit-button,
+.profile-add-address-button {
+  flex-shrink: 0;
+  min-height: 34px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 750;
+  transition:
+    transform 0.2s,
+    background 0.2s,
+    color 0.2s;
+}
 
 .profile-edit-button {
-    min-height:
-        38px;
-
-    padding:
-        0 14px;
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap:
-        7px;
-
-    border:
-        1px solid
-        rgba(87, 102, 84, .22);
-
-    border-radius:
-        999px;
-
-    background:
-        rgba(87, 102, 84, .07);
-
-    color:
-        #576654;
-
-    font-size:
-        9.5px;
-
-    font-weight:
-        700;
-
-    cursor:
-        pointer;
-
-    transition:
-        background 220ms ease,
-        color 220ms ease,
-        transform 220ms ease;
+  border: 1px solid #cbd9ca;
+  color: #315e46;
+  background: #eff4ec;
 }
-
 
 .profile-edit-button:hover {
-    background:
-        #576654;
-
-    color:
-        #ffffff;
-
-    transform:
-        translateY(-2px);
+  color: #ffffff;
+  background: #315e46;
+  transform: translateY(-1px);
 }
 
+.profile-add-address-button {
+  border: 1px solid #24563d;
+  color: #ffffff;
+  background: #24563d;
+}
+
+.profile-add-address-button:hover {
+  background: #173e30;
+  transform: translateY(-1px);
+}
 
 /* ============================================================
-   INFORMATION
+   PERSONAL INFORMATION
 ============================================================ */
 
-.profile-information-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(
-            2,
-            minmax(0, 1fr)
-        );
-
-    gap:
-        12px;
+.profile-information-grid,
+.profile-account-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
 }
 
-
-.profile-information-item {
-    min-height:
-        83px;
-
-    padding:
-        15px 16px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-
-    gap:
-        7px;
-
-    border:
-        1px solid
-        rgba(56, 31, 18, .055);
-
-    border-radius:
-        15px;
-
-    background:
-        rgba(246, 241, 232, .67);
+.profile-information-item,
+.profile-account-details > div {
+  min-width: 0;
+  min-height: 68px;
+  padding: 11px 13px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid #eee9e0;
+  border-radius: 16px;
+  background: #f7f4ed;
 }
-
 
 .profile-information-item--wide {
-    grid-column:
-        1 / -1;
+  grid-column: 1 / -1;
 }
 
-
-.profile-information-item > span {
-    color:
-        #97897e;
-
-    font-size:
-        8px;
-
-    font-weight:
-        650;
-
-    letter-spacing:
-        .6px;
-
-    text-transform:
-        uppercase;
+.profile-information-item > span,
+.profile-account-details span {
+  color: #8d8174;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
-
-.profile-information-item strong {
-    color:
-        #45382f;
-
-    font-size:
-        12px;
-
-    font-weight:
-        650;
-
-    overflow-wrap:
-        anywhere;
+.profile-information-item strong,
+.profile-account-details strong {
+  color: #40352c;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
 }
-
 
 .profile-status {
-    width:
-        fit-content;
-
-    padding:
-        5px 9px;
-
-    border-radius:
-        999px;
-
-    font-size:
-        9px !important;
+  width: fit-content;
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 10px !important;
 }
-
 
 .profile-status--active {
-    background:
-        rgba(87, 102, 84, .10);
-
-    color:
-        #576654 !important;
+  color: #286342 !important;
+  background: #e5f1e4;
 }
-
 
 .profile-status--inactive {
-    background:
-        rgba(130, 65, 49, .09);
-
-    color:
-        #824131 !important;
+  color: #925245 !important;
+  background: #f9eae6;
 }
-
 
 .profile-capitalize {
-    text-transform:
-        capitalize;
+  text-transform: capitalize;
 }
 
+.profile-account-id {
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  font-size: 10px !important;
+  overflow-wrap: anywhere;
+}
 
 /* ============================================================
-   PERSONAL PROFILE FORM
+   PROFILE EDIT FORM
 ============================================================ */
 
 .profile-form {
-    display: grid;
-
-    grid-template-columns:
-        repeat(
-            2,
-            minmax(0, 1fr)
-        );
-
-    gap:
-        15px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
 }
-
 
 .profile-field {
-    min-width:
-        0;
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap:
-        7px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
-
 
 .profile-field > label {
-    color:
-        #66594f;
-
-    font-size:
-        9px;
-
-    font-weight:
-        700;
+  color: #61554a;
+  font-size: 10px;
+  font-weight: 750;
 }
-
 
 .profile-input-shell {
-    min-height:
-        47px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap:
-        9px;
-
-    padding:
-        0 13px;
-
-    border:
-        1px solid
-        rgba(56, 31, 18, .11);
-
-    border-radius:
-        13px;
-
-    background:
-        #fbf8f2;
-
-    color:
-        #71806d;
-
-    transition:
-        border-color 220ms ease,
-        box-shadow 220ms ease;
+  min-height: 42px;
+  padding: 0 11px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid #e4dbd0;
+  border-radius: 13px;
+  color: #6c846b;
+  background: #fbf9f3;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
-
 
 .profile-input-shell:focus-within {
-    border-color:
-        rgba(87, 102, 84, .50);
-
-    box-shadow:
-        0 0 0 3px
-        rgba(87, 102, 84, .065);
+  border-color: #799e7d;
+  box-shadow:
+    0 0 0 3px rgba(49, 94, 70, 0.09);
 }
 
+.profile-input-shell svg {
+  flex-shrink: 0;
+}
 
 .profile-input-shell input,
 .profile-input-shell select {
-    flex:
-        1;
-
-    min-width:
-        0;
-
-    height:
-        45px;
-
-    border:
-        0;
-
-    outline:
-        0;
-
-    background:
-        transparent;
-
-    color:
-        #381f12;
-
-    font-family:
-        inherit;
-
-    font-size:
-        12px;
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  height: 40px;
+  border: 0;
+  outline: none;
+  color: #352a23;
+  background: transparent;
+  font-size: 12px;
 }
-
-
-.profile-input-shell select {
-    cursor:
-        pointer;
-}
-
 
 .profile-input-shell--readonly {
-    opacity:
-        .67;
+  opacity: 0.65;
 }
-
-
-/* ============================================================
-   WELLNESS CHECKBOX
-============================================================ */
 
 .profile-field--marketing {
-    justify-content:
-        flex-end;
+  justify-content: flex-end;
 }
-
 
 .profile-checkbox {
-    min-height:
-        70px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap:
-        11px;
-
-    padding:
-        12px 14px;
-
-    border:
-        1px solid
-        rgba(56, 31, 18, .08);
-
-    border-radius:
-        14px;
-
-    background:
-        rgba(246, 241, 232, .58);
-
-    cursor:
-        pointer;
+  position: relative;
+  min-height: 62px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #e5e2d7;
+  border-radius: 15px;
+  background: #f5f4ed;
+  cursor: pointer;
 }
 
-
-.profile-checkbox > input {
-    position:
-        absolute;
-
-    opacity:
-        0;
-
-    pointer-events:
-        none;
+.profile-checkbox > input,
+.profile-address-default-checkbox > input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
 }
 
-
-.profile-checkbox__box {
-    width:
-        24px;
-
-    height:
-        24px;
-
-    flex-shrink:
-        0;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    border:
-        1px solid
-        rgba(87, 102, 84, .25);
-
-    border-radius:
-        7px;
-
-    background:
-        #ffffff;
-
-    color:
-        transparent;
+.profile-checkbox__box,
+.profile-address-default-checkbox__box {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #a8baaa;
+  border-radius: 7px;
+  color: transparent;
+  background: #ffffff;
 }
 
-
-.profile-checkbox
-> input:checked
-+ .profile-checkbox__box {
-    border-color:
-        #576654;
-
-    background:
-        #576654;
-
-    color:
-        #ffffff;
+.profile-checkbox > input:checked +
+.profile-checkbox__box,
+.profile-address-default-checkbox > input:checked +
+.profile-address-default-checkbox__box {
+  color: #ffffff;
+  background: #315e46;
+  border-color: #315e46;
 }
 
-
-.profile-checkbox__content {
-    display: flex;
-
-    flex-direction: column;
-
-    gap:
-        3px;
+.profile-checkbox:focus-within,
+.profile-address-default-checkbox:focus-within {
+  outline: 2px solid #9aaf91;
+  outline-offset: 2px;
 }
 
-
-.profile-checkbox__content strong {
-    color:
-        #4d4037;
-
-    font-size:
-        10px;
+.profile-checkbox__content,
+.profile-address-default-checkbox > span:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
-
-.profile-checkbox__content small {
-    color:
-        #8d8076;
-
-    font-size:
-        8px;
-
-    line-height:
-        1.45;
+.profile-checkbox__content strong,
+.profile-address-default-checkbox strong {
+  color: #40372c;
+  font-size: 11px;
+  font-weight: 750;
 }
 
-
-/* ============================================================
-   PROFILE FORM ACTIONS
-============================================================ */
+.profile-checkbox__content small,
+.profile-address-default-checkbox small {
+  color: #80766a;
+  font-size: 10px;
+  line-height: 1.45;
+}
 
 .profile-form__actions {
-    grid-column:
-        1 / -1;
-
-    display: flex;
-
-    justify-content:
-        flex-end;
-
-    gap:
-        9px;
-
-    margin-top:
-        3px;
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 9px;
+  margin-top: 3px;
 }
-
 
 .profile-cancel-button,
 .profile-save-button {
-    min-height:
-        40px;
-
-    padding:
-        0 15px;
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap:
-        7px;
-
-    border-radius:
-        999px;
-
-    font-size:
-        9.5px;
-
-    font-weight:
-        700;
-
-    cursor:
-        pointer;
+  min-height: 35px;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 750;
 }
-
 
 .profile-cancel-button {
-    border:
-        1px solid
-        rgba(56, 31, 18, .12);
-
-    background:
-        transparent;
-
-    color:
-        #5e5148;
+  border: 1px solid #ded6ca;
+  color: #62554a;
+  background: #ffffff;
 }
-
 
 .profile-save-button {
-    border:
-        1px solid
-        #576654;
-
-    background:
-        #576654;
-
-    color:
-        #ffffff;
+  border: 1px solid #24563d;
+  color: #ffffff;
+  background: #24563d;
 }
 
-
-.profile-cancel-button:disabled,
-.profile-save-button:disabled {
-    opacity:
-        .55;
-
-    cursor:
-        not-allowed;
+.profile-save-button:hover:not(:disabled) {
+  background: #173e30;
 }
-
 
 /* ============================================================
-   SAVED ADDRESS HEADER
+   SAVED ADDRESSES
 ============================================================ */
 
 .profile-address-section {
-    overflow:
-        visible;
+  overflow: visible;
 }
-
 
 .profile-address-header {
-    align-items:
-        flex-start;
+  align-items: flex-start;
 }
-
 
 .profile-address-header__description {
-    max-width:
-        520px;
-
-    margin:
-        5px 0 0;
-
-    color:
-        #8a7d72;
-
-    font-size:
-        10px;
-
-    line-height:
-        1.6;
+  margin: 5px 0 0;
+  color: #80746a;
+  font-size: 11px;
+  line-height: 1.5;
 }
-
-
-.profile-add-address-button {
-    min-height:
-        38px;
-
-    padding:
-        0 15px;
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap:
-        7px;
-
-    flex-shrink:
-        0;
-
-    border:
-        1px solid
-        rgba(87, 102, 84, .16);
-
-    border-radius:
-        999px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #657562,
-            #536451
-        );
-
-    color:
-        #ffffff;
-
-    font-size:
-        9px;
-
-    font-weight:
-        700;
-
-    cursor:
-        pointer;
-
-    box-shadow:
-        0 8px 20px
-        rgba(87, 102, 84, .16);
-
-    transition:
-        transform .2s ease,
-        box-shadow .2s ease;
-}
-
-
-.profile-add-address-button:hover {
-    transform:
-        translateY(-2px);
-
-    box-shadow:
-        0 12px 25px
-        rgba(87, 102, 84, .22);
-}
-
-
-/* ============================================================
-   ADDRESS MESSAGES
-============================================================ */
 
 .profile-address-message {
-    margin:
-        5px 0 17px;
-
-    padding:
-        10px 13px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap:
-        7px;
-
-    border-radius:
-        11px;
-
-    font-size:
-        9px;
-
-    font-weight:
-        600;
+  margin: 0 0 13px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border-radius: 13px;
+  font-size: 11px;
+  font-weight: 650;
 }
-
 
 .profile-address-message--success {
-    border:
-        1px solid
-        rgba(87, 102, 84, .14);
-
-    background:
-        rgba(87, 102, 84, .08);
-
-    color:
-        #536451;
+  color: #286342;
+  background: #e8f2e6;
+  border: 1px solid #d3e6d0;
 }
-
 
 .profile-address-message--error {
-    border:
-        1px solid
-        rgba(133, 65, 46, .14);
-
-    background:
-        rgba(133, 65, 46, .07);
-
-    color:
-        #884b3b;
+  color: #964f40;
+  background: #fff1ec;
+  border: 1px solid #edd2c8;
 }
-
-
-/* ============================================================
-   ADDRESS LOADING
-============================================================ */
 
 .profile-address-loading {
-    min-height:
-        120px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap:
-        9px;
-
-    color:
-        #7c7067;
-
-    font-size:
-        10px;
+  min-height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  color: #746b60;
+  font-size: 11px;
 }
-
 
 .profile-address-loading__spinner {
-    width:
-        18px;
-
-    height:
-        18px;
-
-    border:
-        2px solid
-        rgba(87, 102, 84, .14);
-
-    border-top-color:
-        #576654;
-
-    border-radius:
-        50%;
-
-    animation:
-        profileAddressSpin
-        .8s linear infinite;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #dce6db;
+  border-top-color: #315e46;
+  border-radius: 50%;
+  animation: profile-spin 0.8s linear infinite;
 }
-
-
-@keyframes profileAddressSpin {
-
-    to {
-        transform:
-            rotate(360deg);
-    }
-
-}
-
-
-/* ============================================================
-   EMPTY ADDRESS
-============================================================ */
 
 .profile-address-empty {
-    padding:
-        34px 20px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    text-align: center;
-
-    border:
-        1px dashed
-        rgba(87, 102, 84, .18);
-
-    border-radius:
-        18px;
-
-    background:
-        rgba(247, 243, 235, .55);
+  min-height: 190px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 1px dashed #cfdbcc;
+  border-radius: 20px;
+  background: #f7f8f3;
 }
-
 
 .profile-address-empty__icon {
-    width:
-        48px;
-
-    height:
-        48px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    margin-bottom:
-        12px;
-
-    border-radius:
-        50%;
-
-    background:
-        rgba(87, 102, 84, .09);
-
-    color:
-        #576654;
+  width: 47px;
+  height: 47px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 9px;
+  border-radius: 50%;
+  color: #315e46;
+  background: #e9f0e6;
 }
-
 
 .profile-address-empty h3 {
-    margin:
-        0;
-
-    color:
-        #381f12;
-
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-    font-size:
-        16px;
-
-    font-weight:
-        500;
+  margin: 0;
+  color: #372b20;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 19px;
+  font-weight: 600;
 }
-
 
 .profile-address-empty p {
-    max-width:
-        370px;
-
-    margin:
-        7px 0 16px;
-
-    color:
-        #85786d;
-
-    font-size:
-        9px;
-
-    line-height:
-        1.6;
+  margin: 7px 0 13px;
+  color: #80756b;
+  font-size: 11px;
+  line-height: 1.5;
 }
-
 
 .profile-address-empty button {
-    min-height:
-        35px;
-
-    padding:
-        0 14px;
-
-    display: inline-flex;
-
-    align-items: center;
-
-    gap:
-        6px;
-
-    border:
-        none;
-
-    border-radius:
-        999px;
-
-    background:
-        #576654;
-
-    color:
-        #ffffff;
-
-    font-size:
-        9px;
-
-    font-weight:
-        700;
-
-    cursor:
-        pointer;
+  min-height: 34px;
+  padding: 0 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 0;
+  border-radius: 999px;
+  color: white;
+  background: #315e46;
+  font-size: 11px;
+  font-weight: 750;
 }
 
-
 /* ============================================================
-   ADDRESS GRID
+   ADDRESS CARDS
 ============================================================ */
 
 .profile-address-list {
-    display: grid;
-
-    grid-template-columns:
-        repeat(
-            2,
-            minmax(0, 1fr)
-        );
-
-    gap:
-        14px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 11px;
 }
-
-
-/* ============================================================
-   ADDRESS CARD
-============================================================ */
 
 .profile-address-card {
-    min-width:
-        0;
-
-    padding:
-        16px;
-
-    border:
-        1px solid
-        rgba(56, 31, 18, .075);
-
-    border-radius:
-        17px;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(255, 255, 255, .86),
-            rgba(250, 247, 241, .82)
-        );
-
-    box-shadow:
-        0 8px 22px
-        rgba(56, 31, 18, .035);
-
-    transition:
-        border-color .22s ease,
-        box-shadow .22s ease,
-        transform .22s ease;
+  min-width: 0;
+  padding: 13px;
+  border: 1px solid #e5e5dc;
+  border-radius: 19px;
+  background: #ffffff;
+  box-shadow: 0 3px 12px rgba(54, 43, 31, 0.035);
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
 }
-
 
 .profile-address-card:hover {
-    transform:
-        translateY(-2px);
-
-    border-color:
-        rgba(87, 102, 84, .18);
-
-    box-shadow:
-        0 13px 29px
-        rgba(56, 31, 18, .065);
+  border-color: #b5c9b6;
+  transform: translateY(-2px);
 }
-
 
 .profile-address-card--default {
-    border-color:
-        rgba(87, 102, 84, .25);
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(248, 250, 246, .98),
-            rgba(243, 239, 230, .92)
-        );
+  border-color: #bad3b8;
+  background: #f7fbf5;
 }
-
-
-/* ============================================================
-   ADDRESS CARD HEADER
-============================================================ */
 
 .profile-address-card__top {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap:
-        10px;
-
-    margin-bottom:
-        14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 11px;
 }
-
 
 .profile-address-card__label {
-    min-width:
-        0;
-
-    display: flex;
-
-    align-items: center;
-
-    gap:
-        8px;
-
-    color:
-        #4f443c;
-
-    font-size:
-        10px;
-
-    font-weight:
-        750;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #3f3930;
+  font-size: 11px;
 }
-
 
 .profile-address-card__icon {
-    width:
-        30px;
-
-    height:
-        30px;
-
-    flex-shrink:
-        0;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    border-radius:
-        50%;
-
-    background:
-        rgba(87, 102, 84, .09);
-
-    color:
-        #576654;
+  flex: 0 0 29px;
+  width: 29px;
+  height: 29px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  color: #315e46;
+  background: #eaf0e7;
 }
-
 
 .profile-address-default-badge {
-    padding:
-        5px 8px;
-
-    display: inline-flex;
-
-    align-items: center;
-
-    gap:
-        4px;
-
-    flex-shrink:
-        0;
-
-    border-radius:
-        999px;
-
-    background:
-        rgba(87, 102, 84, .10);
-
-    color:
-        #536451;
-
-    font-size:
-        7px;
-
-    font-weight:
-        750;
-
-    letter-spacing:
-        .02em;
-
-    text-transform:
-        uppercase;
+  flex-shrink: 0;
+  padding: 5px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 999px;
+  color: #286342;
+  background: #e3efe0;
+  font-size: 9px;
+  font-weight: 750;
 }
-
-
-/* ============================================================
-   ADDRESS CARD CONTENT
-============================================================ */
 
 .profile-address-card__body {
-    min-height:
-        118px;
+  min-height: 111px;
 }
-
 
 .profile-address-recipient {
-    display:
-        block;
-
-    margin-bottom:
-        5px;
-
-    color:
-        #381f12;
-
-    font-size:
-        11px;
-
-    font-weight:
-        750;
+  display: block;
+  margin-bottom: 5px;
+  color: #3d3027;
+  font-size: 12px;
 }
-
 
 .profile-address-phone {
-    display: flex;
-
-    align-items: center;
-
-    gap:
-        5px;
-
-    margin-bottom:
-        9px;
-
-    color:
-        #6f6259;
-
-    font-size:
-        9px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 7px;
+  color: #695e54;
+  font-size: 10px;
 }
-
 
 .profile-address-card address {
-    margin:
-        0;
-
-    color:
-        #786b61;
-
-    font-size:
-        9px;
-
-    font-style:
-        normal;
-
-    line-height:
-        1.7;
+  color: #796e63;
+  font-size: 10px;
+  font-style: normal;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
 }
-
-
-/* ============================================================
-   ADDRESS CARD ACTIONS
-============================================================ */
 
 .profile-address-card__actions {
-    margin-top:
-        14px;
-
-    padding-top:
-        11px;
-
-    display: flex;
-
-    align-items: center;
-
-    flex-wrap: wrap;
-
-    gap:
-        7px;
-
-    border-top:
-        1px solid
-        rgba(56, 31, 18, .06);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 9px;
+  padding-top: 10px;
+  border-top: 1px solid #ece8de;
 }
-
 
 .profile-address-card__actions button {
-    min-height:
-        30px;
-
-    padding:
-        0 9px;
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap:
-        5px;
-
-    border-radius:
-        8px;
-
-    font-size:
-        8px;
-
-    font-weight:
-        650;
-
-    cursor:
-        pointer;
-
-    transition:
-        transform .18s ease,
-        background .18s ease;
+  min-height: 29px;
+  padding: 0 9px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition:
+    background 0.2s,
+    color 0.2s;
 }
-
-
-.profile-address-card__actions button:hover {
-    transform:
-        translateY(-1px);
-}
-
-
-.profile-address-card__actions button:disabled {
-    opacity:
-        .55;
-
-    cursor:
-        not-allowed;
-}
-
 
 .profile-address-default-button {
-    border:
-        1px solid
-        rgba(87, 102, 84, .14);
-
-    background:
-        rgba(87, 102, 84, .06);
-
-    color:
-        #576654;
+  border: 1px solid #cadccc;
+  color: #315e46;
+  background: #edf4eb;
 }
-
 
 .profile-address-edit-button {
-    border:
-        1px solid
-        rgba(56, 31, 18, .09);
-
-    background:
-        rgba(255, 255, 255, .70);
-
-    color:
-        #5c4f46;
+  border: 1px solid #e4ddd2;
+  color: #5a5145;
+  background: #fffdf8;
 }
-
 
 .profile-address-delete-button {
-    border:
-        1px solid
-        rgba(130, 62, 45, .10);
-
-    background:
-        rgba(130, 62, 45, .045);
-
-    color:
-        #884b3b;
+  border: 1px solid #efdad4;
+  color: #984e40;
+  background: #fff2ee;
 }
 
-
-/* ============================================================
-   ACCOUNT DETAILS
-============================================================ */
-
-.profile-account-details {
-    display: grid;
-
-    grid-template-columns:
-        repeat(
-            2,
-            minmax(0, 1fr)
-        );
-
-    gap:
-        12px;
+.profile-address-default-button:hover:not(:disabled) {
+  color: white;
+  background: #315e46;
 }
 
-
-.profile-account-details > div {
-    min-width:
-        0;
-
-    padding:
-        15px 16px;
-
-    border-radius:
-        14px;
-
-    background:
-        rgba(246, 241, 232, .67);
+.profile-address-edit-button:hover:not(:disabled) {
+  background: #f0eee8;
 }
 
-
-.profile-account-details span {
-    display:
-        block;
-
-    margin-bottom:
-        7px;
-
-    color:
-        #97897e;
-
-    font-size:
-        8px;
-
-    font-weight:
-        650;
-
-    text-transform:
-        uppercase;
+.profile-address-delete-button:hover:not(:disabled) {
+  color: white;
+  background: #984e40;
 }
-
-
-.profile-account-details strong {
-    display:
-        block;
-
-    color:
-        #45382f;
-
-    font-size:
-        11px;
-
-    overflow-wrap:
-        anywhere;
-}
-
-
-.profile-account-id {
-    font-family:
-        ui-monospace,
-        SFMono-Regular,
-        Menlo,
-        monospace;
-
-    font-size:
-        9px !important;
-
-    font-weight:
-        500 !important;
-}
-
 
 /* ============================================================
    ADDRESS MODAL
 ============================================================ */
 
 .profile-address-modal {
-    position: fixed;
-
-    inset:
-        0;
-
-    z-index:
-        9999;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    padding:
-        24px;
-
-    pointer-events:
-        auto;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
 }
-
 
 .profile-address-modal__backdrop {
-    position: absolute;
-
-    inset:
-        0;
-
-    width:
-        100%;
-
-    height:
-        100%;
-
-    padding:
-        0;
-
-    border:
-        0;
-
-    background:
-        rgba(35, 26, 20, .48);
-
-    backdrop-filter:
-        blur(5px);
-
-    -webkit-backdrop-filter:
-        blur(5px);
-
-    cursor:
-        default;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: rgba(26, 30, 24, 0.58);
+  backdrop-filter: blur(4px);
 }
-
 
 .profile-address-modal__panel {
-    position: relative;
-
-    z-index:
-        2;
-
-    width:
-        min(
-            680px,
-            100%
-        );
-
-    max-height:
-        calc(100vh - 48px);
-
-    overflow-y:
-        auto;
-
-    padding:
-        22px;
-
-    border:
-        1px solid
-        rgba(255, 255, 255, .70);
-
-    border-radius:
-        22px;
-
-    background:
-        #fbf8f2;
-
-    box-shadow:
-        0 35px 90px
-        rgba(34, 25, 19, .25);
-
-    pointer-events:
-        auto;
-
-    animation:
-        profileAddressModalIn
-        .24s
-        cubic-bezier(.22, 1, .36, 1);
+  position: relative;
+  z-index: 2;
+  width: min(100%, 615px);
+  max-height: calc(100dvh - 30px);
+  overflow-y: auto;
+  padding: 20px;
+  border: 1px solid #eee7da;
+  border-radius: 24px;
+  background: #fffdf8;
+  box-shadow: 0 25px 80px rgba(15, 28, 18, 0.22);
 }
-
-
-@keyframes profileAddressModalIn {
-
-    from {
-        opacity:
-            0;
-
-        transform:
-            translateY(12px)
-            scale(.975);
-    }
-
-    to {
-        opacity:
-            1;
-
-        transform:
-            translateY(0)
-            scale(1);
-    }
-
-}
-
-
-/* ============================================================
-   ADDRESS MODAL HEADER
-============================================================ */
 
 .profile-address-modal__header {
-    margin-bottom:
-        20px;
-
-    display: flex;
-
-    align-items:
-        flex-start;
-
-    justify-content:
-        space-between;
-
-    gap:
-        15px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 15px;
 }
-
 
 .profile-address-modal__header > div > span {
-    display:
-        block;
-
-    margin-bottom:
-        4px;
-
-    color:
-        #697766;
-
-    font-size:
-        7px;
-
-    font-weight:
-        750;
-
-    letter-spacing:
-        1.7px;
-
-    text-transform:
-        uppercase;
+  display: block;
+  margin-bottom: 4px;
+  color: #8b7248;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
 }
-
 
 .profile-address-modal__header h2 {
-    margin:
-        0;
-
-    color:
-        #381f12;
-
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-    font-size:
-        22px;
-
-    font-weight:
-        500;
+  margin: 0;
+  color: #34291e;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 24px;
+  font-weight: 600;
 }
-
 
 .profile-address-modal__header > button {
-    width:
-        35px;
-
-    height:
-        35px;
-
-    flex-shrink:
-        0;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    padding:
-        0;
-
-    border:
-        1px solid
-        rgba(56, 31, 18, .08);
-
-    border-radius:
-        50%;
-
-    background:
-        #ffffff;
-
-    color:
-        #5e5047;
-
-    cursor:
-        pointer;
+  flex-shrink: 0;
+  width: 33px;
+  height: 33px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid #e7e0d6;
+  border-radius: 50%;
+  color: #5b5045;
+  background: #ffffff;
 }
-
-
-/* ============================================================
-   ADDRESS FORM
-============================================================ */
-
-.profile-address-form {
-    position:
-        relative;
-
-    z-index:
-        3;
-}
-
 
 .profile-address-form__grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(
-            2,
-            minmax(0, 1fr)
-        );
-
-    gap:
-        14px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
 }
-
 
 .profile-address-field {
-    min-width:
-        0;
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap:
-        6px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
-
 
 .profile-address-field--full {
-    grid-column:
-        1 / -1;
+  grid-column: 1 / -1;
 }
-
 
 .profile-address-field label {
-    color:
-        #5d5047;
-
-    font-size:
-        8px;
-
-    font-weight:
-        700;
+  color: #5d5448;
+  font-size: 10px;
+  font-weight: 750;
 }
-
 
 .profile-address-field input {
-    width:
-        100%;
-
-    min-height:
-        43px;
-
-    padding:
-        0 13px;
-
-    box-sizing:
-        border-box;
-
-    outline:
-        none;
-
-    border:
-        1px solid
-        rgba(56, 31, 18, .09);
-
-    border-radius:
-        11px;
-
-    background:
-        rgba(255, 255, 255, .92);
-
-    color:
-        #381f12;
-
-    font-family:
-        inherit;
-
-    font-size:
-        10px;
-
-    pointer-events:
-        auto;
-
-    user-select:
-        text;
-
-    transition:
-        border-color .2s ease,
-        box-shadow .2s ease,
-        background .2s ease;
+  width: 100%;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid #e5ddd2;
+  border-radius: 12px;
+  outline: none;
+  color: #38291e;
+  background: #ffffff;
+  font-size: 12px;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
-
-
-.profile-address-field input::placeholder {
-    color:
-        #a09287;
-}
-
 
 .profile-address-field input:focus {
-    border-color:
-        rgba(87, 102, 84, .50);
-
-    background:
-        #ffffff;
-
-    box-shadow:
-        0 0 0 3px
-        rgba(87, 102, 84, .06);
+  border-color: #7a9b7c;
+  box-shadow:
+    0 0 0 3px rgba(49, 94, 70, 0.09);
 }
 
-
-/* ============================================================
-   DEFAULT ADDRESS CHECKBOX
-============================================================ */
+.profile-address-field input::placeholder {
+  color: #a09488;
+}
 
 .profile-address-default-checkbox {
-    position:
-        relative;
-
-    margin-top:
-        17px;
-
-    padding:
-        12px 13px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap:
-        10px;
-
-    border:
-        1px solid
-        rgba(87, 102, 84, .11);
-
-    border-radius:
-        12px;
-
-    background:
-        rgba(87, 102, 84, .045);
-
-    cursor:
-        pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 13px;
+  padding: 10px 12px;
+  border: 1px solid #dce7d8;
+  border-radius: 15px;
+  background: #f2f7ef;
+  cursor: pointer;
 }
-
-
-.profile-address-default-checkbox > input {
-    position:
-        absolute;
-
-    opacity:
-        0;
-
-    pointer-events:
-        none;
-}
-
-
-.profile-address-default-checkbox__box {
-    width:
-        22px;
-
-    height:
-        22px;
-
-    flex-shrink:
-        0;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    border:
-        1px solid
-        rgba(87, 102, 84, .30);
-
-    border-radius:
-        6px;
-
-    background:
-        #ffffff;
-
-    color:
-        transparent;
-}
-
-
-.profile-address-default-checkbox
-> input:checked
-+ .profile-address-default-checkbox__box {
-    border-color:
-        #576654;
-
-    background:
-        #576654;
-
-    color:
-        #ffffff;
-}
-
-
-.profile-address-default-checkbox > span:last-child {
-    display: flex;
-
-    flex-direction: column;
-
-    gap:
-        2px;
-}
-
-
-.profile-address-default-checkbox strong {
-    color:
-        #4f433b;
-
-    font-size:
-        9px;
-}
-
-
-.profile-address-default-checkbox small {
-    color:
-        #897c72;
-
-    font-size:
-        8px;
-}
-
-
-/* ============================================================
-   ADDRESS FORM ACTIONS
-============================================================ */
 
 .profile-address-form__actions {
-    margin-top:
-        20px;
-
-    display: flex;
-
-    justify-content:
-        flex-end;
-
-    gap:
-        9px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 9px;
+  margin-top: 17px;
 }
-
 
 .profile-address-form__actions button {
-    min-height:
-        39px;
-
-    padding:
-        0 16px;
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap:
-        6px;
-
-    border-radius:
-        10px;
-
-    font-size:
-        9px;
-
-    font-weight:
-        700;
-
-    cursor:
-        pointer;
-
-    pointer-events:
-        auto;
+  min-height: 36px;
+  padding: 0 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 750;
 }
-
 
 .profile-address-form__cancel {
-    border:
-        1px solid
-        rgba(56, 31, 18, .09);
-
-    background:
-        #ffffff;
-
-    color:
-        #64564c;
+  border: 1px solid #e0d8cd;
+  color: #61564b;
+  background: #ffffff;
 }
-
 
 .profile-address-form__save {
-    border:
-        none;
-
-    background:
-        linear-gradient(
-            135deg,
-            #657562,
-            #536451
-        );
-
-    color:
-        #ffffff;
-
-    box-shadow:
-        0 8px 20px
-        rgba(87, 102, 84, .18);
+  border: 1px solid #24563d;
+  color: #ffffff;
+  background: #24563d;
 }
 
-
-.profile-address-form__actions button:disabled {
-    opacity:
-        .55;
-
-    cursor:
-        not-allowed;
+.profile-address-form__save:hover:not(:disabled) {
+  background: #173e30;
 }
-
 
 /* ============================================================
-   PAGE STATES
+   LOADING AND AUTHENTICATION STATES
 ============================================================ */
 
 .profile-page--state {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
 
 .profile-state-card {
-    width:
-        min(
-            calc(100% - 30px),
-            460px
-        );
-
-    padding:
-        40px 30px;
-
-    border:
-        1px solid
-        rgba(56, 31, 18, .07);
-
-    border-radius:
-        25px;
-
-    background:
-        rgba(255, 252, 246, .78);
-
-    box-shadow:
-        0 20px 55px
-        rgba(56, 31, 18, .08);
-
-    text-align:
-        center;
+  width: min(100%, 440px);
+  padding: 28px 22px;
+  border: 1px solid #e7e0d6;
+  border-radius: 24px;
+  text-align: center;
+  background: #fffdf8;
+  box-shadow: 0 9px 24px rgba(56, 43, 28, 0.06);
 }
-
 
 .profile-state-card__icon {
-    width:
-        59px;
-
-    height:
-        59px;
-
-    margin:
-        0 auto 15px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    border-radius:
-        50%;
-
-    background:
-        rgba(87, 102, 84, .10);
-
-    color:
-        #576654;
+  width: 57px;
+  height: 57px;
+  margin: 0 auto 12px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #315e46;
+  background: #e9f1e6;
 }
-
 
 .profile-state-card h1 {
-    margin:
-        8px 0 0;
-
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-    font-size:
-        31px;
-
-    font-weight:
-        600;
+  margin: 0;
+  color: #34291f;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 26px;
+  font-weight: 600;
 }
-
 
 .profile-state-card p {
-    margin:
-        12px auto 20px;
-
-    color:
-        #80746a;
-
-    font-size:
-        11px;
-
-    line-height:
-        1.6;
+  margin: 10px auto 15px;
+  color: #746a60;
+  font-size: 12px;
+  line-height: 1.6;
 }
-
 
 .profile-state-card__button {
-    min-height:
-        43px;
-
-    padding:
-        0 18px;
-
-    display: inline-flex;
-
-    align-items: center;
-
-    gap:
-        8px;
-
-    border-radius:
-        999px;
-
-    background:
-        #576654;
-
-    color:
-        #ffffff;
-
-    text-decoration:
-        none;
-
-    font-size:
-        10px;
-
-    font-weight:
-        700;
+  min-height: 37px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 999px;
+  color: #ffffff;
+  background: #24563d;
+  font-size: 11px;
+  font-weight: 750;
+  text-decoration: none;
 }
-
 
 .profile-loading-ring {
-    width:
-        35px;
-
-    height:
-        35px;
-
-    margin:
-        0 auto 14px;
-
-    border:
-        3px solid
-        rgba(87, 102, 84, .14);
-
-    border-top-color:
-        #576654;
-
-    border-radius:
-        50%;
-
-    animation:
-        profileSpin
-        .8s linear infinite;
+  width: 32px;
+  height: 32px;
+  margin: 0 auto 12px;
+  border: 3px solid #dce6db;
+  border-top-color: #315e46;
+  border-radius: 50%;
+  animation: profile-spin 0.8s linear infinite;
 }
 
-
-@keyframes profileSpin {
-
-    to {
-        transform:
-            rotate(360deg);
-    }
-
+@keyframes profile-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
-
 
 /* ============================================================
-   TABLET
+   TABLET RESPONSIVE
 ============================================================ */
 
-@media(max-width: 900px) {
+@media (max-width: 1000px) {
+  .profile-page {
+    padding: 23px 18px 30px;
+  }
 
-    .profile-page {
-        padding:
-            34px 20px 55px;
-    }
+  .profile-layout {
+    grid-template-columns:
+      235px minmax(0, 1fr);
+    gap: 14px;
+  }
 
+  .profile-card {
+    padding: 16px;
+  }
 
-    .profile-layout {
-        grid-template-columns:
-            250px
-            minmax(0, 1fr);
-
-        gap:
-            18px;
-    }
-
-
-    .profile-identity-card {
-        padding:
-            24px 17px 18px;
-    }
-
-
-    .profile-card {
-        padding:
-            21px;
-    }
-
-
-    .profile-address-list {
-        grid-template-columns:
-            1fr;
-    }
-
+  .profile-address-list {
+    grid-template-columns: 1fr;
+  }
 }
-
 
 /* ============================================================
-   MOBILE
+   MOBILE RESPONSIVE
 ============================================================ */
 
-@media(max-width: 720px) {
+@media (max-width: 720px) {
+  .profile-page {
+    padding: 19px 13px 28px;
+  }
 
-    .profile-page {
-        padding:
-            27px 14px 45px;
-    }
+  .profile-page__header {
+    margin-bottom: 16px;
+  }
 
+  .profile-page__header h1 {
+    font-size: 31px;
+  }
 
-    .profile-page__header {
-        margin-bottom:
-            22px;
-    }
+  .profile-layout {
+    grid-template-columns: 1fr;
+  }
 
+  .profile-identity-card {
+    position: static;
+    padding: 16px;
+  }
 
-    .profile-page__header h1 {
-        font-size:
-            37px;
-    }
+  .profile-avatar-shell,
+  .profile-avatar,
+  .profile-avatar-image {
+    width: 66px;
+    height: 66px;
+  }
 
+  .profile-avatar {
+    font-size: 21px;
+  }
 
-    .profile-layout {
-        grid-template-columns:
-            1fr;
-    }
+  .profile-identity-card h2 {
+    font-size: 19px;
+  }
 
+  /* Four navigation shortcuts in a 2x2 grid */
 
-    .profile-identity-card {
-        position:
-            relative;
+  .profile-quick-links {
+    display: grid;
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
 
-        top:
-            auto;
-    }
+  .profile-quick-link {
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    min-height: 84px;
+    padding: 8px 4px;
+    text-align: center;
+    background: #f5f6f1;
+  }
 
+  .profile-quick-link__content {
+    align-items: center;
+  }
 
-    .profile-information-grid,
-    .profile-form,
-    .profile-account-details {
-        grid-template-columns:
-            1fr;
-    }
+  .profile-quick-link > svg {
+    display: none;
+  }
 
+  .profile-quick-link__content small {
+    font-size: 9px;
+  }
 
-    .profile-information-item--wide,
-    .profile-form__actions {
-        grid-column:
-            1;
-    }
+  .profile-information-grid,
+  .profile-form,
+  .profile-account-details {
+    grid-template-columns: 1fr;
+  }
 
+  .profile-information-item--wide,
+  .profile-form__actions {
+    grid-column: 1;
+  }
 
-    .profile-address-header {
-        flex-direction:
-            column;
-    }
+  .profile-address-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-
-    .profile-add-address-button {
-        width:
-            100%;
-    }
-
+  .profile-add-address-button {
+    align-self: flex-start;
+  }
 }
-
-
-/* ============================================================
-   ADDRESS MODAL MOBILE
-============================================================ */
-
-@media(max-width: 680px) {
-
-    .profile-address-modal {
-        padding:
-            12px;
-    }
-
-
-    .profile-address-modal__panel {
-        max-height:
-            calc(100vh - 24px);
-
-        padding:
-            18px;
-
-        border-radius:
-            18px;
-    }
-
-
-    .profile-address-form__grid {
-        grid-template-columns:
-            1fr;
-    }
-
-
-    .profile-address-field--full {
-        grid-column:
-            auto;
-    }
-
-
-    .profile-address-card__top {
-        align-items:
-            flex-start;
-
-        flex-direction:
-            column;
-    }
-
-
-    .profile-address-form__actions {
-        flex-direction:
-            column-reverse;
-    }
-
-
-    .profile-address-form__actions button {
-        width:
-            100%;
-    }
-
-}
-
 
 /* ============================================================
    SMALL MOBILE
 ============================================================ */
 
-@media(max-width: 480px) {
+@media (max-width: 480px) {
+  .profile-page {
+    padding: 17px 10px 25px;
+  }
 
-    .profile-page {
-        padding:
-            23px 11px 38px;
-    }
+  .profile-card {
+    padding: 15px 12px;
+    border-radius: 19px;
+  }
 
+  .profile-card__header {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 9px;
+  }
 
-    .profile-card {
-        padding:
-            18px 15px;
+  .profile-card__header h2 {
+    font-size: 21px;
+  }
 
-        border-radius:
-            18px;
-    }
+  .profile-address-list {
+    gap: 9px;
+  }
 
+  .profile-address-card {
+    padding: 11px;
+  }
 
-    .profile-card__header {
-        align-items:
-            flex-start;
+  .profile-address-card__actions {
+    flex-wrap: wrap;
+  }
 
-        flex-direction:
-            column;
-    }
+  .profile-address-card__actions button {
+    flex: 1 1 auto;
+  }
 
+  .profile-form__actions {
+    flex-direction: column-reverse;
+  }
 
-    .profile-edit-button {
-        align-self:
-            flex-start;
-    }
+  .profile-cancel-button,
+  .profile-save-button {
+    width: 100%;
+  }
 
+  .profile-address-modal {
+    padding: 9px;
+  }
 
-    .profile-form__actions {
-        flex-direction:
-            column-reverse;
-    }
+  .profile-address-modal__panel {
+    max-height: calc(100dvh - 18px);
+    padding: 16px 13px;
+    border-radius: 20px;
+  }
 
+  .profile-address-form__grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
 
-    .profile-cancel-button,
-    .profile-save-button {
-        width:
-            100%;
-    }
+  .profile-address-field--full {
+    grid-column: 1;
+  }
 
+  .profile-address-form__actions {
+    flex-direction: column-reverse;
+  }
 
-    .profile-address-card {
-        padding:
-            14px;
-    }
-
-
-    .profile-address-card__actions {
-        align-items:
-            stretch;
-
-        flex-direction:
-            column;
-    }
-
-
-    .profile-address-card__actions button {
-        width:
-            100%;
-    }
-
+  .profile-address-form__actions button {
+    width: 100%;
+  }
 }
+
+/* ============================================================
+   ACCESSIBILITY
+============================================================ */
+
+.profile-page a:focus-visible,
+.profile-page button:focus-visible {
+  outline: 2px solid #b9934a;
+  outline-offset: 3px;
+}
+
+@media (hover: none) {
+  .profile-quick-link:hover,
+  .profile-address-card:hover,
+  .profile-edit-button:hover,
+  .profile-add-address-button:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profile-page *,
+  .profile-page *::before,
+  .profile-page *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================
+   END — AUMVEDA CUSTOMER PROFILE
+============================================================ */

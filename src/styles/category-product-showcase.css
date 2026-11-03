@@ -1,0 +1,1811 @@
+
+/* ============================================================
+   AUMVEDA — SECTION 09: CATEGORY PRODUCT SHOWCASE
+   PREMIUM COMPACT EDITORIAL + PRODUCT GALLERY
+
+   DESIGN:
+   - Compact independent homepage section
+   - Premium botanical editorial panel
+   - Rounded left and right panels
+   - Reduced internal whitespace
+   - Balanced two-column desktop layout
+   - Compact product cards
+   - Readable product information
+   - Elegant collection tabs
+   - Responsive mobile stacking
+
+   PRESERVED:
+   - Existing CategoryProductShowcase.jsx
+   - Real product API
+   - Shared ProductCard component
+   - 3-second collection rotation
+   - Manual category tabs
+   - Product gallery arrows
+   - Native mobile swipe
+   - Cart, Wishlist and Buy Now
+============================================================ */
+
+
+/* ============================================================
+   01 — BOX MODEL
+============================================================ */
+
+.category-showcase,
+.category-showcase *,
+.category-showcase *::before,
+.category-showcase *::after {
+  box-sizing: border-box;
+}
+
+
+/* ============================================================
+   02 — SECTION ROOT
+============================================================ */
+
+.category-showcase,
+.aumveda-home-page
+.rv-slot-category_product_showcase
+.category-showcase {
+  --showcase-accent: #285c42;
+  --showcase-accent-hover: #19482f;
+  --showcase-surface: #fffdf8;
+
+  position: relative;
+
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  margin: 0;
+  padding: 12px clamp(12px, 1.8vw, 24px) 13px;
+
+  overflow: hidden;
+
+  border: 0;
+  border-radius: 13px;
+
+  background: linear-gradient(
+    115deg,
+    #fffdf8 0%,
+    #faf8f1 60%,
+    #f7f3ea 100%
+  );
+
+  color: #382d24;
+}
+
+
+/* ============================================================
+   03 — THEME VARIABLES
+============================================================ */
+
+.category-showcase--hair {
+  --showcase-accent: #285c42;
+  --showcase-accent-hover: #19482f;
+}
+
+.category-showcase--skin {
+  --showcase-accent: #975a47;
+  --showcase-accent-hover: #773f30;
+}
+
+.category-showcase--wellness {
+  --showcase-accent: #647849;
+  --showcase-accent-hover: #4b5e36;
+}
+
+
+/* ============================================================
+   04 — MAIN CONTAINER
+============================================================ */
+
+.category-showcase__container {
+  width: 100%;
+  max-width: 1500px;
+  min-width: 0;
+
+  margin: 0 auto;
+  padding: 0;
+}
+
+
+/* ============================================================
+   05 — TWO-COLUMN LAYOUT
+============================================================ */
+
+.category-showcase__layout {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 29fr)
+    minmax(0, 71fr);
+
+  align-items: stretch;
+
+  gap: 10px;
+
+  width: 100%;
+  min-width: 0;
+
+  margin: 0;
+}
+
+
+/* ============================================================
+   06 — EDITORIAL PANEL
+============================================================ */
+
+.category-showcase__editorial {
+  position: relative;
+  isolation: isolate;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  gap: 9px;
+
+  min-width: 0;
+
+  margin: 0;
+  padding: 15px 15px 14px;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 14px;
+
+  color: #fff9ed;
+  background: #28533b;
+
+  box-shadow:
+    0 3px 10px rgba(38, 55, 37, 0.07);
+}
+
+
+/* ============================================================
+   07 — DECORATIVE BOTANICAL CIRCLES
+============================================================ */
+
+.category-showcase__editorial::before {
+  content: "";
+
+  position: absolute;
+  z-index: -1;
+
+  top: -78px;
+  right: -80px;
+
+  width: 205px;
+  height: 205px;
+
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 50%;
+
+  pointer-events: none;
+}
+
+.category-showcase__editorial::after {
+  content: "";
+
+  position: absolute;
+  z-index: -1;
+
+  right: -75px;
+  bottom: -95px;
+
+  width: 180px;
+  height: 180px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.035);
+
+  pointer-events: none;
+}
+
+
+/* ============================================================
+   08 — EDITORIAL THEME BACKGROUNDS
+============================================================ */
+
+.category-showcase__editorial--hair {
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(184, 207, 149, 0.21),
+      transparent 55%
+    ),
+    linear-gradient(
+      140deg,
+      #214b34,
+      #365d42
+    );
+}
+
+.category-showcase__editorial--skin {
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(253, 219, 179, 0.19),
+      transparent 55%
+    ),
+    linear-gradient(
+      140deg,
+      #87503d,
+      #ac7760
+    );
+}
+
+.category-showcase__editorial--wellness {
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(215, 223, 151, 0.2),
+      transparent 55%
+    ),
+    linear-gradient(
+      140deg,
+      #52643e,
+      #74875a
+    );
+}
+
+
+/* ============================================================
+   09 — EDITORIAL TOP ROW
+============================================================ */
+
+.category-showcase__editorial-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 8px;
+
+  margin: 0;
+
+  color: #ecdfc6;
+
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1.3;
+
+  letter-spacing: 0.11em;
+}
+
+.category-showcase__edition {
+  opacity: 0.82;
+  white-space: nowrap;
+}
+
+
+/* ============================================================
+   10 — EDITORIAL MAIN CONTENT
+
+   Reduced unnecessary empty space.
+============================================================ */
+
+.category-showcase__editorial-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  gap: 7px;
+
+  min-width: 0;
+
+  margin: 5px 0;
+
+  animation:
+    showcase-editorial-enter 350ms ease both;
+}
+
+
+/* ============================================================
+   11 — EDITORIAL HEADING
+============================================================ */
+
+.category-showcase__editorial-main h2 {
+  max-width: 350px;
+
+  margin: 0;
+  padding: 0;
+
+  color: #fff9ef;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: clamp(23px, 2.05vw, 31px);
+  font-weight: 700;
+
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+}
+
+
+/* ============================================================
+   12 — EDITORIAL DESCRIPTION
+============================================================ */
+
+.category-showcase__editorial-main p {
+  max-width: 315px;
+
+  margin: 0;
+  padding: 0;
+
+  color: rgba(255, 250, 239, 0.91);
+
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+
+/* ============================================================
+   13 — COLLECTION HIGHLIGHTS
+
+   Compact transparent highlight area.
+============================================================ */
+
+.category-showcase__highlights {
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+
+  margin-top: 4px;
+  padding: 9px 10px;
+
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.065);
+}
+
+.category-showcase__highlight {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  color: #fff9ed;
+
+  font-size: 9px;
+  line-height: 1.3;
+}
+
+.category-showcase__highlight-icon {
+  display: grid;
+  place-items: center;
+
+  flex: 0 0 17px;
+
+  width: 17px;
+  height: 17px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.17);
+  color: #fff8e6;
+}
+
+.category-showcase__highlight-icon svg {
+  width: 11px;
+  height: 11px;
+}
+
+
+/* ============================================================
+   14 — COLLECTION STATS
+============================================================ */
+
+.category-showcase__collection-stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+  gap: 5px 12px;
+
+  margin-top: 2px;
+}
+
+.category-showcase__collection-stats span {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 5px;
+
+  color: rgba(255, 250, 239, 0.86);
+
+  font-size: 9px;
+  font-weight: 650;
+}
+
+.category-showcase__collection-stats svg {
+  width: 12px;
+  height: 12px;
+}
+
+
+/* ============================================================
+   15 — EDITORIAL CTA
+============================================================ */
+
+.category-showcase__editorial-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  min-height: 34px;
+
+  margin: 0;
+  padding: 0 12px;
+
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 9px;
+
+  background: #ead4a9;
+  color: #294331;
+
+  font-size: 9px;
+  font-weight: 850;
+
+  letter-spacing: 0.035em;
+  text-decoration: none;
+
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.category-showcase__editorial-cta:hover {
+  background: #f4e2bf;
+  color: #294331;
+
+  transform: translateY(-1px);
+}
+
+
+/* ============================================================
+   16 — RIGHT PRODUCT GALLERY
+============================================================ */
+
+.category-showcase__gallery {
+  display: flex;
+  flex-direction: column;
+
+  gap: 0;
+
+  width: 100%;
+  min-width: 0;
+
+  margin: 0;
+  padding: 10px;
+
+  overflow: hidden;
+
+  border: 1px solid #e8e0d5;
+  border-radius: 14px;
+
+  background: #fffdf8;
+}
+
+
+/* ============================================================
+   17 — GALLERY HEADER
+============================================================ */
+
+.category-showcase__gallery-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  min-height: 29px;
+
+  margin: 0 0 9px;
+  padding: 0;
+}
+
+
+/* ============================================================
+   18 — CATEGORY TABS
+============================================================ */
+
+.category-showcase__tabs {
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  min-width: 0;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scrollbar-width: none;
+}
+
+.category-showcase__tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.category-showcase__tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 auto;
+
+  min-height: 28px;
+
+  padding: 0 12px;
+
+  border: 1px solid #eee7dc;
+  border-radius: 999px;
+
+  background: #f7f3eb;
+  color: #71695e;
+
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.category-showcase__tab:hover {
+  color: var(--showcase-accent);
+  border-color: #d4dccd;
+}
+
+.category-showcase__tab--active,
+.category-showcase__tab--active:hover {
+  color: #ffffff;
+
+  background: var(--showcase-accent);
+  border-color: var(--showcase-accent);
+}
+
+.category-showcase__loading-label {
+  color: #847b70;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+
+/* ============================================================
+   19 — GALLERY ARROW CONTROLS
+============================================================ */
+
+.category-showcase__controls {
+  display: flex;
+  align-items: center;
+
+  flex: 0 0 auto;
+
+  gap: 5px;
+}
+
+.category-showcase__controls button {
+  display: grid;
+  place-items: center;
+
+  width: 28px;
+  height: 28px;
+
+  padding: 0;
+
+  border: 1px solid #e4d6c0;
+  border-radius: 50%;
+
+  background: #faf5eb;
+  color: #795f3d;
+
+  cursor: pointer;
+
+  transition:
+    color 180ms ease,
+    background-color 180ms ease;
+}
+
+.category-showcase__controls button:hover:not(:disabled) {
+  background: var(--showcase-accent);
+  color: #ffffff;
+}
+
+.category-showcase__controls button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+
+/* ============================================================
+   20 — PRODUCT GALLERY TRACK
+
+   Preserve manual scrolling and touch gestures.
+============================================================ */
+
+.category-showcase__track {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: nowrap;
+
+  gap: 9px;
+
+  width: 100%;
+  min-width: 0;
+
+  margin: 0;
+  padding: 2px 1px 6px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scroll-snap-type: x proximity;
+  scroll-behavior: smooth;
+
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+
+  overscroll-behavior-x: contain;
+  touch-action: pan-x;
+}
+
+.category-showcase__track::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* ============================================================
+   21 — PRODUCT CARD SHELL
+
+   Existing ProductCard JSX remains untouched.
+============================================================ */
+
+.category-showcase__product-shell {
+  display: flex;
+  flex-direction: column;
+
+  flex: 0 0 176px;
+
+  width: 176px;
+  min-width: 176px;
+
+  margin: 0;
+  padding: 0;
+
+  scroll-snap-align: start;
+}
+
+
+/* ============================================================
+   22 — SHARED PRODUCT CARD
+============================================================ */
+
+.category-showcase__product-shell > .product-card {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+
+  margin: 0;
+
+  overflow: hidden;
+
+  border: 1px solid #e8e1d6;
+  border-radius: 12px;
+
+  background: #fffefa;
+
+  box-shadow:
+    0 2px 7px rgba(68, 52, 33, 0.05);
+
+  transition:
+    transform 200ms ease,
+    box-shadow 200ms ease;
+}
+
+@media (hover: hover) {
+  .category-showcase__product-shell
+  > .product-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+      0 6px 14px rgba(68, 52, 33, 0.1);
+  }
+}
+
+
+/* ============================================================
+   23 — PRODUCT IMAGE
+============================================================ */
+
+.category-showcase__product-shell
+.product-card__image-box {
+  height: 137px;
+  min-height: 137px;
+
+  overflow: hidden;
+
+  background: #f8f3e9;
+}
+
+.category-showcase__product-shell
+.product-card__image-box img,
+.category-showcase__product-shell
+.product-card img {
+  max-width: 100%;
+
+  object-fit: contain;
+  object-position: center;
+}
+
+
+/* ============================================================
+   24 — PRODUCT CARD CONTENT
+
+   Tighter internal spacing.
+============================================================ */
+
+.category-showcase__product-shell
+.product-card__content {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+
+  gap: 3px !important;
+
+  min-width: 0;
+
+  padding: 8px !important;
+}
+
+
+/* ============================================================
+   25 — PRODUCT NAME
+
+   No unnecessary fixed minimum height.
+============================================================ */
+
+.category-showcase__product-shell
+.product-card__content h3 {
+  display: -webkit-box;
+
+  min-height: 0;
+  max-height: 29px;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.3;
+
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+
+/* ============================================================
+   26 — DESCRIPTION
+
+   Keep descriptions concise and compact.
+============================================================ */
+
+.category-showcase__product-shell
+.product-card__description {
+  display: -webkit-box;
+
+  min-height: 0;
+  max-height: 26px;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+
+  color: #817669;
+
+  font-size: 9px;
+  line-height: 13px;
+
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+
+/* ============================================================
+   27 — PRODUCT PRICES
+============================================================ */
+
+.category-showcase__product-shell
+.product-card__prices {
+  margin: 0;
+}
+
+.category-showcase__product-shell
+.product-card__prices strong {
+  color: #28563c;
+
+  font-size: 15px;
+  line-height: 1.15;
+}
+
+
+/* ============================================================
+   28 — PRODUCT ACTIONS
+
+   Shared ProductCard functionality preserved.
+============================================================ */
+
+.category-showcase__product-shell
+.product-card__actions {
+  display: grid !important;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(0, 1fr);
+
+  align-items: stretch;
+
+  gap: 5px !important;
+
+  width: 100%;
+  min-width: 0;
+
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+
+/* ============================================================
+   29 — ACTION BUTTON DIMENSIONS
+============================================================ */
+
+.category-showcase__product-shell
+.product-card__cart,
+.category-showcase__product-shell
+.product-card__buy-now,
+.category-showcase__product-shell
+.product-card__quantity-control {
+  width: 100%;
+  min-width: 0;
+
+  height: 28px !important;
+  min-height: 28px !important;
+
+  padding: 0 4px !important;
+
+  border-radius: 8px;
+
+  font-size: 8px !important;
+  font-weight: 750;
+  line-height: 1.1;
+
+  white-space: nowrap;
+}
+
+
+/* ============================================================
+   30 — ADD TO CART
+============================================================ */
+
+.category-showcase__product-shell
+.product-card__cart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 3px;
+
+  border: 1px solid var(--showcase-accent);
+
+  background: var(--showcase-accent);
+  color: #ffffff;
+}
+
+.category-showcase__product-shell
+.product-card__cart:hover:not(:disabled) {
+  background: var(--showcase-accent-hover);
+}
+
+.category-showcase__product-shell
+.product-card__cart svg {
+  flex: 0 0 auto;
+
+  width: 11px;
+  height: 11px;
+}
+
+
+/* ============================================================
+   31 — BUY NOW
+============================================================ */
+
+.category-showcase__product-shell
+.product-card__buy-now {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #432719;
+
+  background: #432719;
+  color: #ffffff;
+}
+
+.category-showcase__product-shell
+.product-card__buy-now:hover:not(:disabled) {
+  background: #2f1b12;
+  color: #ffffff;
+}
+
+
+/* ============================================================
+   32 — QUANTITY STEPPER
+============================================================ */
+
+.category-showcase__product-shell
+.product-card__quantity-control {
+  display: grid !important;
+
+  grid-template-columns:
+    23px
+    minmax(0, 1fr)
+    23px;
+
+  align-items: center;
+
+  overflow: hidden;
+
+  border: 1px solid var(--showcase-accent);
+
+  background: var(--showcase-accent);
+  color: #ffffff;
+}
+
+.category-showcase__product-shell
+.product-card__quantity-control button {
+  display: grid;
+  place-items: center;
+
+  width: 23px !important;
+  height: 26px !important;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 6px;
+
+  background: transparent;
+  color: #ffffff;
+}
+
+.category-showcase__product-shell
+.product-card__quantity-control button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.13);
+}
+
+.category-showcase__product-shell
+.product-card__quantity-control strong {
+  min-width: 0;
+
+  color: #ffffff;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  text-align: center;
+}
+
+
+/* ============================================================
+   33 — WISHLIST AND DISCOUNT
+============================================================ */
+
+.category-showcase__product-shell
+.product-card__wishlist {
+  top: 7px;
+  right: 7px;
+
+  width: 26px;
+  height: 26px;
+
+  border-radius: 50%;
+}
+
+.category-showcase__product-shell
+.product-card__discount {
+  top: 7px;
+  left: 7px;
+
+  padding: 4px 7px;
+
+  border-radius: 6px;
+
+  font-size: 9px;
+}
+
+
+/* ============================================================
+   34 — GALLERY FOOTER
+============================================================ */
+
+.category-showcase__gallery-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  min-height: 20px;
+
+  margin-top: 6px;
+  padding: 5px 2px 0;
+
+  color: #8b8074;
+
+  font-size: 9px;
+}
+
+.category-showcase__gallery-footer a {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 5px;
+
+  color: var(--showcase-accent);
+
+  font-size: 10px;
+  font-weight: 750;
+
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.category-showcase__gallery-footer a:hover {
+  text-decoration: underline;
+}
+
+
+/* ============================================================
+   35 — LOADING SKELETON
+============================================================ */
+
+.category-showcase__product-shell--loading {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+
+  padding: 7px;
+
+  border: 1px solid #e9e3d8;
+  border-radius: 12px;
+
+  background: #fffdf8;
+}
+
+.category-showcase__skeleton-image,
+.category-showcase__skeleton-line {
+  background: linear-gradient(
+    90deg,
+    #eee8de,
+    #f8f5ee,
+    #eee8de
+  );
+
+  background-size: 200% 100%;
+
+  animation:
+    showcase-loading 1.4s linear infinite;
+}
+
+.category-showcase__skeleton-image {
+  height: 137px;
+  border-radius: 8px;
+}
+
+.category-showcase__skeleton-line {
+  width: 88%;
+  height: 10px;
+
+  border-radius: 999px;
+}
+
+.category-showcase__skeleton-line--short {
+  width: 56%;
+}
+
+@keyframes showcase-loading {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+
+/* ============================================================
+   36 — ERROR / EMPTY MESSAGE
+============================================================ */
+
+.category-showcase__message {
+  padding: 16px;
+
+  color: #86604a;
+
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+
+/* ============================================================
+   37 — EDITORIAL TRANSITION
+============================================================ */
+
+@keyframes showcase-editorial-enter {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* ============================================================
+   38 — KEYBOARD ACCESSIBILITY
+============================================================ */
+
+.category-showcase :is(button, a):focus-visible {
+  outline: 2px solid #b9965d;
+  outline-offset: 3px;
+}
+
+
+/* ============================================================
+   39 — LAPTOP
+============================================================ */
+
+@media (max-width: 1100px) {
+  .category-showcase__layout {
+    grid-template-columns:
+      minmax(0, 34fr)
+      minmax(0, 66fr);
+  }
+
+  .category-showcase__editorial {
+    padding: 13px;
+  }
+
+  .category-showcase__editorial-main h2 {
+    font-size: 26px;
+  }
+
+  .category-showcase__product-shell {
+    flex-basis: 169px;
+
+    width: 169px;
+    min-width: 169px;
+  }
+}
+
+
+/* ============================================================
+   40 — SMALL TABLET
+
+   Stack editorial and product gallery.
+============================================================ */
+
+@media (max-width: 760px) {
+  .category-showcase,
+  .aumveda-home-page
+  .rv-slot-category_product_showcase
+  .category-showcase {
+    padding: 11px;
+  }
+
+  .category-showcase__layout {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .category-showcase__editorial {
+    gap: 8px;
+    padding: 13px;
+
+    border-radius: 11px;
+  }
+
+  .category-showcase__editorial-main {
+    margin: 5px 0;
+  }
+
+  .category-showcase__editorial-main h2 {
+    max-width: 100%;
+    font-size: 25px;
+  }
+
+  .category-showcase__highlights {
+    gap: 5px;
+    padding: 8px 10px;
+  }
+
+  .category-showcase__gallery {
+    padding: 9px;
+
+    border-radius: 11px;
+  }
+}
+
+
+/* ============================================================
+   41 — MOBILE
+============================================================ */
+
+@media (max-width: 600px) {
+  .category-showcase,
+  .aumveda-home-page
+  .rv-slot-category_product_showcase
+  .category-showcase {
+    padding: 9px 7px 10px;
+    border-radius: 10px;
+  }
+
+  .category-showcase__layout {
+    gap: 7px;
+  }
+
+  .category-showcase__editorial {
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  .category-showcase__editorial-top {
+    font-size: 8px;
+  }
+
+  .category-showcase__editorial-main {
+    gap: 6px;
+    margin: 4px 0;
+  }
+
+  .category-showcase__editorial-main h2 {
+    font-size: 24px;
+  }
+
+  .category-showcase__editorial-main p {
+    font-size: 10px;
+  }
+
+  .category-showcase__highlight {
+    font-size: 9px;
+  }
+
+  .category-showcase__collection-stats span {
+    font-size: 8px;
+  }
+
+  .category-showcase__editorial-cta {
+    min-height: 32px;
+    border-radius: 8px;
+  }
+
+  .category-showcase__gallery {
+    padding: 8px;
+    border-radius: 10px;
+  }
+
+  .category-showcase__gallery-header {
+    gap: 6px;
+    margin-bottom: 7px;
+  }
+
+  .category-showcase__tabs {
+    gap: 5px;
+  }
+
+  .category-showcase__tab {
+    min-height: 26px;
+
+    padding: 0 9px;
+
+    font-size: 9px;
+  }
+
+  .category-showcase__controls button {
+    width: 26px;
+    height: 26px;
+  }
+
+  .category-showcase__track {
+    gap: 8px;
+  }
+
+  .category-showcase__product-shell {
+    flex: 0 0 158px;
+
+    width: 158px;
+    min-width: 158px;
+  }
+
+  .category-showcase__product-shell
+  .product-card__image-box {
+    height: 128px;
+    min-height: 128px;
+  }
+
+  .category-showcase__product-shell
+  .product-card__content {
+    padding: 7px !important;
+  }
+
+  .category-showcase__product-shell
+  .product-card__content h3 {
+    font-size: 10px;
+  }
+
+  .category-showcase__product-shell
+  .product-card__description {
+    font-size: 8px;
+  }
+
+  .category-showcase__product-shell
+  .product-card__prices strong {
+    font-size: 14px;
+  }
+
+  .category-showcase__product-shell
+  .product-card__cart,
+  .category-showcase__product-shell
+  .product-card__buy-now,
+  .category-showcase__product-shell
+  .product-card__quantity-control {
+    height: 27px !important;
+    min-height: 27px !important;
+
+    font-size: 8px !important;
+  }
+
+  .category-showcase__gallery-footer,
+  .category-showcase__gallery-footer a {
+    font-size: 9px;
+  }
+}
+
+
+/* ============================================================
+   42 — SMALL MOBILE
+============================================================ */
+
+@media (max-width: 390px) {
+  .category-showcase__product-shell {
+    flex-basis: 150px;
+
+    width: 150px;
+    min-width: 150px;
+  }
+
+  .category-showcase__editorial-main h2 {
+    font-size: 22px;
+  }
+
+  .category-showcase__product-shell
+  .product-card__image-box {
+    height: 122px;
+    min-height: 122px;
+  }
+}
+
+
+/* ============================================================
+   43 — TOUCH DEVICES
+============================================================ */
+
+@media (hover: none) {
+  .category-showcase__product-shell
+  > .product-card:hover {
+    transform: none;
+  }
+
+  .category-showcase__editorial-cta:hover {
+    transform: none;
+  }
+}
+
+
+/* ============================================================
+   44 — REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .category-showcase__editorial-main,
+  .category-showcase__skeleton-image,
+  .category-showcase__skeleton-line {
+    animation: none !important;
+  }
+
+  .category-showcase__track {
+    scroll-behavior: auto;
+  }
+
+  .category-showcase__product-shell
+  > .product-card,
+  .category-showcase__editorial-cta,
+  .category-showcase__tab,
+  .category-showcase__controls button {
+    transition: none !important;
+  }
+}
+
+/* ============================================================
+   END — AUMVEDA CATEGORY PRODUCT SHOWCASE
+============================================================ */
+
+/* ============================================================
+   AUMVEDA — CATEGORY PRODUCT SHOWCASE
+   ULTRA-COMPACT LAYOUT REFINEMENT
+
+   Removes:
+   - Excessive section height
+   - Large empty editorial spaces
+   - Unnecessary product card spacing
+   - Oversized image areas
+============================================================ */
+
+/* SECTION */
+
+.category-showcase,
+.aumveda-home-page
+.rv-slot-category_product_showcase
+.category-showcase {
+  padding: 9px 15px 10px;
+}
+
+/* MAIN TWO-COLUMN LAYOUT */
+
+.category-showcase__layout {
+  grid-template-columns: minmax(0, 27fr) minmax(0, 73fr);
+  gap: 8px;
+  align-items: stretch;
+}
+
+/* LEFT EDITORIAL PANEL */
+
+.category-showcase__editorial {
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 12px 13px;
+  border-radius: 12px;
+}
+
+/* EDITORIAL TOP */
+
+.category-showcase__editorial-top {
+  font-size: 8px;
+  margin: 0;
+}
+
+/* EDITORIAL MAIN CONTENT */
+
+.category-showcase__editorial-main {
+  gap: 5px;
+  margin: 7px 0 0;
+  flex: 0 0 auto;
+}
+
+/* HEADING */
+
+.category-showcase__editorial-main h2 {
+  font-size: clamp(21px, 1.8vw, 27px);
+  line-height: 1.09;
+}
+
+/* DESCRIPTION */
+
+.category-showcase__editorial-main p {
+  font-size: 9px;
+  line-height: 1.35;
+}
+
+/* HIGHLIGHTS */
+
+.category-showcase__highlights {
+  gap: 4px;
+  margin-top: 3px;
+  padding: 7px 8px;
+  border-radius: 8px;
+}
+
+.category-showcase__highlight {
+  gap: 5px;
+  font-size: 8px;
+  line-height: 1.25;
+}
+
+.category-showcase__highlight-icon {
+  flex-basis: 15px;
+  width: 15px;
+  height: 15px;
+}
+
+.category-showcase__highlight-icon svg {
+  width: 10px;
+  height: 10px;
+}
+
+/* COLLECTION STATS */
+
+.category-showcase__collection-stats {
+  gap: 4px 9px;
+  margin-top: 2px;
+}
+
+.category-showcase__collection-stats span {
+  font-size: 8px;
+}
+
+/* EXPLORE COLLECTION BUTTON */
+
+.category-showcase__editorial-cta {
+  min-height: 30px;
+  margin-top: auto;
+  padding: 0 10px;
+  border-radius: 8px;
+  font-size: 8px;
+}
+
+/* RIGHT GALLERY */
+
+.category-showcase__gallery {
+  padding: 8px;
+  border-radius: 12px;
+}
+
+/* GALLERY HEADER */
+
+.category-showcase__gallery-header {
+  min-height: 26px;
+  margin-bottom: 6px;
+}
+
+/* CATEGORY TABS */
+
+.category-showcase__tabs {
+  gap: 5px;
+}
+
+.category-showcase__tab {
+  min-height: 25px;
+  padding: 0 10px;
+  font-size: 9px;
+}
+
+/* ARROW BUTTONS */
+
+.category-showcase__controls button {
+  width: 25px;
+  height: 25px;
+}
+
+/* PRODUCT TRACK */
+
+.category-showcase__track {
+  gap: 7px;
+  padding: 1px 1px 4px;
+}
+
+/* PRODUCT CARD WIDTH */
+
+.category-showcase__product-shell {
+  flex: 0 0 162px;
+  width: 162px;
+  min-width: 162px;
+}
+
+/* PRODUCT CARD */
+
+.category-showcase__product-shell > .product-card {
+  border-radius: 10px;
+}
+
+/* PRODUCT IMAGE */
+
+.category-showcase__product-shell
+.product-card__image-box {
+  height: 118px;
+  min-height: 118px;
+}
+
+/* PRODUCT DETAILS */
+
+.category-showcase__product-shell
+.product-card__content {
+  gap: 2px !important;
+  padding: 6px !important;
+}
+
+/* PRODUCT NAME */
+
+.category-showcase__product-shell
+.product-card__content h3 {
+  min-height: 0;
+  max-height: 27px;
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.25;
+}
+
+/* PRODUCT DESCRIPTION */
+
+.category-showcase__product-shell
+.product-card__description {
+  min-height: 0;
+  max-height: 13px;
+  margin: 0;
+  font-size: 8px;
+  line-height: 13px;
+  -webkit-line-clamp: 1;
+}
+
+/* PRICE */
+
+.category-showcase__product-shell
+.product-card__prices strong {
+  font-size: 14px;
+}
+
+/* ACTIONS */
+
+.category-showcase__product-shell
+.product-card__actions {
+  gap: 4px !important;
+  padding-top: 3px;
+}
+
+/* CART / BUY NOW / QUANTITY */
+
+.category-showcase__product-shell
+.product-card__cart,
+.category-showcase__product-shell
+.product-card__buy-now,
+.category-showcase__product-shell
+.product-card__quantity-control {
+  height: 26px !important;
+  min-height: 26px !important;
+  padding: 0 3px !important;
+  border-radius: 7px;
+  font-size: 8px !important;
+}
+
+/* GALLERY FOOTER */
+
+.category-showcase__gallery-footer {
+  min-height: 0;
+  margin-top: 4px;
+  padding-top: 3px;
+  font-size: 8px;
+}
+
+/* LOADING CARDS */
+
+.category-showcase__skeleton-image {
+  height: 118px;
+}
+
+/* TABLET */
+
+@media (max-width: 1100px) {
+  .category-showcase__layout {
+    grid-template-columns: minmax(0, 32fr) minmax(0, 68fr);
+  }
+
+  .category-showcase__editorial-main h2 {
+    font-size: 23px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 760px) {
+  .category-showcase__layout {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+
+  .category-showcase__editorial {
+    gap: 6px;
+    padding: 11px;
+  }
+
+  .category-showcase__editorial-main {
+    margin: 3px 0;
+  }
+
+  .category-showcase__editorial-main h2 {
+    font-size: 22px;
+  }
+
+  .category-showcase__highlights {
+    gap: 3px;
+    padding: 6px 8px;
+  }
+
+  .category-showcase__editorial-cta {
+    min-height: 29px;
+  }
+}
+
+@media (max-width: 600px) {
+  .category-showcase,
+  .aumveda-home-page
+  .rv-slot-category_product_showcase
+  .category-showcase {
+    padding: 8px 6px 9px;
+  }
+
+  .category-showcase__editorial {
+    padding: 10px;
+  }
+
+  .category-showcase__editorial-main h2 {
+    font-size: 21px;
+  }
+
+  .category-showcase__gallery {
+    padding: 7px;
+  }
+
+  .category-showcase__product-shell {
+    flex: 0 0 149px;
+    width: 149px;
+    min-width: 149px;
+  }
+
+  .category-showcase__product-shell
+  .product-card__image-box {
+    height: 112px;
+    min-height: 112px;
+  }
+
+  .category-showcase__product-shell
+  .product-card__content {
+    padding: 6px !important;
+  }
+
+  .category-showcase__skeleton-image {
+    height: 112px;
+  }
+}
+
+@media (max-width: 390px) {
+  .category-showcase__product-shell {
+    flex-basis: 145px;
+    width: 145px;
+    min-width: 145px;
+  }
+
+  .category-showcase__product-shell
+  .product-card__image-box {
+    height: 108px;
+    min-height: 108px;
+  }
+}

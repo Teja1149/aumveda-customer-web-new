@@ -1,0 +1,522 @@
+
+/* ============================================================
+   AUMVEDA — SECTION 06
+   DAILY WELLNESS ESSENTIALS
+   PREMIUM COMPACT PROMOTIONAL BANNER
+
+   - Full-width banner within homepage container
+   - No redundant outer white panel
+   - Gently curved corners
+   - Reduced vertical whitespace
+   - Photography preserved
+   - Refined promotional typography
+   - Responsive layout
+============================================================ */
+
+/* 01 — BOX MODEL */
+
+.main-promo-hero,
+.main-promo-hero *,
+.main-promo-hero *::before,
+.main-promo-hero *::after {
+  box-sizing: border-box;
+}
+
+/* 02 — SECTION */
+
+.main-promo-hero,
+.aumveda-home-page .main-promo-hero,
+.aumveda-home-page
+.rv-slot-main_promo .main-promo-hero {
+  position: relative;
+
+  display: block;
+
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+  border-radius: 14px;
+
+  background: transparent;
+  box-shadow: none;
+
+  overflow: hidden;
+}
+
+/* 03 — CONTAINER */
+
+.main-promo-hero__container {
+  width: 100%;
+  max-width: 100%;
+
+  margin: 0;
+  padding: 0;
+}
+
+/* 04 — BANNER */
+
+.main-promo-hero__banner {
+  position: relative;
+  isolation: isolate;
+
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+
+  height: 245px;
+  min-height: 245px;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(117, 87, 56, 0.12);
+  border-radius: 14px;
+
+  background: linear-gradient(
+    115deg,
+    #f3e3c8 0%,
+    #efdab6 50%,
+    #d8bf96 100%
+  );
+
+  box-shadow:
+    0 2px 9px rgba(75, 54, 31, 0.05);
+}
+
+/* 05 — IMAGE */
+
+.main-promo-hero__image {
+  position: absolute;
+  z-index: 0;
+
+  inset: 0;
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  max-width: none;
+
+  object-fit: cover;
+  object-position: right center;
+
+  border: 0;
+
+  pointer-events: none;
+  user-select: none;
+}
+
+/* 06 — TEXT READABILITY OVERLAY */
+
+.main-promo-hero__overlay {
+  position: absolute;
+  z-index: 1;
+
+  inset: 0;
+
+  background: linear-gradient(
+    90deg,
+    rgba(246, 229, 200, 0.87) 0%,
+    rgba(246, 229, 200, 0.62) 28%,
+    rgba(246, 229, 200, 0.22) 51%,
+    rgba(246, 229, 200, 0) 72%
+  );
+
+  pointer-events: none;
+}
+
+/* 07 — LEFT CONTENT */
+
+.main-promo-hero__copy {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  width: 48%;
+  max-width: 600px;
+  min-width: 0;
+
+  height: 100%;
+
+  margin: 0;
+
+  padding:
+    16px 16px
+    16px clamp(24px, 4vw, 56px);
+}
+
+/* 08 — EYEBROW */
+
+.main-promo-hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 7px;
+
+  margin: 0 0 7px;
+  padding: 0;
+
+  color: #79532f;
+
+  font-family: inherit;
+  font-size: 9px;
+  font-weight: 800;
+
+  line-height: 1.3;
+  letter-spacing: 0.12em;
+}
+
+.main-promo-hero__eyebrow svg {
+  flex: 0 0 auto;
+  color: #9f733c;
+}
+
+/* 09 — PROMOTIONAL HEADING */
+
+.main-promo-hero__copy h2 {
+  margin: 0;
+  padding: 0;
+
+  color: #49301f;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: clamp(29px, 3vw, 42px);
+  font-weight: 700;
+
+  line-height: 1.06;
+  letter-spacing: -0.045em;
+}
+
+.main-promo-hero__copy h2 span {
+  display: block;
+}
+
+/* 10 — SUBTITLE */
+
+.main-promo-hero__subtitle {
+  max-width: 350px;
+
+  margin: 8px 0 12px;
+  padding: 0;
+
+  color: #694d38;
+
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+
+  line-height: 1.45;
+}
+
+/* 11 — SHOP NOW BUTTON */
+
+.main-promo-hero__shop {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  min-height: 34px;
+
+  margin: 0;
+  padding: 0 16px;
+
+  border: 1px solid rgba(68, 43, 28, 0.16);
+  border-radius: 999px;
+
+  background: #4b3022;
+  color: #fffaf2;
+
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 750;
+
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+
+  box-shadow:
+    0 3px 8px rgba(58, 35, 21, 0.12);
+
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.main-promo-hero__shop svg {
+  width: 15px;
+  height: 15px;
+
+  transition: transform 180ms ease;
+}
+
+.main-promo-hero__shop:hover {
+  background: #2f432d;
+  color: #ffffff;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 5px 12px rgba(47, 67, 45, 0.16);
+}
+
+.main-promo-hero__shop:hover svg {
+  transform: translateX(2px);
+}
+
+/* 12 — BENEFIT ROW */
+
+.main-promo-hero__benefits {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 7px 15px;
+
+  margin: 12px 0 0;
+  padding: 0;
+
+  color: #654d38;
+
+  font-family: inherit;
+  font-size: 9px;
+  font-weight: 650;
+
+  line-height: 1.3;
+}
+
+.main-promo-hero__benefits span {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 5px;
+
+  white-space: nowrap;
+}
+
+.main-promo-hero__benefits svg {
+  width: 13px;
+  height: 13px;
+
+  flex: 0 0 auto;
+
+  color: #4f744a;
+}
+
+/* 13 — LAPTOP */
+
+@media (max-width: 1100px) {
+  .main-promo-hero__banner {
+    height: 230px;
+    min-height: 230px;
+  }
+
+  .main-promo-hero__copy {
+    width: 52%;
+
+    padding-left: 28px;
+  }
+
+  .main-promo-hero__copy h2 {
+    font-size: clamp(28px, 3.3vw, 36px);
+  }
+}
+
+/* 14 — TABLET */
+
+@media (max-width: 760px) {
+  .main-promo-hero__banner {
+    height: 205px;
+    min-height: 205px;
+
+    border-radius: 12px;
+  }
+
+  .main-promo-hero__copy {
+    width: 59%;
+
+    padding: 12px 8px 12px 18px;
+  }
+
+  .main-promo-hero__copy h2 {
+    font-size: clamp(25px, 4vw, 31px);
+  }
+
+  .main-promo-hero__eyebrow {
+    margin-bottom: 5px;
+    font-size: 8px;
+  }
+
+  .main-promo-hero__subtitle {
+    margin: 7px 0 10px;
+    font-size: 10px;
+  }
+
+  .main-promo-hero__shop {
+    min-height: 31px;
+
+    padding: 0 13px;
+
+    font-size: 10px;
+  }
+
+  .main-promo-hero__benefits {
+    margin-top: 9px;
+
+    gap: 5px 10px;
+
+    font-size: 8px;
+  }
+}
+
+/* 15 — MOBILE */
+
+@media (max-width: 600px) {
+  .main-promo-hero,
+  .aumveda-home-page .main-promo-hero,
+  .aumveda-home-page
+  .rv-slot-main_promo .main-promo-hero {
+    padding: 0;
+
+    border-radius: 10px;
+  }
+
+  .main-promo-hero__banner {
+    height: 185px;
+    min-height: 185px;
+
+    border-radius: 10px;
+  }
+
+  .main-promo-hero__image {
+    object-position: 64% center;
+  }
+
+  .main-promo-hero__overlay {
+    background: linear-gradient(
+      90deg,
+      rgba(246, 229, 200, 0.96) 0%,
+      rgba(246, 229, 200, 0.84) 35%,
+      rgba(246, 229, 200, 0.28) 70%,
+      transparent 100%
+    );
+  }
+
+  .main-promo-hero__copy {
+    width: 68%;
+    max-width: none;
+
+    padding: 10px 5px 10px 13px;
+  }
+
+  .main-promo-hero__eyebrow {
+    gap: 4px;
+
+    margin-bottom: 5px;
+
+    font-size: 7px;
+    letter-spacing: 0.08em;
+  }
+
+  .main-promo-hero__eyebrow svg {
+    width: 11px;
+    height: 11px;
+  }
+
+  .main-promo-hero__copy h2 {
+    font-size: clamp(21px, 5.6vw, 29px);
+    line-height: 1.07;
+  }
+
+  .main-promo-hero__subtitle {
+    max-width: 215px;
+
+    margin: 6px 0 9px;
+
+    font-size: 9px;
+    line-height: 1.35;
+  }
+
+  .main-promo-hero__shop {
+    min-height: 29px;
+
+    gap: 5px;
+    padding: 0 11px;
+
+    font-size: 9px;
+  }
+
+  .main-promo-hero__shop svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .main-promo-hero__benefits {
+    display: none;
+  }
+}
+
+/* 16 — SMALL MOBILE */
+
+@media (max-width: 390px) {
+  .main-promo-hero__banner {
+    height: 175px;
+    min-height: 175px;
+  }
+
+  .main-promo-hero__copy {
+    width: 72%;
+    padding-left: 11px;
+  }
+
+  .main-promo-hero__copy h2 {
+    font-size: 21px;
+  }
+
+  .main-promo-hero__subtitle {
+    font-size: 8.5px;
+  }
+}
+
+/* 17 — ACCESSIBILITY */
+
+.main-promo-hero a:focus-visible {
+  outline: 2px solid #28543a;
+  outline-offset: 3px;
+}
+
+/* 18 — REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+  .main-promo-hero__shop,
+  .main-promo-hero__shop svg {
+    transition: none !important;
+  }
+
+  .main-promo-hero__shop:hover {
+    transform: none;
+  }
+}
+
+/* ============================================================
+   END — DAILY WELLNESS ESSENTIALS
+============================================================ */

@@ -1,17 +1,19 @@
+
 import {
     useEffect,
+    useRef,
     useState
 } from "react";
 
 import {
     ArrowLeft,
     Heart,
-    Leaf,
+    ImageOff,
     Minus,
     PackageCheck,
     Plus,
-    ShieldCheck,
     ShoppingBag,
+    Sparkles,
     Star
 } from "lucide-react";
 
@@ -22,7 +24,8 @@ import {
 
 import {
     getProductBySlug,
-    getProducts
+    getProducts,
+    recordRecentlyViewedProduct
 } from "../services/productService";
 
 import {
@@ -37,14 +40,30 @@ import {
     useWishlist
 } from "../context/WishlistContext";
 
-import ProductGrid
-    from "../components/products/ProductGrid";
+import ProductGrid from "../components/products/ProductGrid";
 
 import "../styles/product-details.css";
 
 
-const BUY_NOW_STORAGE_KEY =
-    "aumveda_buy_now";
+/* ============================================================
+   AUMVEDA — PRODUCT DETAILS
+
+   FEATURES:
+   - Product details
+   - Multiple product images
+   - Product variants
+   - Stock validation
+   - Add to cart
+   - Cart quantity controls
+   - Buy Now
+   - Wishlist
+   - Related products
+   - Authenticated Recently Viewed tracking
+
+   Existing styling and route conventions preserved.
+============================================================ */
+
+const BUY_NOW_STORAGE_KEY = "aumveda_buy_now";
 
 
 /* ============================================================
@@ -52,53 +71,32 @@ const BUY_NOW_STORAGE_KEY =
 ============================================================ */
 
 function formatPrice(value) {
-
-    if (
-        value === null ||
-        value === undefined
-    ) {
-
+    if (value === null || value === undefined) {
         return "—";
-
     }
 
-
-    return new Intl.NumberFormat(
-        "en-IN",
-        {
-            maximumFractionDigits: 0
-        }
-    ).format(
-        Number(value)
-    );
-
+    return new Intl.NumberFormat("en-IN", {
+        maximumFractionDigits: 0
+    }).format(Number(value));
 }
 
 
 /* ============================================================
-   PRODUCT DETAILS
+   PRODUCT DETAILS COMPONENT
 ============================================================ */
 
 function ProductDetails() {
 
-    const {
-        slug
-    } =
-        useParams();
+    const { slug } = useParams();
 
-
-    const navigate =
-        useNavigate();
+    const navigate = useNavigate();
 
 
     /* ========================================================
-       AUTH
+       AUTHENTICATION
     ======================================================== */
 
-    const {
-        isAuthenticated
-    } =
-        useAuth();
+    const { isAuthenticated } = useAuth();
 
 
     /* ========================================================
@@ -110,8 +108,7 @@ function ProductDetails() {
         addToCart,
         updateCartItem,
         removeFromCart
-    } =
-        useCart();
+    } = useCart();
 
 
     /* ========================================================
@@ -121,242 +118,129 @@ function ProductDetails() {
     const {
         isWishlisted,
         toggleWishlist
-    } =
-        useWishlist();
+    } = useWishlist();
 
 
     /* ========================================================
        PRODUCT STATE
     ======================================================== */
 
-    const [
-        product,
-        setProduct
-    ] =
-        useState(null);
+    const [product, setProduct] = useState(null);
 
+    const [relatedProducts, setRelatedProducts] = useState([]);
 
-    const [
-        relatedProducts,
-        setRelatedProducts
-    ] =
-        useState([]);
+    const [loading, setLoading] = useState(true);
 
+    const [error, setError] = useState("");
 
-    const [
-        loading,
-        setLoading
-    ] =
-        useState(true);
+    const [productImages, setProductImages] = useState([]);
 
+    const [variants, setVariants] = useState([]);
 
-    const [
-        error,
-        setError
-    ] =
-        useState("");
+    const [selectedImage, setSelectedImage] = useState(null);
+
+    const [selectedVariant, setSelectedVariant] = useState(null);
+
+    const [cartActionLoading, setCartActionLoading] = useState(false);
+
+    const [buyNowLoading, setBuyNowLoading] = useState(false);
 
 
     /* ========================================================
-       PRODUCT SELECTION
+       RECENTLY VIEWED TRACKING STATE
+
+       Prevent repeated POST requests for the same product
+       within the same mounted product-details session.
+
+       Tracking is best-effort and never blocks the page.
     ======================================================== */
 
-    const [
-        productImages,
-        setProductImages
-    ] =
-        useState([]);
-
-
-    const [
-        variants,
-        setVariants
-    ] =
-        useState([]);
-
-
-    const [
-        selectedImage,
-        setSelectedImage
-    ] =
-        useState(null);
-
-
-    const [
-        selectedVariant,
-        setSelectedVariant
-    ] =
-        useState(null);
+    const recordedProductRef = useRef(null);
 
 
     /* ========================================================
-       ACTION STATE
-    ======================================================== */
-
-    const [
-        cartActionLoading,
-        setCartActionLoading
-    ] =
-        useState(false);
-
-
-    const [
-        buyNowLoading,
-        setBuyNowLoading
-    ] =
-        useState(false);
-
-
-    /* ========================================================
-       LOAD PRODUCT
+       LOAD PRODUCT DETAILS
     ======================================================== */
 
     useEffect(() => {
 
         if (!slug) {
-
+            setLoading(false);
+            setError("Product not found.");
             return;
-
         }
 
-
-        let cancelled =
-            false;
-
+        let cancelled = false;
 
         async function loadProduct() {
 
             try {
 
-                setLoading(
-                    true
-                );
-
-
+                setLoading(true);
                 setError("");
 
-
-                const productData =
-                    await getProductBySlug(
-                        slug
-                    );
-
+                const productData = await getProductBySlug(slug);
 
                 if (cancelled) {
-
                     return;
-
                 }
-
 
                 if (!productData) {
-
-                    throw new Error(
-                        "Product not found"
-                    );
-
+                    throw new Error("Product not found");
                 }
 
-
-                setProduct(
-                    productData
-                );
+                setProduct(productData);
 
 
                 /* =============================================
-                   IMAGES
+                   PRODUCT IMAGE GALLERY
                 ============================================= */
 
-                const images =
-                    [
-                        ...(
-                            productData.product_images ||
-                            []
-                        )
-                    ].sort(
-                        (
-                            first,
-                            second
-                        ) => {
+                const images = [
+                    ...(productData.product_images || [])
+                ].sort((first, second) => {
 
-                            if (
-                                first.is_primary &&
-                                !second.is_primary
-                            ) {
+                    if (first.is_primary && !second.is_primary) {
+                        return -1;
+                    }
 
-                                return -1;
+                    if (!first.is_primary && second.is_primary) {
+                        return 1;
+                    }
 
-                            }
-
-
-                            if (
-                                !first.is_primary &&
-                                second.is_primary
-                            ) {
-
-                                return 1;
-
-                            }
-
-
-                            return (
-                                Number(
-                                    first.sort_order ||
-                                    9999
-                                ) -
-                                Number(
-                                    second.sort_order ||
-                                    9999
-                                )
-                            );
-
-                        }
+                    return (
+                        Number(first.sort_order ?? 9999) -
+                        Number(second.sort_order ?? 9999)
                     );
 
+                });
 
-                setProductImages(
-                    images
-                );
+                setProductImages(images);
 
-
-                setSelectedImage(
-                    images[0] ||
-                    null
-                );
+                setSelectedImage(images[0] || null);
 
 
                 /* =============================================
-                   VARIANTS
+                   PRODUCT VARIANTS
                 ============================================= */
 
-                const activeVariants =
-                    (
-                        productData.product_variants ||
-                        []
-                    ).filter(
-                        variant =>
-                            variant.is_active !==
-                            false
-                    );
-
-
-                setVariants(
-                    activeVariants
+                const activeVariants = (
+                    productData.product_variants || []
+                ).filter(
+                    variant => variant.is_active !== false
                 );
 
+                setVariants(activeVariants);
 
                 const defaultVariant =
-                    activeVariants.find(
-                        variant =>
-                            variant.is_default
+                    activeVariants.find(variant =>
+                        variant.is_default === true ||
+                        variant.attributes?.is_default === true
                     ) ||
                     activeVariants[0] ||
                     null;
 
-
-                setSelectedVariant(
-                    defaultVariant
-                );
+                setSelectedVariant(defaultVariant);
 
 
                 /* =============================================
@@ -365,326 +249,306 @@ function ProductDetails() {
 
                 try {
 
-                    const allProducts =
-                        await getProducts();
-
+                    const allProducts = await getProducts();
 
                     if (cancelled) {
-
                         return;
-
                     }
 
-
-                    const related =
-                        (
-                            Array.isArray(
-                                allProducts
-                            )
-                                ? allProducts
-                                : []
+                    const related = (
+                        Array.isArray(allProducts)
+                            ? allProducts
+                            : []
+                    )
+                        .filter(item =>
+                            item.id !== productData.id &&
+                            item.category_id === productData.category_id
                         )
-                            .filter(
-                                item =>
-                                    item.id !==
-                                    productData.id &&
-                                    item.category_id ===
-                                    productData.category_id
-                            )
-                            .slice(
-                                0,
-                                4
-                            );
+                        .slice(0, 4);
 
+                    setRelatedProducts(related);
 
-                    setRelatedProducts(
-                        related
-                    );
-
-                }
-                catch (relatedError) {
+                } catch (relatedError) {
 
                     console.error(
                         "Related products loading failed:",
                         relatedError
                     );
 
-
                     if (!cancelled) {
-
-                        setRelatedProducts(
-                            []
-                        );
-
+                        setRelatedProducts([]);
                     }
 
                 }
 
-            }
-            catch (loadError) {
+            } catch (loadError) {
 
                 if (cancelled) {
-
                     return;
-
                 }
-
 
                 console.error(
                     "Product details loading failed:",
                     loadError
                 );
 
+                setProduct(null);
+                setProductImages([]);
+                setVariants([]);
+                setSelectedImage(null);
+                setSelectedVariant(null);
+                setRelatedProducts([]);
 
-                setError(
-                    "Unable to load this product."
-                );
+                setError("Unable to load this product.");
 
-            }
-            finally {
+            } finally {
 
                 if (!cancelled) {
-
-                    setLoading(
-                        false
-                    );
-
+                    setLoading(false);
                 }
 
             }
 
         }
 
-
         loadProduct();
 
+        return () => {
+            cancelled = true;
+        };
+
+    }, [slug]);
+
+
+    /* ========================================================
+       RECORD RECENTLY VIEWED PRODUCT
+
+       API:
+       POST /api/v1/recently-viewed/{product_id}
+
+       IMPORTANT:
+       - Only authenticated customers
+       - Only successfully loaded products
+       - Never track stale product data after navigation
+       - No customer ID sent from frontend
+       - Tracking failures do not affect product browsing
+    ======================================================== */
+
+    useEffect(() => {
+
+        if (
+            !isAuthenticated ||
+            loading ||
+            error ||
+            !product?.id ||
+            !slug ||
+            product.slug !== slug
+        ) {
+            return;
+        }
+
+        const productId = String(product.id);
+
+        if (recordedProductRef.current === productId) {
+            return;
+        }
+
+        recordedProductRef.current = productId;
+
+        let cancelled = false;
+
+        async function recordView() {
+
+            try {
+
+                await recordRecentlyViewedProduct(productId);
+
+                if (!cancelled) {
+                    console.info(
+                        "[AUMVEDA] Recently viewed product recorded:",
+                        productId
+                    );
+                }
+
+            } catch (trackingError) {
+
+                if (!cancelled) {
+
+                    console.warn(
+                        "[AUMVEDA] Recently viewed tracking failed:",
+                        trackingError
+                    );
+
+                }
+
+                // Allow a later visit to retry after failure.
+                if (recordedProductRef.current === productId) {
+                    recordedProductRef.current = null;
+                }
+
+            }
+
+        }
+
+        recordView();
 
         return () => {
-
-            cancelled =
-                true;
-
+            cancelled = true;
         };
 
     }, [
+        isAuthenticated,
+        loading,
+        error,
+        product?.id,
+        product?.slug,
         slug
     ]);
 
 
     /* ========================================================
-       MAIN IMAGE
+       CURRENT PRODUCT IMAGE
     ======================================================== */
 
     const mainImage =
         selectedImage?.image_url ||
         product?.image ||
+        product?.image_url ||
         null;
+
+    const hasMultipleImages = productImages.length > 1;
 
 
     /* ========================================================
-       PRICE
+       PRODUCT PRICE
     ======================================================== */
 
-    const currentPrice =
-        Number(
-            selectedVariant?.price ??
-            product?.price ??
-            0
-        );
+    const currentPrice = Number(
+        selectedVariant?.price ??
+        product?.price ??
+        0
+    );
 
-
-    const comparePrice =
+    const comparePrice = Number(
         selectedVariant?.compare_at_price ??
         product?.compare_at_price ??
-        null;
+        0
+    );
+
+    const discount =
+        comparePrice > currentPrice && currentPrice > 0
+            ? Math.round(
+                ((comparePrice - currentPrice) / comparePrice) * 100
+            )
+            : 0;
 
 
     /* ========================================================
        STOCK
     ======================================================== */
 
-    const stockQuantity =
-        Number(
-            selectedVariant?.stock_quantity ??
-            0
-        );
+    const stockQuantity = Number(
+        selectedVariant?.stock_quantity ?? 0
+    );
 
-
-    const inStock =
-        stockQuantity > 0;
-
-
-    /* ========================================================
-       DISCOUNT
-    ======================================================== */
-
-    const discount =
-        comparePrice &&
-        Number(
-            comparePrice
-        ) >
-        currentPrice
-            ? Math.round(
-                (
-                    (
-                        Number(
-                            comparePrice
-                        ) -
-                        currentPrice
-                    ) /
-                    Number(
-                        comparePrice
-                    )
-                ) * 100
-            )
-            : 0;
+    const inStock = stockQuantity > 0;
 
 
     /* ========================================================
        ACTIONABLE PRODUCT
+
+       Reuses the existing cart / checkout data structure.
     ======================================================== */
 
-    const actionableProduct =
-        product
-            ? {
-                ...product,
-
-                image:
-                    mainImage,
-
-                price:
-                    currentPrice,
-
-                compare_at_price:
-                    comparePrice,
-
-                variant:
-                    selectedVariant
-            }
-            : null;
+    const actionableProduct = product
+        ? {
+            ...product,
+            image: mainImage,
+            price: currentPrice,
+            compare_at_price: comparePrice,
+            variant: selectedVariant
+        }
+        : null;
 
 
     /* ========================================================
-       FIND SELECTED VARIANT IN REAL CART
+       FIND EXISTING CART ITEM
     ======================================================== */
 
     const cartItem =
-        product &&
-        selectedVariant
+        product && selectedVariant
             ? (
-                items.find(
-                    item => {
+                items.find(item => {
 
-                        const itemProductId =
-                            item?.product?.id ??
-                            item?.product_id ??
-                            null;
+                    const itemProductId =
+                        item?.product?.id ??
+                        item?.product_id ??
+                        null;
 
+                    const itemVariantId =
+                        item?.variant?.id ??
+                        item?.variant_id ??
+                        null;
 
-                        const itemVariantId =
-                            item?.variant?.id ??
-                            item?.variant_id ??
-                            null;
+                    return (
+                        String(itemProductId) === String(product.id) &&
+                        String(itemVariantId) === String(selectedVariant.id)
+                    );
 
-
-                        return (
-                            String(
-                                itemProductId
-                            ) ===
-                            String(
-                                product.id
-                            ) &&
-                            String(
-                                itemVariantId
-                            ) ===
-                            String(
-                                selectedVariant.id
-                            )
-                        );
-
-                    }
-                ) ||
-                null
+                }) || null
             )
             : null;
 
+    const productIsInCart = Boolean(cartItem);
 
-    const productIsInCart =
-        Boolean(
-            cartItem
-        );
-
-
-    const cartQuantity =
-        Number(
-            cartItem?.quantity ||
-            0
-        );
-
+    const cartQuantity = Number(cartItem?.quantity || 0);
 
     const maximumStockReached =
         stockQuantity > 0 &&
-        cartQuantity >=
-        stockQuantity;
+        cartQuantity >= stockQuantity;
 
 
     /* ========================================================
-       WISHLIST
+       WISHLIST STATUS
     ======================================================== */
 
-    const productIsWishlisted =
-        product
-            ? isWishlisted(
-                product.id
-            )
-            : false;
+    const productIsWishlisted = product
+        ? isWishlisted(product.id)
+        : false;
 
+
+    /* ========================================================
+       WISHLIST ACTION
+    ======================================================== */
 
     function handleWishlist() {
 
         if (!product) {
-
             return;
-
         }
 
-
-        toggleWishlist(
-            product.id
-        );
+        toggleWishlist(product.id);
 
     }
 
 
     /* ========================================================
-       VARIANT CHANGE
+       VARIANT SELECTION
     ======================================================== */
 
-    function handleVariantChange(
-        variant
-    ) {
+    function handleVariantChange(variant) {
 
-        if (
-            cartActionLoading ||
-            buyNowLoading
-        ) {
-
+        if (cartActionLoading || buyNowLoading) {
             return;
-
         }
 
-
-        setSelectedVariant(
-            variant
-        );
+        setSelectedVariant(variant);
 
     }
 
 
     /* ========================================================
        ADD TO CART
-
-       Initial quantity is always 1.
     ======================================================== */
 
     async function handleAddToCart() {
@@ -696,58 +560,38 @@ function ProductDetails() {
             !inStock ||
             cartActionLoading
         ) {
-
             return;
-
         }
-
 
         if (!isAuthenticated) {
 
-            navigate(
-                "/login",
-                {
-                    state: {
-                        from: {
-                            pathname:
-                                `/products/${product.slug}`
-                        }
+            navigate("/login", {
+                state: {
+                    from: {
+                        pathname: `/products/${product.slug}`
                     }
                 }
-            );
-
+            });
 
             return;
-
         }
-
 
         try {
 
-            setCartActionLoading(
-                true
-            );
+            setCartActionLoading(true);
 
+            await addToCart(actionableProduct, 1);
 
-            await addToCart(
-                actionableProduct,
-                1
-            );
-
-        }
-        catch (cartError) {
+        } catch (cartError) {
 
             console.error(
-                "Product details add to cart failed:",
+                "Add to cart failed:",
                 cartError
             );
 
-        }
-        finally {
+        } finally {
 
-            setCartActionLoading(
-                false
-            );
+            setCartActionLoading(false);
 
         }
 
@@ -760,62 +604,36 @@ function ProductDetails() {
 
     async function handleDecreaseQuantity() {
 
-        if (
-            !productIsInCart ||
-            !cartItem ||
-            cartActionLoading
-        ) {
-
+        if (!cartItem || cartActionLoading) {
             return;
-
         }
-
 
         try {
 
-            setCartActionLoading(
-                true
-            );
+            setCartActionLoading(true);
 
+            if (cartQuantity <= 1) {
 
-            /*
-             * Quantity 1:
-             * remove the entire item.
-             */
-
-            if (
-                cartQuantity <= 1
-            ) {
-
-                await removeFromCart(
-                    cartItem.id
-                );
-
-
+                await removeFromCart(cartItem.id);
                 return;
 
             }
-
 
             await updateCartItem(
                 cartItem.id,
                 cartQuantity - 1
             );
 
-        }
-        catch (cartError) {
+        } catch (cartError) {
 
             console.error(
-                "Product details quantity decrease failed:",
+                "Decrease quantity failed:",
                 cartError
             );
 
-        }
-        finally {
+        } finally {
 
-            setCartActionLoading(
-                false
-            );
+            setCartActionLoading(false);
 
         }
 
@@ -829,43 +647,32 @@ function ProductDetails() {
     async function handleIncreaseQuantity() {
 
         if (
-            !productIsInCart ||
             !cartItem ||
             cartActionLoading ||
             maximumStockReached
         ) {
-
             return;
-
         }
-
 
         try {
 
-            setCartActionLoading(
-                true
-            );
-
+            setCartActionLoading(true);
 
             await updateCartItem(
                 cartItem.id,
                 cartQuantity + 1
             );
 
-        }
-        catch (cartError) {
+        } catch (cartError) {
 
             console.error(
-                "Product details quantity increase failed:",
+                "Increase quantity failed:",
                 cartError
             );
 
-        }
-        finally {
+        } finally {
 
-            setCartActionLoading(
-                false
-            );
+            setCartActionLoading(false);
 
         }
 
@@ -874,6 +681,8 @@ function ProductDetails() {
 
     /* ========================================================
        BUY NOW
+
+       Preserves the existing sessionStorage checkout flow.
     ======================================================== */
 
     function handleBuyNow() {
@@ -885,99 +694,54 @@ function ProductDetails() {
             !inStock ||
             buyNowLoading
         ) {
-
             return;
-
         }
-
 
         try {
 
-            setBuyNowLoading(
-                true
-            );
+            setBuyNowLoading(true);
 
-
-            /*
-             * Not in cart:
-             * Buy Now quantity = 1
-             *
-             * Already in cart:
-             * Buy Now uses current cart quantity.
-             */
-
-            const buyNowQuantity =
-                productIsInCart
-                    ? cartQuantity
-                    : 1;
-
+            const buyNowQuantity = productIsInCart
+                ? cartQuantity
+                : 1;
 
             const buyNowPayload = {
-
-                product:
-                    actionableProduct,
-
-                quantity:
-                    buyNowQuantity
-
+                product: actionableProduct,
+                quantity: buyNowQuantity
             };
-
-
-            /*
-             * Buy Now remains separate
-             * from the normal cart.
-             */
 
             sessionStorage.setItem(
                 BUY_NOW_STORAGE_KEY,
-                JSON.stringify(
-                    buyNowPayload
-                )
+                JSON.stringify(buyNowPayload)
             );
-
 
             if (isAuthenticated) {
 
-                navigate(
-                    "/checkout?mode=buy-now",
-                    {
-                        state: {
-                            buyNow:
-                                buyNowPayload
-                        }
+                navigate("/checkout?mode=buy-now", {
+                    state: {
+                        buyNow: buyNowPayload
                     }
-                );
-
+                });
 
                 return;
-
             }
 
-
-            navigate(
-                "/login",
-                {
-                    state: {
-                        from: {
-                            pathname:
-                                "/checkout?mode=buy-now"
-                        }
+            navigate("/login", {
+                state: {
+                    from: {
+                        pathname: "/checkout?mode=buy-now"
                     }
                 }
-            );
+            });
 
-        }
-        catch (buyError) {
+        } catch (buyError) {
 
             console.error(
                 "Buy Now failed:",
                 buyError
             );
 
-
-            setBuyNowLoading(
-                false
-            );
+            setBuyNowLoading(false);
 
         }
 
@@ -985,228 +749,157 @@ function ProductDetails() {
 
 
     /* ========================================================
-       LOADING
+       LOADING STATE
     ======================================================== */
 
     if (loading) {
 
         return (
+            <main className="product-details-page">
+                <div className="product-details-loading">
 
-            <main
-                className="product-details-page"
-            >
+                    <div className="product-details-spinner" />
 
-                <div
-                    className="product-details-loading"
-                >
-
-                    <div
-                        className="product-details-spinner"
-                    />
-
-
-                    <p>
-                        Loading product...
-                    </p>
+                    <p>Loading product...</p>
 
                 </div>
-
             </main>
-
         );
 
     }
 
 
     /* ========================================================
-       ERROR
+       ERROR STATE
     ======================================================== */
 
-    if (
-        error ||
-        !product
-    ) {
+    if (error || !product) {
 
         return (
+            <main className="product-details-page">
+                <div className="product-details-error">
 
-            <main
-                className="product-details-page"
-            >
+                    <PackageCheck size={44} />
 
-                <div
-                    className="product-details-error"
-                >
-
-                    <PackageCheck
-                        size={48}
-                    />
-
-
-                    <h1>
-                        Product unavailable
-                    </h1>
-
+                    <h1>Product unavailable</h1>
 
                     <p>
-
-                        {
-                            error ||
-                            "This product could not be found."
-                        }
-
+                        {error || "This product could not be found."}
                     </p>
-
 
                     <button
                         type="button"
-                        onClick={() =>
-                            navigate(
-                                "/products"
-                            )
-                        }
+                        onClick={() => navigate("/products")}
                     >
-
-                        <ArrowLeft
-                            size={17}
-                        />
-
+                        <ArrowLeft size={16} />
                         Back to Products
-
                     </button>
 
                 </div>
-
             </main>
-
         );
 
     }
 
 
     /* ========================================================
-       RENDER
+       PRODUCT DETAILS PAGE
     ======================================================== */
 
     return (
 
-        <main
-            className="product-details-page"
-        >
+        <main className="product-details-page">
 
-            <div
-                className="product-details-container"
-            >
+            <div className="product-details-container">
 
                 {/* =================================================
-                    BACK
+                    BACK TO PRODUCTS
                 ================================================= */}
 
                 <button
                     type="button"
                     className="product-details-back"
-                    onClick={() =>
-                        navigate(
-                            "/products"
-                        )
-                    }
+                    onClick={() => navigate("/products")}
                 >
-
-                    <ArrowLeft
-                        size={16}
-                    />
-
-                    Back to Products
-
+                    <ArrowLeft size={15} />
+                    Products
                 </button>
 
 
                 {/* =================================================
-                    MAIN PRODUCT AREA
+                    PRODUCT MAIN SECTION
                 ================================================= */}
 
-                <section
-                    className="product-details-main"
-                >
+                <section className="product-details-main">
 
-                    {/* =================================================
-                        IMAGE GALLERY
-                    ================================================= */}
+                    {/* =============================================
+                        PRODUCT IMAGE GALLERY
+                    ============================================= */}
 
                     <div
-                        className="product-details-gallery"
+                        className={`
+                            product-details-gallery
+                            ${
+                                hasMultipleImages
+                                    ? ""
+                                    : "product-details-gallery--single"
+                            }
+                        `}
                     >
 
-                        {
-                            productImages.length >
-                            0 && (
+                        {hasMultipleImages && (
 
-                                <div
-                                    className="product-details-thumbnails"
-                                >
+                            <div className="product-details-thumbnails">
 
-                                    {
-                                        productImages.map(
-                                            image => (
+                                {productImages.map(image => (
 
-                                                <button
-                                                    key={
-                                                        image.id
-                                                    }
-                                                    type="button"
-                                                    className={`
-                                                        product-details-thumbnail
-                                                        ${
-                                                            selectedImage?.id ===
-                                                            image.id
-                                                                ? "is-active"
-                                                                : ""
-                                                        }
-                                                    `}
-                                                    onClick={() =>
-                                                        setSelectedImage(
-                                                            image
-                                                        )
-                                                    }
-                                                >
-
-                                                    <img
-                                                        src={
-                                                            image.image_url
-                                                        }
-                                                        alt={
-                                                            image.alt_text ||
-                                                            product.name
-                                                        }
-                                                    />
-
-                                                </button>
-
-                                            )
-                                        )
-                                    }
-
-                                </div>
-
-                            )
-                        }
-
-
-                        <div
-                            className="product-details-main-image"
-                        >
-
-                            {
-                                discount > 0 && (
-
-                                    <span
-                                        className="product-details-discount"
+                                    <button
+                                        key={image.id}
+                                        type="button"
+                                        className={`
+                                            product-details-thumbnail
+                                            ${
+                                                selectedImage?.id === image.id
+                                                    ? "is-active"
+                                                    : ""
+                                            }
+                                        `}
+                                        onClick={() =>
+                                            setSelectedImage(image)
+                                        }
                                     >
-                                        Save {discount}%
-                                    </span>
 
-                                )
-                            }
+                                        <img
+                                            src={image.image_url}
+                                            alt={
+                                                image.alt_text ||
+                                                product.name
+                                            }
+                                        />
 
+                                    </button>
+
+                                ))}
+
+                            </div>
+
+                        )}
+
+
+                        {/* MAIN IMAGE */}
+
+                        <div className="product-details-main-image">
+
+                            {discount > 0 && (
+
+                                <span className="product-details-discount">
+                                    {discount}% OFF
+                                </span>
+
+                            )}
+
+
+                            {/* WISHLIST */}
 
                             <button
                                 type="button"
@@ -1218,15 +911,8 @@ function ProductDetails() {
                                             : ""
                                     }
                                 `}
-                                onClick={
-                                    handleWishlist
-                                }
+                                onClick={handleWishlist}
                                 aria-label={
-                                    productIsWishlisted
-                                        ? "Remove from wishlist"
-                                        : "Add to wishlist"
-                                }
-                                title={
                                     productIsWishlisted
                                         ? "Remove from wishlist"
                                         : "Add to wishlist"
@@ -1234,7 +920,7 @@ function ProductDetails() {
                             >
 
                                 <Heart
-                                    size={21}
+                                    size={20}
                                     fill={
                                         productIsWishlisted
                                             ? "currentColor"
@@ -1245,276 +931,194 @@ function ProductDetails() {
                             </button>
 
 
-                            {
-                                mainImage
-                                    ? (
+                            {/* PRODUCT IMAGE */}
 
-                                        <img
-                                            src={
-                                                mainImage
-                                            }
-                                            alt={
-                                                selectedImage?.alt_text ||
-                                                product.name
-                                            }
-                                        />
+                            {mainImage ? (
 
-                                    )
-                                    : (
+                                <img
+                                    src={mainImage}
+                                    alt={product.name}
+                                />
 
-                                        <div
-                                            className="product-details-no-image"
-                                        >
+                            ) : (
 
-                                            <Leaf
-                                                size={50}
-                                            />
+                                <div className="product-details-no-image">
+                                    <ImageOff size={42} />
 
+                                    <span>
+                                        Image unavailable
+                                    </span>
+                                </div>
 
-                                            <span>
-                                                Image unavailable
-                                            </span>
-
-                                        </div>
-
-                                    )
-                            }
+                            )}
 
                         </div>
 
                     </div>
 
 
-                    {/* =================================================
+                    {/* =============================================
                         PRODUCT INFORMATION
-                    ================================================= */}
+                    ============================================= */}
 
-                    <div
-                        className="product-details-info"
-                    >
+                    <div className="product-details-info">
 
-                        <p
-                            className="product-details-eyebrow"
-                        >
-                            AYURVEDIC WELLNESS
-                        </p>
+                        <div className="product-details-eyebrow">
+                            <Sparkles size={12} />
+                            FEATURED PRODUCT
+                        </div>
 
-
-                        <h1>
-                            {product.name}
-                        </h1>
+                        <h1>{product.name}</h1>
 
 
-                        {/* =================================================
-                            RATING
-                        ================================================= */}
+                        {/* RATING */}
 
-                        <div
-                            className="product-details-rating"
-                        >
+                        <div className="product-details-rating">
 
                             <div>
-
                                 <Star
-                                    size={17}
+                                    size={15}
                                     fill="currentColor"
                                 />
 
-
                                 <strong>
-
-                                    {
-                                        Number(
-                                            product.average_rating ??
-                                            product.rating ??
-                                            0
-                                        ).toFixed(
-                                            1
-                                        )
-                                    }
-
+                                    {Number(
+                                        product.average_rating ??
+                                        product.rating ??
+                                        0
+                                    ).toFixed(1)}
                                 </strong>
-
                             </div>
 
-
                             <span>
+                                {product.review_count || 0}
 
-                                {
-                                    product.review_count ||
-                                    0
-                                } reviews
-
+                                {Number(product.review_count || 0) === 1
+                                    ? " review"
+                                    : " reviews"}
                             </span>
 
                         </div>
 
 
-                        {/* =================================================
-                            DESCRIPTION
-                        ================================================= */}
+                        {/* SHORT DESCRIPTION */}
 
-                        <p
-                            className="product-details-short-description"
-                        >
+                        {(
+                            product.short_description ||
+                            product.description
+                        ) && (
 
-                            {
-                                product.short_description ||
-                                product.description
-                            }
+                            <p className="product-details-short-description">
+                                {
+                                    product.short_description ||
+                                    product.description
+                                }
+                            </p>
 
-                        </p>
+                        )}
 
 
-                        {/* =================================================
-                            PRICE
-                        ================================================= */}
+                        {/* PRICE */}
 
-                        <div
-                            className="product-details-price"
-                        >
+                        <div className="product-details-price">
 
                             <strong>
-
-                                ₹
-                                {
-                                    formatPrice(
-                                        currentPrice
-                                    )
-                                }
-
+                                ₹{formatPrice(currentPrice)}
                             </strong>
 
+                            {comparePrice > currentPrice && (
 
-                            {
-                                comparePrice &&
-                                Number(
-                                    comparePrice
-                                ) >
-                                currentPrice && (
+                                <del>
+                                    ₹{formatPrice(comparePrice)}
+                                </del>
 
-                                    <del>
+                            )}
 
-                                        ₹
-                                        {
-                                            formatPrice(
-                                                comparePrice
-                                            )
-                                        }
+                            {discount > 0 && (
 
-                                    </del>
+                                <span>
+                                    Save {discount}%
+                                </span>
 
-                                )
-                            }
-
-
-                            {
-                                discount > 0 && (
-
-                                    <span>
-                                        {discount}% OFF
-                                    </span>
-
-                                )
-                            }
+                            )}
 
                         </div>
 
 
-                        {/* =================================================
-                            VARIANTS
-                        ================================================= */}
+                        {/* =========================================
+                            PRODUCT VARIANTS
+                        ========================================= */}
 
-                        {
-                            variants.length >
-                            0 && (
+                        {variants.length > 0 && (
 
-                                <div
-                                    className="product-details-option"
-                                >
+                            <div className="product-details-option">
 
-                                    <div
-                                        className="product-details-option-header"
-                                    >
+                                <div className="product-details-option-header">
 
-                                        <span>
-                                            Size
-                                        </span>
+                                    <span>
+                                        Choose an option
+                                    </span>
 
-
-                                        <strong>
-
-                                            {
-                                                selectedVariant?.name ||
-                                                "Select"
-                                            }
-
-                                        </strong>
-
-                                    </div>
-
-
-                                    <div
-                                        className="product-details-variants"
-                                    >
-
+                                    <strong>
                                         {
-                                            variants.map(
-                                                variant => (
-
-                                                    <button
-                                                        key={
-                                                            variant.id
-                                                        }
-                                                        type="button"
-                                                        className={`
-                                                            product-details-variant
-                                                            ${
-                                                                selectedVariant?.id ===
-                                                                variant.id
-                                                                    ? "is-active"
-                                                                    : ""
-                                                            }
-                                                        `}
-                                                        disabled={
-                                                            Number(
-                                                                variant.stock_quantity ||
-                                                                0
-                                                            ) <= 0 ||
-                                                            cartActionLoading
-                                                        }
-                                                        onClick={() =>
-                                                            handleVariantChange(
-                                                                variant
-                                                            )
-                                                        }
-                                                    >
-
-                                                        {
-                                                            variant.name
-                                                        }
-
-                                                    </button>
-
-                                                )
-                                            )
+                                            selectedVariant?.name ||
+                                            "Select"
                                         }
-
-                                    </div>
+                                    </strong>
 
                                 </div>
 
-                            )
-                        }
+
+                                <div className="product-details-variants">
+
+                                    {variants.map(variant => {
+
+                                        const variantStock = Number(
+                                            variant.stock_quantity || 0
+                                        );
+
+                                        return (
+
+                                            <button
+                                                key={variant.id}
+                                                type="button"
+                                                className={`
+                                                    product-details-variant
+                                                    ${
+                                                        selectedVariant?.id ===
+                                                        variant.id
+                                                            ? "is-active"
+                                                            : ""
+                                                    }
+                                                `}
+                                                disabled={
+                                                    variantStock <= 0
+                                                }
+                                                onClick={() =>
+                                                    handleVariantChange(
+                                                        variant
+                                                    )
+                                                }
+                                            >
+                                                {variant.name}
+                                            </button>
+
+                                        );
+
+                                    })}
+
+                                </div>
+
+                            </div>
+
+                        )}
 
 
-                        {/* =================================================
-                            STOCK
-                        ================================================= */}
+                        {/* =========================================
+                            STOCK STATUS
+                        ========================================= */}
 
-                        <div
-                            className="product-details-stock"
-                        >
+                        <div className="product-details-stock">
 
                             <span
                                 className={
@@ -1523,14 +1127,12 @@ function ProductDetails() {
                                         : "out-of-stock"
                                 }
                             >
-
                                 <span />
-
 
                                 {
                                     inStock
                                         ? stockQuantity <= 10
-                                            ? `Only ${stockQuantity} left in stock`
+                                            ? `Only ${stockQuantity} left`
                                             : "In Stock"
                                         : "Out of Stock"
                                 }
@@ -1540,240 +1142,122 @@ function ProductDetails() {
                         </div>
 
 
-                        {/* =================================================
-                            PURCHASE
+                        {/* =========================================
+                            PURCHASE ACTIONS
+                        ========================================= */}
 
-                            NOT IN CART:
-                            Add To Cart + Buy Now
+                        <div className="product-details-purchase">
 
-                            IN CART:
-                            Quantity + Buy Now
-                        ================================================= */}
+                            {!productIsInCart ? (
 
-                        <div
-                            className={`
-                                product-details-purchase
-                                ${
-                                    productIsInCart
-                                        ? "is-in-cart"
-                                        : ""
-                                }
-                            `}
-                        >
+                                <button
+                                    type="button"
+                                    className="product-details-cart"
+                                    onClick={handleAddToCart}
+                                    disabled={
+                                        !inStock ||
+                                        !selectedVariant ||
+                                        cartActionLoading
+                                    }
+                                >
+                                    <ShoppingBag size={17} />
 
-                            {/* =============================================
-                                NOT IN CART
-                                ADD TO CART
-                            ============================================= */}
+                                    {
+                                        cartActionLoading
+                                            ? "Adding..."
+                                            : "Add to Cart"
+                                    }
+                                </button>
 
-                            {
-                                !productIsInCart && (
+                            ) : (
+
+                                <div className="product-details-quantity">
 
                                     <button
                                         type="button"
-                                        className="product-details-cart"
-                                        disabled={
-                                            !inStock ||
-                                            !selectedVariant ||
-                                            cartActionLoading
-                                        }
-                                        onClick={
-                                            handleAddToCart
-                                        }
+                                        onClick={handleDecreaseQuantity}
+                                        disabled={cartActionLoading}
+                                        aria-label="Decrease quantity"
                                     >
-
-                                        <ShoppingBag
-                                            size={18}
-                                        />
-
-
-                                        {
-                                            cartActionLoading
-                                                ? "Adding..."
-                                                : "Add To Cart"
-                                        }
-
+                                        <Minus size={15} />
                                     </button>
 
-                                )
-                            }
+                                    <span>
+                                        {
+                                            cartActionLoading
+                                                ? "..."
+                                                : cartQuantity
+                                        }
+                                    </span>
 
-
-                            {/* =============================================
-                                IN CART
-                                REAL BACKEND QUANTITY
-                            ============================================= */}
-
-                            {
-                                productIsInCart && (
-
-                                    <div
-                                        className="product-details-quantity"
+                                    <button
+                                        type="button"
+                                        onClick={handleIncreaseQuantity}
+                                        disabled={
+                                            cartActionLoading ||
+                                            maximumStockReached
+                                        }
+                                        aria-label="Increase quantity"
                                     >
+                                        <Plus size={15} />
+                                    </button>
 
-                                        <button
-                                            type="button"
-                                            onClick={
-                                                handleDecreaseQuantity
-                                            }
-                                            disabled={
-                                                cartActionLoading
-                                            }
-                                            aria-label={
-                                                cartQuantity <= 1
-                                                    ? "Remove product from cart"
-                                                    : "Decrease quantity"
-                                            }
-                                            title={
-                                                cartQuantity <= 1
-                                                    ? "Remove from cart"
-                                                    : "Decrease quantity"
-                                            }
-                                        >
+                                </div>
 
-                                            <Minus
-                                                size={16}
-                                            />
+                            )}
 
-                                        </button>
-
-
-                                        <span>
-
-                                            {
-                                                cartActionLoading
-                                                    ? "..."
-                                                    : cartQuantity
-                                            }
-
-                                        </span>
-
-
-                                        <button
-                                            type="button"
-                                            onClick={
-                                                handleIncreaseQuantity
-                                            }
-                                            disabled={
-                                                cartActionLoading ||
-                                                maximumStockReached
-                                            }
-                                            aria-label="Increase quantity"
-                                            title={
-                                                maximumStockReached
-                                                    ? "Maximum stock reached"
-                                                    : "Increase quantity"
-                                            }
-                                        >
-
-                                            <Plus
-                                                size={16}
-                                            />
-
-                                        </button>
-
-                                    </div>
-
-                                )
-                            }
-
-
-                            {/* =============================================
-                                BUY NOW
-                            ============================================= */}
 
                             <button
                                 type="button"
                                 className="product-details-buy-now"
+                                onClick={handleBuyNow}
                                 disabled={
                                     !inStock ||
                                     !selectedVariant ||
                                     buyNowLoading
                                 }
-                                onClick={
-                                    handleBuyNow
-                                }
                             >
-
                                 {
                                     buyNowLoading
                                         ? "Opening..."
                                         : "Buy Now"
                                 }
-
                             </button>
 
                         </div>
 
 
-                        {/* =================================================
-                            CART STATUS
-                        ================================================= */}
+                        {/* =========================================
+                            SHOP BENEFITS
+                        ========================================= */}
 
-                        {
-                            productIsInCart && (
-
-                                <div
-                                    className="product-details-cart-status"
-                                >
-
-                                    <ShoppingBag
-                                        size={14}
-                                    />
-
-                                    Added to cart — quantity changes
-                                    are reflected in your cart.
-
-                                </div>
-
-                            )
-                        }
-
-
-                        {/* =================================================
-                            TRUST
-                        ================================================= */}
-
-                        <div
-                            className="product-details-trust"
-                        >
+                        <div className="product-details-shop-info">
 
                             <div>
-
-                                <Leaf
-                                    size={19}
-                                />
+                                <ShoppingBag size={17} />
 
                                 <span>
-                                    Ayurvedic Formulation
+                                    <strong>Easy shopping</strong>
+                                    Quick cart controls
                                 </span>
-
                             </div>
 
-
                             <div>
-
-                                <ShieldCheck
-                                    size={19}
-                                />
+                                <Heart size={17} />
 
                                 <span>
-                                    Quality Focused
+                                    <strong>Wishlist</strong>
+                                    Save for later
                                 </span>
-
                             </div>
 
-
                             <div>
-
-                                <PackageCheck
-                                    size={19}
-                                />
+                                <PackageCheck size={17} />
 
                                 <span>
-                                    Secure Packaging
+                                    <strong>Stock status</strong>
+                                    Updated by option
                                 </span>
-
                             </div>
 
                         </div>
@@ -1784,185 +1268,134 @@ function ProductDetails() {
 
 
                 {/* =================================================
-                    PRODUCT INFORMATION
+                    PRODUCT DETAILS CONTENT
                 ================================================= */}
 
-                <section
-                    className="product-details-description"
-                >
+                {(
+                    product.description ||
+                    product.ingredients ||
+                    product.benefits ||
+                    product.directions ||
+                    product.warnings
+                ) && (
 
-                    <div
-                        className="product-details-description-header"
-                    >
+                    <section className="product-details-description">
 
-                        <p>
-                            ROOTED IN AYURVEDA
-                        </p>
+                        <div className="product-details-description-header">
 
+                            <p>PRODUCT INFORMATION</p>
 
-                        <h2>
-                            Product Information
-                        </h2>
+                            <h2>About this product</h2>
 
-                    </div>
+                        </div>
 
 
-                    <div
-                        className="product-details-information-grid"
-                    >
+                        <div className="product-details-information-grid">
 
-                        {
-                            product.description && (
+                            {product.description && (
 
                                 <article>
-
-                                    <h3>
-                                        Description
-                                    </h3>
-
+                                    <h3>Description</h3>
 
                                     <p>
-                                        {
-                                            product.description
-                                        }
+                                        {product.description}
                                     </p>
-
                                 </article>
 
-                            )
-                        }
+                            )}
 
 
-                        {
-                            product.ingredients && (
+                            {product.ingredients && (
 
                                 <article>
-
-                                    <h3>
-                                        Ingredients
-                                    </h3>
-
+                                    <h3>Ingredients</h3>
 
                                     <p>
-                                        {
-                                            product.ingredients
-                                        }
+                                        {product.ingredients}
                                     </p>
-
                                 </article>
 
-                            )
-                        }
+                            )}
 
 
-                        {
-                            product.benefits && (
+                            {product.benefits && (
 
                                 <article>
-
-                                    <h3>
-                                        Benefits
-                                    </h3>
-
+                                    <h3>Benefits</h3>
 
                                     <p>
-                                        {
-                                            product.benefits
-                                        }
+                                        {product.benefits}
                                     </p>
-
                                 </article>
 
-                            )
-                        }
+                            )}
 
 
-                        {
-                            product.directions && (
+                            {product.directions && (
 
                                 <article>
-
-                                    <h3>
-                                        Directions
-                                    </h3>
-
+                                    <h3>Directions</h3>
 
                                     <p>
-                                        {
-                                            product.directions
-                                        }
+                                        {product.directions}
                                     </p>
-
                                 </article>
 
-                            )
-                        }
+                            )}
 
 
-                        {
-                            product.warnings && (
+                            {product.warnings && (
 
                                 <article>
-
-                                    <h3>
-                                        Warnings
-                                    </h3>
-
+                                    <h3>Important information</h3>
 
                                     <p>
-                                        {
-                                            product.warnings
-                                        }
+                                        {product.warnings}
                                     </p>
-
                                 </article>
 
-                            )
-                        }
+                            )}
 
-                    </div>
+                        </div>
 
-                </section>
+                    </section>
+
+                )}
 
 
                 {/* =================================================
                     RELATED PRODUCTS
                 ================================================= */}
 
-                {
-                    relatedProducts.length >
-                    0 && (
+                {relatedProducts.length > 0 && (
 
-                        <section
-                            className="product-details-related"
-                        >
+                    <section className="product-details-related">
 
-                            <div
-                                className="product-details-related-header"
-                            >
+                        <div className="product-details-related-header">
 
-                                <p>
-                                    YOU MAY ALSO LIKE
-                                </p>
+                            <div>
+                                <p>YOU MAY ALSO LIKE</p>
 
-
-                                <h2>
-                                    Related Products
-                                </h2>
-
+                                <h2>More to explore</h2>
                             </div>
 
+                            <button
+                                type="button"
+                                onClick={() => navigate("/products")}
+                            >
+                                View All Products
+                            </button>
 
-                            <ProductGrid
-                                products={
-                                    relatedProducts
-                                }
-                            />
+                        </div>
 
-                        </section>
 
-                    )
-                }
+                        <ProductGrid
+                            products={relatedProducts}
+                        />
+
+                    </section>
+
+                )}
 
             </div>
 
@@ -1971,6 +1404,5 @@ function ProductDetails() {
     );
 
 }
-
 
 export default ProductDetails;

@@ -2,9 +2,7 @@ import {
     ArrowDownUp
 } from "lucide-react";
 
-
 import "../../styles/products.css";
-
 
 
 function ProductSort({
@@ -12,27 +10,26 @@ function ProductSort({
     onChange
 }) {
 
-
     return (
 
         <label
-            className="
-                product-sort
-            "
+            className="product-sort"
         >
 
             <ArrowDownUp
-                size={16}
+                size={15}
             />
 
 
             <span>
-                Sort
+                Sort by
             </span>
 
 
             <select
-                value={value}
+                value={
+                    value
+                }
                 onChange={
                     event =>
                         onChange(
@@ -43,20 +40,24 @@ function ProductSort({
             >
 
                 <option value="popular">
-                    Popularity
+                    Popular
                 </option>
+
 
                 <option value="rating">
                     Highest Rated
                 </option>
 
+
                 <option value="price_low">
                     Price: Low to High
                 </option>
 
+
                 <option value="price_high">
                     Price: High to Low
                 </option>
+
 
                 <option value="name">
                     Name: A–Z

@@ -1,0 +1,725 @@
+
+/* ============================================================
+   AUMVEDA — AVAILABLE COUPONS
+   COMPACT PREMIUM HOMEPAGE VERSION
+
+   DESIGN:
+   - Compact horizontal coupon cards
+   - Maximum 3 cards per desktop row
+   - Responsive tablet and mobile layout
+   - Minimal vertical spacing
+   - Preserves existing JSX and API behavior
+============================================================ */
+
+.aum-coupons {
+  --coupon-green: #173e30;
+  --coupon-brown: #38291d;
+  --coupon-muted: #786e63;
+  --coupon-border: rgba(111, 84, 44, 0.14);
+
+  width: 100%;
+  min-width: 0;
+
+  padding: 12px 18px 11px;
+
+  background:
+    linear-gradient(
+      110deg,
+      #fff0d8 0%,
+      #fffaf0 52%,
+      #fce9c8 100%
+    );
+
+  color: var(--coupon-brown);
+}
+
+/* ============================================================
+   01 — COMPACT HEADER
+============================================================ */
+
+.aum-coupons__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin: 0 0 9px;
+}
+
+.aum-coupons__heading-left {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+  min-width: 0;
+}
+
+.aum-coupons__heading-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 31px;
+  height: 31px;
+  flex-shrink: 0;
+
+  border-radius: 8px;
+
+  color: var(--coupon-green);
+  background: rgba(23, 62, 48, 0.08);
+}
+
+.aum-coupons__heading-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.aum-coupons__heading-text {
+  min-width: 0;
+}
+
+.aum-coupons__heading h2 {
+  margin: 0;
+
+  color: #283f30;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+}
+
+.aum-coupons__heading p {
+  margin: 2px 0 0;
+
+  color: var(--coupon-muted);
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  line-height: 1.25;
+}
+
+.aum-coupons__count {
+  flex-shrink: 0;
+
+  padding: 5px 9px;
+
+  border: 1px solid #dfd8c8;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.75);
+  color: #34503d;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+
+  white-space: nowrap;
+}
+
+/* ============================================================
+   02 — COMPACT COUPON GRID
+============================================================ */
+
+.aum-coupons__grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  align-items: stretch;
+
+  gap: 9px;
+
+  width: 100%;
+  min-width: 0;
+}
+
+/* ============================================================
+   03 — SMALL HORIZONTAL COUPON CARD
+============================================================ */
+
+.aum-coupon-card {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  width: 100%;
+  min-width: 0;
+  min-height: 72px;
+
+  padding: 10px 11px;
+
+  border: 1px solid var(--coupon-border);
+  border-radius: 9px;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  box-shadow:
+    0 2px 7px rgba(72, 52, 28, 0.055);
+
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.aum-coupon-card:hover {
+  transform: translateY(-2px);
+
+  border-color: rgba(23, 62, 48, 0.22);
+
+  box-shadow:
+    0 5px 12px rgba(72, 52, 28, 0.09);
+}
+
+/* Small ticket cutouts */
+
+.aum-coupon-card::before,
+.aum-coupon-card::after {
+  content: "";
+
+  position: absolute;
+  left: -5px;
+
+  width: 9px;
+  height: 9px;
+
+  border: 1px solid var(--coupon-border);
+  border-radius: 50%;
+
+  background: #ffedce;
+}
+
+.aum-coupon-card::before {
+  top: 10px;
+}
+
+.aum-coupon-card::after {
+  bottom: 10px;
+}
+
+/* ============================================================
+   04 — COMPACT DISCOUNT
+============================================================ */
+
+.aum-coupon-card__discount {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 55px;
+
+  gap: 2px;
+
+  text-align: center;
+}
+
+.aum-coupon-card__discount strong {
+  color: #244e3b;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 19px;
+  font-weight: 800;
+
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+
+  line-height: 1.05;
+
+  white-space: nowrap;
+}
+
+.aum-coupon-card__discount span {
+  color: #345d49;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+/* ============================================================
+   05 — DOTTED DIVIDER
+============================================================ */
+
+.aum-coupon-card__divider {
+  align-self: stretch;
+
+  flex: 0 0 1px;
+
+  min-height: 38px;
+
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      #d8d4cb 0px,
+      #d8d4cb 4px,
+      transparent 4px,
+      transparent 8px
+    );
+}
+
+/* ============================================================
+   06 — COUPON DETAILS
+============================================================ */
+
+.aum-coupon-card__details {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+
+  flex: 1 1 auto;
+
+  min-width: 0;
+  gap: 3px;
+}
+
+.aum-coupon-card__code-row {
+  display: flex;
+  align-items: center;
+
+  gap: 4px;
+  min-width: 0;
+
+  color: #244c39;
+}
+
+.aum-coupon-card__code-row svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.aum-coupon-card__code-row h3 {
+  margin: 0;
+
+  color: #244c39;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.2;
+
+  overflow-wrap: anywhere;
+}
+
+.aum-coupon-card__details p {
+  display: -webkit-box;
+
+  margin: 0;
+
+  color: #716a63;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9px;
+  line-height: 1.35;
+
+  overflow: hidden;
+
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.aum-coupon-card__type {
+  display: none;
+}
+
+/* ============================================================
+   07 — SMALL COPY BUTTON
+============================================================ */
+
+.aum-coupon-card__copy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 4px;
+
+  flex: 0 0 auto;
+
+  min-width: 58px;
+  min-height: 26px;
+
+  padding: 5px 7px;
+
+  border: 1px solid var(--coupon-green);
+  border-radius: 7px;
+
+  background: var(--coupon-green);
+  color: #fff;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.aum-coupon-card__copy svg {
+  width: 12px;
+  height: 12px;
+}
+
+.aum-coupon-card__copy:hover {
+  background: #286044;
+  transform: translateY(-1px);
+}
+
+.aum-coupon-card__copy.is-copied {
+  background: #447753;
+  border-color: #447753;
+}
+
+/* ============================================================
+   08 — COMPACT FOOTER
+============================================================ */
+
+.aum-coupons__footer {
+  margin: 8px 0 0;
+
+  color: #81735d;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9px;
+  line-height: 1.3;
+
+  text-align: right;
+}
+
+/* ============================================================
+   09 — LAPTOP
+============================================================ */
+
+@media (max-width: 1250px) {
+  .aum-coupons {
+    padding: 11px 14px;
+  }
+
+  .aum-coupons__grid {
+    gap: 7px;
+  }
+
+  .aum-coupon-card {
+    gap: 7px;
+    padding: 9px;
+  }
+
+  .aum-coupon-card__discount {
+    flex-basis: 48px;
+  }
+
+  .aum-coupon-card__discount strong {
+    font-size: 17px;
+  }
+
+  .aum-coupon-card__copy {
+    min-width: 52px;
+    padding: 5px;
+  }
+}
+
+/* ============================================================
+   10 — TABLET
+============================================================ */
+
+@media (max-width: 950px) {
+  .aum-coupons__grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ============================================================
+   11 — MOBILE
+============================================================ */
+
+@media (max-width: 650px) {
+  .aum-coupons {
+    padding: 11px 10px;
+  }
+
+  .aum-coupons__heading {
+    margin-bottom: 9px;
+  }
+
+  .aum-coupons__heading-left {
+    gap: 7px;
+  }
+
+  .aum-coupons__heading-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .aum-coupons__heading-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .aum-coupons__heading h2 {
+    font-size: 17px;
+  }
+
+  .aum-coupons__heading p {
+    font-size: 9px;
+  }
+
+  .aum-coupons__count {
+    padding: 4px 7px;
+    font-size: 8px;
+  }
+
+  .aum-coupons__grid {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+
+  .aum-coupon-card {
+    min-height: 65px;
+
+    gap: 8px;
+    padding: 8px 10px;
+  }
+
+  .aum-coupon-card__discount {
+    flex-basis: 53px;
+  }
+
+  .aum-coupon-card__discount strong {
+    font-size: 18px;
+  }
+
+  .aum-coupon-card__details p {
+    font-size: 9px;
+  }
+
+  .aum-coupon-card__copy {
+    min-width: 55px;
+    min-height: 27px;
+  }
+
+  .aum-coupons__footer {
+    margin-top: 7px;
+    font-size: 8px;
+    text-align: left;
+  }
+}
+
+/* ============================================================
+   12 — SMALL MOBILE
+============================================================ */
+
+@media (max-width: 390px) {
+  .aum-coupons {
+    padding: 10px 8px;
+  }
+
+  .aum-coupons__heading h2 {
+    font-size: 16px;
+  }
+
+  .aum-coupon-card {
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .aum-coupon-card__discount {
+    flex-basis: 46px;
+  }
+
+  .aum-coupon-card__discount strong {
+    font-size: 16px;
+  }
+
+  .aum-coupon-card__copy {
+    min-width: 49px;
+    padding: 5px;
+    font-size: 9px;
+  }
+}
+
+/* ============================================================
+   13 — ACCESSIBILITY
+============================================================ */
+
+.aum-coupon-card__copy:focus-visible {
+  outline: 2px solid var(--coupon-green);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aum-coupon-card,
+  .aum-coupon-card__copy {
+    transition: none;
+  }
+}
+
+/* ============================================================
+   END — AUMVEDA COMPACT AVAILABLE COUPONS
+============================================================ */
+
+/* ============================================================
+   AUMVEDA — EXTRA COMPACT COUPONS
+============================================================ */
+
+.aum-coupons {
+  padding: 8px 13px 7px;
+}
+
+.aum-coupons__heading {
+  gap: 7px;
+  margin-bottom: 6px;
+}
+
+.aum-coupons__heading-left {
+  gap: 7px;
+}
+
+.aum-coupons__heading-icon {
+  width: 25px;
+  height: 25px;
+  border-radius: 6px;
+}
+
+.aum-coupons__heading-icon svg {
+  width: 15px;
+  height: 15px;
+}
+
+.aum-coupons__heading h2 {
+  font-size: 17px;
+}
+
+.aum-coupons__heading p {
+  margin-top: 1px;
+  font-size: 9px;
+}
+
+.aum-coupons__count {
+  padding: 4px 7px;
+  font-size: 8px;
+}
+
+.aum-coupons__grid {
+  gap: 7px;
+}
+
+.aum-coupon-card {
+  gap: 7px;
+  min-height: 58px;
+  padding: 7px 9px;
+  border-radius: 7px;
+}
+
+.aum-coupon-card__discount {
+  flex-basis: 45px;
+  gap: 1px;
+}
+
+.aum-coupon-card__discount strong {
+  font-size: 16px;
+}
+
+.aum-coupon-card__discount span {
+  font-size: 8px;
+}
+
+.aum-coupon-card__divider {
+  min-height: 32px;
+}
+
+.aum-coupon-card__details {
+  gap: 2px;
+}
+
+.aum-coupon-card__code-row h3 {
+  font-size: 11px;
+}
+
+.aum-coupon-card__details p {
+  font-size: 8.5px;
+  line-height: 1.3;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.aum-coupon-card__copy {
+  min-width: 49px;
+  min-height: 23px;
+  padding: 4px 6px;
+  font-size: 9px;
+  border-radius: 6px;
+}
+
+.aum-coupon-card__copy svg {
+  width: 11px;
+  height: 11px;
+}
+
+.aum-coupons__footer {
+  margin-top: 5px;
+  font-size: 8px;
+}
+
+/* TABLET */
+
+@media (max-width: 950px) {
+  .aum-coupons__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 650px) {
+  .aum-coupons {
+    padding: 8px;
+  }
+
+  .aum-coupons__heading h2 {
+    font-size: 15px;
+  }
+
+  .aum-coupons__heading p {
+    font-size: 8px;
+  }
+
+  .aum-coupons__grid {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .aum-coupon-card {
+    min-height: 55px;
+    padding: 6px 8px;
+  }
+
+  .aum-coupon-card__discount strong {
+    font-size: 16px;
+  }
+
+  .aum-coupon-card__details p {
+    font-size: 8px;
+  }
+}

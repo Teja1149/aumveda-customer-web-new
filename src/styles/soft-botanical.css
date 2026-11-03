@@ -1,0 +1,779 @@
+
+/* ============================================================
+   AUMVEDA CUSTOMER WEB
+   SOFT BOTANICAL LUXURY DESIGN SYSTEM
+   VERSION 1.0 — STEP 17E
+
+   COVERAGE
+   01. Global design tokens
+   02. Homepage heroes
+   03. Homepage editorial sections
+   04. Homepage product cards
+   05. Homepage calls to action
+   06. Products catalog
+   07. Category filters
+   08. Shared product cards
+   09. Product details
+   10. Shopping cart
+   11. Checkout
+   12. Responsive refinements
+   13. Accessibility
+
+   PRESERVATION
+   - No API changes
+   - No data or image changes
+   - No section order changes
+   - No product card dimension changes
+   - No carousel changes
+   - No cart or checkout logic changes
+============================================================ */
+
+/* ============================================================
+   01 — GLOBAL DESIGN TOKENS
+============================================================ */
+
+:root {
+    --aum-forest: #173e30;
+    --aum-forest-dark: #102e24;
+    --aum-sage: #586b58;
+    --aum-gold: #b9934a;
+    --aum-cream: #f7f3eb;
+    --aum-ivory: #fffdf8;
+
+    --aum-radius-xs: 10px;
+    --aum-radius-sm: 14px;
+    --aum-radius-md: 18px;
+    --aum-radius-card: 22px;
+    --aum-radius-panel: 28px;
+    --aum-radius-large: 32px;
+    --aum-radius-pill: 999px;
+
+    --aum-border-soft:
+        rgba(67, 85, 61, 0.09);
+
+    --aum-shadow-soft:
+        0 4px 12px rgba(44, 57, 38, 0.025),
+        0 12px 30px rgba(44, 57, 38, 0.04);
+
+    --aum-shadow-hover:
+        0 8px 20px rgba(44, 57, 38, 0.05),
+        0 18px 38px rgba(44, 57, 38, 0.08);
+}
+
+/* ============================================================
+   02 — HOMEPAGE HERO SECTIONS
+============================================================ */
+
+.aumveda-home-page .main-promo-hero__inner,
+.aumveda-home-page .home-deals-hero__inner {
+    border-radius: var(--aum-radius-large);
+    overflow: hidden;
+}
+
+/* Floating hero label */
+
+.aumveda-home-page
+.main-promo-hero__floating-label {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* Hero CTA */
+
+.aumveda-home-page
+.main-promo-hero__shop {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* ============================================================
+   03 — HOMEPAGE EDITORIAL SECTIONS
+============================================================ */
+
+.aumveda-home-page :is(
+    .wellness-promo__editorial,
+    .wellness-promo__featured,
+    .category-showcase__editorial,
+    .category-showcase__gallery,
+    .more-discovery__editorial
+) {
+    border-radius: var(--aum-radius-panel);
+}
+
+/* Keep gallery images clipped by their own containers */
+
+.aumveda-home-page
+.category-showcase__product-visual {
+    border-radius: var(--aum-radius-md);
+}
+
+/* Homepage discovery mosaic */
+
+.aumveda-home-page :is(
+    .more-discovery__mosaic,
+    .more-discovery__image-tile--main,
+    .more-discovery__image-tile--top,
+    .more-discovery__image-tile--bottom
+) {
+    border-radius: var(--aum-radius-md);
+}
+
+.aumveda-home-page
+.more-discovery__mosaic {
+    border-radius: var(--aum-radius-panel);
+    overflow: hidden;
+}
+
+/* ============================================================
+   04 — HOMEPAGE PRODUCT CARDS
+============================================================ */
+
+.aumveda-home-page :is(
+    .best-deal-card,
+    .featured-card,
+    .home-deal-card,
+    .shop-need-card
+) {
+    border-radius: var(--aum-radius-card);
+    overflow: hidden;
+}
+
+/* Product visual sections */
+
+.aumveda-home-page :is(
+    .best-deal-card__visual,
+    .featured-card__visual,
+    .home-deal-card__image
+) {
+    border-radius: var(--aum-radius-md);
+}
+
+/* Smooth image backgrounds */
+
+.aumveda-home-page
+.best-deal-card__visual {
+    background:
+        radial-gradient(
+            circle at 50% 38%,
+            #fffefa,
+            #f1e8da
+        );
+}
+
+.aumveda-home-page
+.featured-card__visual {
+    background:
+        radial-gradient(
+            circle at 50% 38%,
+            #fffdf8,
+            #ece6da
+        );
+}
+
+/* Discount capsules */
+
+.aumveda-home-page :is(
+    .best-deal-card__badge,
+    .featured-card__discount
+) {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* Wishlist buttons */
+
+.aumveda-home-page :is(
+    .best-deal-card__wishlist,
+    .featured-card__wishlist
+) {
+    border-radius: 50%;
+}
+
+/* Product card hover */
+
+.aumveda-home-page :is(
+    .best-deal-card,
+    .featured-card,
+    .shop-need-card
+) {
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+/* ============================================================
+   05 — HOMEPAGE CALLS TO ACTION
+============================================================ */
+
+.aumveda-home-page :is(
+    .main-promo-hero__shop,
+    .wellness-promo__editorial-button
+) {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* ============================================================
+   06 — PRODUCTS PAGE
+============================================================ */
+
+/* Category sidebar */
+
+.products-page .product-filters {
+    border-radius: var(--aum-radius-card);
+
+    border-color: var(--aum-border-soft);
+    box-shadow: var(--aum-shadow-soft);
+}
+
+/* Toolbar */
+
+.products-page .products-toolbar {
+    border-radius: var(--aum-radius-md);
+
+    border-color: var(--aum-border-soft);
+    box-shadow: var(--aum-shadow-soft);
+}
+
+/* Collection header statistics */
+
+.products-page
+.products-page__header-stats > div {
+    border-radius: var(--aum-radius-md);
+}
+
+/* Product catalog cards */
+
+.products-page
+.products-shop__main .product-card {
+    border-radius: var(--aum-radius-card);
+    overflow: hidden;
+}
+
+/* Product loading placeholders */
+
+.products-page .product-skeleton {
+    border-radius: var(--aum-radius-card);
+    overflow: hidden;
+}
+
+/* Empty or error states */
+
+.products-page .products-state {
+    border-radius: var(--aum-radius-panel);
+}
+
+/* ============================================================
+   07 — CATEGORY FILTERS AND TOOLBAR
+============================================================ */
+
+.products-page .product-filter-item {
+    border-radius: var(--aum-radius-sm);
+}
+
+.products-page .product-filters__clear {
+    border-radius: var(--aum-radius-pill);
+}
+
+.products-page :is(
+    .products-toolbar-action,
+    .products-cart-summary,
+    .products-mobile-filter,
+    .products-current-category,
+    .product-sort
+) {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* Active filter capsules */
+
+.products-page
+.products-active-filters > span,
+.products-page
+.products-active-filters button {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* Mobile filter drawer */
+
+.products-page .products-filter-drawer {
+    border-radius:
+        0
+        var(--aum-radius-panel)
+        var(--aum-radius-panel)
+        0;
+}
+
+.products-page
+.products-filter-drawer__header button {
+    border-radius: 50%;
+}
+
+/* ============================================================
+   08 — SHARED PRODUCT CARDS
+============================================================ */
+
+.product-card {
+    border-radius: var(--aum-radius-card);
+    overflow: hidden;
+}
+
+/* Preserve the existing card-image dimensions */
+
+.product-card__image-box {
+    border-radius:
+        var(--aum-radius-card)
+        var(--aum-radius-card)
+        0
+        0;
+}
+
+/* Badge */
+
+.product-card__discount {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* Wishlist */
+
+.product-card__wishlist {
+    border-radius: 50%;
+}
+
+/* Cart and purchase actions */
+
+.product-card__cart,
+.product-card__buy-now,
+.product-card__quantity-control {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* ============================================================
+   09 — PRODUCT DETAILS PAGE
+============================================================ */
+
+/* Main product panel */
+
+.product-details-main {
+    border-radius: var(--aum-radius-panel);
+
+    border-color: var(--aum-border-soft);
+    box-shadow: var(--aum-shadow-soft);
+}
+
+/* Gallery main image */
+
+.product-details-main-image {
+    border-radius: var(--aum-radius-card);
+}
+
+/* Small gallery thumbnails */
+
+.product-details-thumbnail {
+    border-radius: var(--aum-radius-sm);
+}
+
+/* Discount capsule */
+
+.product-details-discount {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* Wishlist */
+
+.product-details-wishlist {
+    border-radius: 50%;
+}
+
+/* Eyebrow label */
+
+.product-details-eyebrow {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* Variant selectors */
+
+.product-details-variant {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* Price discount */
+
+.product-details-price > span {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* Purchase actions */
+
+.product-details-back,
+.product-details-cart,
+.product-details-buy-now,
+.product-details-quantity {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* Description container */
+
+.product-details-description {
+    border-radius: var(--aum-radius-panel);
+}
+
+/* Information sections */
+
+.product-details-information-grid article {
+    border-radius: var(--aum-radius-md);
+}
+
+/* Related products CTA */
+
+.product-details-related-header button {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* Related cards */
+
+.product-details-related .product-card {
+    border-radius: var(--aum-radius-card);
+    overflow: hidden;
+}
+
+/* Error action */
+
+.product-details-error button {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* ============================================================
+   10 — SHOPPING CART
+============================================================ */
+
+/* Main cart panels */
+
+.aumveda-cart-items,
+.aumveda-cart-summary,
+.aumveda-cart-empty {
+    border-radius: var(--aum-radius-panel);
+
+    border-color: var(--aum-border-soft);
+    box-shadow: var(--aum-shadow-soft);
+}
+
+/* Product image */
+
+.aumveda-cart-item__image {
+    border-radius: var(--aum-radius-md);
+}
+
+/* Discount */
+
+.aumveda-cart-item__discount {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* Product variant */
+
+.aumveda-cart-item__variant {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* Quantity control */
+
+.aumveda-quantity-control {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* Remove item */
+
+.aumveda-cart-item__remove {
+    border-radius: 50%;
+}
+
+/* Clear cart */
+
+.aumveda-cart-clear {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* Cart count */
+
+.aumveda-cart-header__count {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* Checkout CTA */
+
+.aumveda-checkout-button {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* Summary information */
+
+.aumveda-cart-summary__info {
+    border-radius: var(--aum-radius-md);
+}
+
+/* Empty cart button */
+
+.aumveda-cart-primary-button {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* Error message */
+
+.aumveda-cart-error {
+    border-radius: var(--aum-radius-sm);
+}
+
+/* ============================================================
+   11 — CHECKOUT PAGE
+============================================================ */
+
+/* Main panels */
+
+.checkout-card,
+.checkout-summary,
+.checkout-empty {
+    border-radius: var(--aum-radius-panel);
+}
+
+/* Delivery address options */
+
+.checkout-address {
+    border-radius: var(--aum-radius-card);
+}
+
+/* Payment options */
+
+.checkout-payment {
+    border-radius: var(--aum-radius-card);
+}
+
+/* Address preview */
+
+.checkout-summary-address {
+    border-radius: var(--aum-radius-card);
+}
+
+/* No address */
+
+.checkout-no-address {
+    border-radius: var(--aum-radius-card);
+}
+
+/* Order item images */
+
+.checkout-product__image {
+    border-radius: var(--aum-radius-md);
+}
+
+/* Summary product images */
+
+.checkout-summary-product > div {
+    border-radius: var(--aum-radius-md);
+}
+
+/* Buttons */
+
+.checkout-top > button,
+.checkout-place-order,
+.checkout-empty > a {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* Progress labels */
+
+.checkout-progress > span {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* Default address badge */
+
+.checkout-address__top > span {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* Selected product variant */
+
+.checkout-product__details > span {
+    border-radius: var(--aum-radius-pill);
+}
+
+/* Payment note */
+
+.checkout-payment-note,
+.checkout-message {
+    border-radius: var(--aum-radius-md);
+}
+
+/* ============================================================
+   12 — CONSISTENT SOFT SURFACES
+============================================================ */
+
+.aumveda-home-page :is(
+    .best-deal-card,
+    .featured-card,
+    .home-deal-card
+),
+.products-page .products-shop__main .product-card,
+.product-details-main,
+.aumveda-cart-items,
+.aumveda-cart-summary,
+.checkout-card {
+    border-color: var(--aum-border-soft);
+}
+
+/* Do not modify sizes or positions */
+
+.aumveda-home-page :is(
+    .best-deal-card,
+    .featured-card,
+    .shop-need-card
+):hover {
+    box-shadow: var(--aum-shadow-hover);
+}
+
+/* ============================================================
+   13 — MOBILE RESPONSIVENESS
+============================================================ */
+
+@media (max-width: 700px) {
+
+    :root {
+        --aum-radius-card: 18px;
+        --aum-radius-panel: 22px;
+        --aum-radius-large: 24px;
+        --aum-radius-md: 15px;
+        --aum-radius-sm: 12px;
+    }
+
+    /* Homepage */
+
+    .aumveda-home-page :is(
+        .main-promo-hero__inner,
+        .home-deals-hero__inner,
+        .wellness-promo__editorial,
+        .category-showcase__editorial,
+        .category-showcase__gallery,
+        .more-discovery__editorial
+    ) {
+        border-radius: var(--aum-radius-panel);
+    }
+
+    .aumveda-home-page :is(
+        .best-deal-card,
+        .featured-card,
+        .home-deal-card,
+        .shop-need-card
+    ) {
+        border-radius: var(--aum-radius-card);
+    }
+
+    /* Products */
+
+    .products-page .product-filters,
+    .products-page .products-toolbar,
+    .products-page .products-state {
+        border-radius: var(--aum-radius-card);
+    }
+
+    .products-page
+    .products-shop__main .product-card {
+        border-radius: var(--aum-radius-card);
+    }
+
+    /* Product details */
+
+    .product-details-main,
+    .product-details-description {
+        border-radius: var(--aum-radius-panel);
+    }
+
+    .product-details-main-image {
+        border-radius: var(--aum-radius-md);
+    }
+
+    /* Cart */
+
+    .aumveda-cart-items,
+    .aumveda-cart-summary,
+    .aumveda-cart-empty {
+        border-radius: var(--aum-radius-panel);
+    }
+
+    /* Checkout */
+
+    .checkout-card,
+    .checkout-summary,
+    .checkout-empty {
+        border-radius: var(--aum-radius-panel);
+    }
+
+    .checkout-address,
+    .checkout-payment,
+    .checkout-summary-address {
+        border-radius: var(--aum-radius-card);
+    }
+}
+
+/* ============================================================
+   14 — SMALL MOBILE
+============================================================ */
+
+@media (max-width: 390px) {
+
+    :root {
+        --aum-radius-card: 16px;
+        --aum-radius-panel: 20px;
+        --aum-radius-large: 22px;
+    }
+
+    .products-page
+    .products-shop__main .product-card {
+        border-radius: 16px;
+    }
+
+    .product-details-main,
+    .aumveda-cart-items,
+    .checkout-card {
+        border-radius: 20px;
+    }
+}
+
+/* ============================================================
+   15 — ACCESSIBILITY
+============================================================ */
+
+:is(
+    .aumveda-home-page,
+    .products-page,
+    .product-details-page,
+    .aumveda-cart-page,
+    .checkout-page
+) :is(
+    a,
+    button,
+    select,
+    input
+):focus-visible {
+    outline: 2px solid var(--aum-gold);
+    outline-offset: 3px;
+}
+
+/* ============================================================
+   16 — REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .aumveda-home-page :is(
+        .best-deal-card,
+        .featured-card,
+        .shop-need-card
+    ),
+    .products-page .product-card,
+    .checkout-address,
+    .checkout-payment {
+        transition: none;
+    }
+}
+
+/* ============================================================
+   END — SOFT BOTANICAL LUXURY SYSTEM
+============================================================ */

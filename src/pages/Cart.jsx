@@ -1,12 +1,12 @@
 import {
+    ArrowLeft,
     ArrowRight,
     Minus,
+    PackageCheck,
     Plus,
     ShoppingBag,
-    Trash2,
-    ArrowLeft,
-    Leaf,
-    ShieldCheck
+    Sparkles,
+    Trash2
 } from "lucide-react";
 
 import {
@@ -30,14 +30,15 @@ import "../styles/cart.css";
 
 
 /* ============================================================
-   PRICE FORMAT
+   FORMAT PRICE
 ============================================================ */
 
 function formatPrice(value) {
 
     const amount =
         Number(
-            value || 0
+            value ||
+            0
         );
 
 
@@ -54,7 +55,7 @@ function formatPrice(value) {
 
 
 /* ============================================================
-   CART PAGE
+   CART
 ============================================================ */
 
 function Cart() {
@@ -75,7 +76,7 @@ function Cart() {
 
 
     /* ========================================================
-       CART
+       CART CONTEXT
     ======================================================== */
 
     const {
@@ -105,7 +106,13 @@ function Cart() {
             navigate(
                 "/login",
                 {
-                    replace: true
+                    replace: true,
+                    state: {
+                        from: {
+                            pathname:
+                                "/cart"
+                        }
+                    }
                 }
             );
 
@@ -119,90 +126,30 @@ function Cart() {
 
 
     /* ========================================================
-       DECREASE QUANTITY
-
-       Quantity 1:
-       clicking minus removes product completely.
+       QUANTITY
     ======================================================== */
 
-    async function decreaseQuantity(
-        item
+    async function changeQuantity(
+        item,
+        nextQuantity
     ) {
 
+        const quantity =
+            Number(
+                nextQuantity
+            );
+
+
         if (
-            !item ||
-            loading
+            !Number.isInteger(
+                quantity
+            ) ||
+            quantity < 1
         ) {
 
             return;
 
         }
-
-
-        const currentQuantity =
-            Number(
-                item.quantity ||
-                1
-            );
-
-
-        try {
-
-            if (
-                currentQuantity <= 1
-            ) {
-
-                await removeFromCart(
-                    item.id
-                );
-
-
-                return;
-
-            }
-
-
-            await updateCartItem(
-                item.id,
-                currentQuantity - 1
-            );
-
-        }
-        catch (error) {
-
-            console.error(
-                "Cart quantity decrease failed:",
-                error
-            );
-
-        }
-
-    }
-
-
-    /* ========================================================
-       INCREASE QUANTITY
-    ======================================================== */
-
-    async function increaseQuantity(
-        item
-    ) {
-
-        if (
-            !item ||
-            loading
-        ) {
-
-            return;
-
-        }
-
-
-        const currentQuantity =
-            Number(
-                item.quantity ||
-                1
-            );
 
 
         const stock =
@@ -215,7 +162,7 @@ function Cart() {
 
         if (
             stock > 0 &&
-            currentQuantity >= stock
+            quantity > stock
         ) {
 
             return;
@@ -227,15 +174,42 @@ function Cart() {
 
             await updateCartItem(
                 item.id,
-                currentQuantity + 1
+                quantity
             );
 
         }
-        catch (error) {
+        catch (updateError) {
 
             console.error(
-                "Cart quantity increase failed:",
-                error
+                "Cart quantity update failed:",
+                updateError
+            );
+
+        }
+
+    }
+
+
+    /* ========================================================
+       REMOVE
+    ======================================================== */
+
+    async function handleRemove(
+        itemId
+    ) {
+
+        try {
+
+            await removeFromCart(
+                itemId
+            );
+
+        }
+        catch (removeError) {
+
+            console.error(
+                "Remove cart item failed:",
+                removeError
             );
 
         }
@@ -274,11 +248,11 @@ function Cart() {
             await clearCart();
 
         }
-        catch (error) {
+        catch (clearError) {
 
             console.error(
                 "Clear cart failed:",
-                error
+                clearError
             );
 
         }
@@ -314,7 +288,7 @@ function Cart() {
 
         return (
 
-            <section
+            <main
                 className="aumveda-cart-page"
             >
 
@@ -326,23 +300,18 @@ function Cart() {
                         className="aumveda-cart-loading__spinner"
                     />
 
-
                     <p>
                         Preparing your cart...
                     </p>
 
                 </div>
 
-            </section>
+            </main>
 
         );
 
     }
 
-
-    /* ========================================================
-       NOT AUTHENTICATED
-    ======================================================== */
 
     if (!isAuthenticated) {
 
@@ -362,7 +331,7 @@ function Cart() {
 
         return (
 
-            <section
+            <main
                 className="aumveda-cart-page"
             >
 
@@ -374,14 +343,13 @@ function Cart() {
                         className="aumveda-cart-loading__spinner"
                     />
 
-
                     <p>
                         Loading your cart...
                     </p>
 
                 </div>
 
-            </section>
+            </main>
 
         );
 
@@ -389,14 +357,14 @@ function Cart() {
 
 
     /* ========================================================
-       EMPTY CART
+       EMPTY
     ======================================================== */
 
     if (!items.length) {
 
         return (
 
-            <section
+            <main
                 className="aumveda-cart-page"
             >
 
@@ -409,18 +377,24 @@ function Cart() {
                     >
 
                         <ShoppingBag
-                            size={38}
-                            strokeWidth={1.4}
+                            size={34}
+                            strokeWidth={1.5}
                         />
 
                     </div>
 
 
-                    <span
+                    <div
                         className="aumveda-cart-empty__eyebrow"
                     >
-                        YOUR WELLNESS JOURNEY
-                    </span>
+
+                        <Sparkles
+                            size={13}
+                        />
+
+                        YOUR CART
+
+                    </div>
 
 
                     <h1>
@@ -429,9 +403,9 @@ function Cart() {
 
 
                     <p>
-                        Discover authentic Ayurvedic
-                        products crafted for your
-                        everyday wellness.
+                        Explore AUMVEDA and add
+                        products you would like
+                        to purchase.
                     </p>
 
 
@@ -443,14 +417,14 @@ function Cart() {
                         Explore Products
 
                         <ArrowRight
-                            size={18}
+                            size={17}
                         />
 
                     </Link>
 
                 </div>
 
-            </section>
+            </main>
 
         );
 
@@ -458,30 +432,39 @@ function Cart() {
 
 
     /* ========================================================
-       CART
+       PAGE
     ======================================================== */
 
     return (
 
-        <section
+        <main
             className="aumveda-cart-page"
         >
 
+
             {/* =================================================
-                HEADER
+                PAGE HEADER
             ================================================= */}
 
             <div
                 className="aumveda-cart-header"
             >
 
-                <div>
+                <div
+                    className="aumveda-cart-header__content"
+                >
 
-                    <span
+                    <div
                         className="aumveda-cart-eyebrow"
                     >
-                        YOUR WELLNESS CART
-                    </span>
+
+                        <span />
+
+                        SHOPPING CART
+
+                        <span />
+
+                    </div>
 
 
                     <h1>
@@ -490,8 +473,9 @@ function Cart() {
 
 
                     <p>
-                        Review your selected Ayurvedic
-                        essentials before continuing.
+                        Review your products,
+                        update quantities and
+                        continue when you're ready.
                     </p>
 
                 </div>
@@ -502,20 +486,23 @@ function Cart() {
                 >
 
                     <ShoppingBag
-                        size={19}
+                        size={18}
                     />
 
+                    <strong>
+                        {
+                            totalQuantity
+                        }
+                    </strong>
 
                     <span>
-                        {totalQuantity}
+                        {
+                            totalQuantity ===
+                            1
+                                ? "item"
+                                : "items"
+                        }
                     </span>
-
-
-                    {
-                        totalQuantity === 1
-                            ? "item"
-                            : "items"
-                    }
 
                 </div>
 
@@ -532,7 +519,11 @@ function Cart() {
                     <div
                         className="aumveda-cart-error"
                     >
-                        {error}
+
+                        {
+                            error
+                        }
+
                     </div>
 
                 )
@@ -540,20 +531,22 @@ function Cart() {
 
 
             {/* =================================================
-                MAIN
+                MAIN LAYOUT
             ================================================= */}
 
             <div
                 className="aumveda-cart-layout"
             >
 
+
                 {/* =================================================
-                    CART ITEMS
+                    ITEMS
                 ================================================= */}
 
-                <div
+                <section
                     className="aumveda-cart-items"
                 >
+
 
                     <div
                         className="aumveda-cart-items__top"
@@ -562,20 +555,20 @@ function Cart() {
                         <div>
 
                             <strong>
-                                Cart Items
+                                Products
                             </strong>
 
-
                             <span>
-
-                                {items.length}
+                                {
+                                    items.length
+                                }
 
                                 {
-                                    items.length === 1
+                                    items.length ===
+                                    1
                                         ? " product"
                                         : " products"
                                 }
-
                             </span>
 
                         </div>
@@ -593,7 +586,7 @@ function Cart() {
                         >
 
                             <Trash2
-                                size={15}
+                                size={14}
                             />
 
                             Clear Cart
@@ -602,6 +595,10 @@ function Cart() {
 
                     </div>
 
+
+                    {/* =================================================
+                        ITEM LIST
+                    ================================================= */}
 
                     <div
                         className="aumveda-cart-item-list"
@@ -632,7 +629,6 @@ function Cart() {
                                         Number(
                                             variant.price ??
                                             item.price ??
-                                            product.price ??
                                             0
                                         );
 
@@ -640,7 +636,6 @@ function Cart() {
                                     const comparePrice =
                                         Number(
                                             variant.compare_at_price ??
-                                            product.compare_at_price ??
                                             0
                                         );
 
@@ -656,11 +651,32 @@ function Cart() {
                                         Number(
                                             item.line_total ??
                                             item.subtotal ??
-                                            (
-                                                price *
-                                                quantity
-                                            )
+                                            price *
+                                            quantity
                                         );
+
+
+                                    const productLink =
+                                        product.slug
+                                            ? `/products/${product.slug}`
+                                            : "/products";
+
+
+                                    const discount =
+                                        comparePrice >
+                                        price &&
+                                        price > 0
+                                            ? Math.round(
+                                                (
+                                                    (
+                                                        comparePrice -
+                                                        price
+                                                    ) /
+                                                    comparePrice
+                                                ) *
+                                                100
+                                            )
+                                            : 0;
 
 
                                     return (
@@ -672,55 +688,67 @@ function Cart() {
                                             className="aumveda-cart-item"
                                         >
 
-                                            {/* =================================
-                                                IMAGE
-                                            ================================= */}
+
+                                            {/* IMAGE */}
 
                                             <Link
                                                 to={
-                                                    product.slug
-                                                        ? `/products/${product.slug}`
-                                                        : "/products"
+                                                    productLink
                                                 }
                                                 className="aumveda-cart-item__image"
                                             >
 
                                                 {
-                                                    product.image
-                                                        ? (
+                                                    product.image ? (
 
-                                                            <img
-                                                                src={
-                                                                    product.image
-                                                                }
-                                                                alt={
-                                                                    product.name ||
-                                                                    "AUMVEDA product"
-                                                                }
+                                                        <img
+                                                            src={
+                                                                product.image
+                                                            }
+                                                            alt={
+                                                                product.name ||
+                                                                "AUMVEDA product"
+                                                            }
+                                                        />
+
+                                                    ) : (
+
+                                                        <div
+                                                            className="aumveda-cart-item__image-placeholder"
+                                                        >
+
+                                                            <ShoppingBag
+                                                                size={25}
                                                             />
 
-                                                        )
-                                                        : (
+                                                        </div>
 
-                                                            <div
-                                                                className="aumveda-cart-item__image-placeholder"
-                                                            >
+                                                    )
+                                                }
 
-                                                                <Leaf
-                                                                    size={28}
-                                                                />
 
-                                                            </div>
+                                                {
+                                                    discount >
+                                                    0 && (
 
-                                                        )
+                                                        <span
+                                                            className="aumveda-cart-item__discount"
+                                                        >
+
+                                                            {
+                                                                discount
+                                                            }
+                                                            % OFF
+
+                                                        </span>
+
+                                                    )
                                                 }
 
                                             </Link>
 
 
-                                            {/* =================================
-                                                DETAILS
-                                            ================================= */}
+                                            {/* PRODUCT */}
 
                                             <div
                                                 className="aumveda-cart-item__details"
@@ -728,9 +756,7 @@ function Cart() {
 
                                                 <Link
                                                     to={
-                                                        product.slug
-                                                            ? `/products/${product.slug}`
-                                                            : "/products"
+                                                        productLink
                                                     }
                                                     className="aumveda-cart-item__name"
                                                 >
@@ -749,9 +775,11 @@ function Cart() {
                                                         <span
                                                             className="aumveda-cart-item__variant"
                                                         >
+
                                                             {
                                                                 variant.name
                                                             }
+
                                                         </span>
 
                                                     )
@@ -759,18 +787,12 @@ function Cart() {
 
 
                                                 {
-                                                    (
-                                                        product.short_description ||
-                                                        product.description
-                                                    ) && (
+                                                    product.short_description && (
 
                                                         <p>
-
                                                             {
-                                                                product.short_description ||
-                                                                product.description
+                                                                product.short_description
                                                             }
-
                                                         </p>
 
                                                     )
@@ -816,9 +838,7 @@ function Cart() {
                                             </div>
 
 
-                                            {/* =================================
-                                                QUANTITY
-                                            ================================= */}
+                                            {/* QUANTITY */}
 
                                             <div
                                                 className="aumveda-cart-item__quantity"
@@ -835,22 +855,17 @@ function Cart() {
 
                                                     <button
                                                         type="button"
-                                                        aria-label={
-                                                            quantity <= 1
-                                                                ? "Remove product from cart"
-                                                                : "Decrease quantity"
-                                                        }
-                                                        title={
-                                                            quantity <= 1
-                                                                ? "Remove from cart"
-                                                                : "Decrease quantity"
-                                                        }
+                                                        aria-label="Decrease quantity"
                                                         disabled={
+                                                            quantity <=
+                                                            1 ||
                                                             loading
                                                         }
                                                         onClick={() =>
-                                                            decreaseQuantity(
-                                                                item
+                                                            changeQuantity(
+                                                                item,
+                                                                quantity -
+                                                                1
                                                             )
                                                         }
                                                     >
@@ -872,22 +887,20 @@ function Cart() {
                                                     <button
                                                         type="button"
                                                         aria-label="Increase quantity"
-                                                        title={
-                                                            stock > 0 &&
-                                                            quantity >= stock
-                                                                ? "Maximum stock reached"
-                                                                : "Increase quantity"
-                                                        }
                                                         disabled={
                                                             loading ||
                                                             (
-                                                                stock > 0 &&
-                                                                quantity >= stock
+                                                                stock >
+                                                                0 &&
+                                                                quantity >=
+                                                                stock
                                                             )
                                                         }
                                                         onClick={() =>
-                                                            increaseQuantity(
-                                                                item
+                                                            changeQuantity(
+                                                                item,
+                                                                quantity +
+                                                                1
                                                             )
                                                         }
                                                     >
@@ -902,13 +915,15 @@ function Cart() {
 
 
                                                 {
-                                                    stock > 0 && (
+                                                    stock >
+                                                    0 && (
 
                                                         <small>
-
-                                                            {stock}{" "}
+                                                            {
+                                                                stock
+                                                            }
+                                                            {" "}
                                                             available
-
                                                         </small>
 
                                                     )
@@ -917,9 +932,7 @@ function Cart() {
                                             </div>
 
 
-                                            {/* =================================
-                                                TOTAL
-                                            ================================= */}
+                                            {/* TOTAL */}
 
                                             <div
                                                 className="aumveda-cart-item__total"
@@ -941,6 +954,32 @@ function Cart() {
 
                                                 </strong>
 
+
+                                                <button
+                                                    type="button"
+                                                    className="aumveda-cart-item__remove"
+                                                    aria-label={
+                                                        `Remove ${
+                                                            product.name ||
+                                                            "product"
+                                                        }`
+                                                    }
+                                                    onClick={() =>
+                                                        handleRemove(
+                                                            item.id
+                                                        )
+                                                    }
+                                                    disabled={
+                                                        loading
+                                                    }
+                                                >
+
+                                                    <Trash2
+                                                        size={15}
+                                                    />
+
+                                                </button>
+
                                             </div>
 
                                         </article>
@@ -954,24 +993,26 @@ function Cart() {
                     </div>
 
 
+                    {/* CONTINUE */}
+
                     <Link
                         to="/products"
                         className="aumveda-cart-continue"
                     >
 
                         <ArrowLeft
-                            size={17}
+                            size={16}
                         />
 
                         Continue Shopping
 
                     </Link>
 
-                </div>
+                </section>
 
 
                 {/* =================================================
-                    SUMMARY
+                    ORDER SUMMARY
                 ================================================= */}
 
                 <aside
@@ -986,9 +1027,8 @@ function Cart() {
                             ORDER SUMMARY
                         </span>
 
-
                         <h2>
-                            Your Selection
+                            Your Order
                         </h2>
 
                     </div>
@@ -1004,9 +1044,10 @@ function Cart() {
                                 Items
                             </span>
 
-
                             <strong>
-                                {totalQuantity}
+                                {
+                                    totalQuantity
+                                }
                             </strong>
 
                         </div>
@@ -1018,7 +1059,6 @@ function Cart() {
                                 Subtotal
                             </span>
 
-
                             <strong>
 
                                 ₹
@@ -1028,22 +1068,6 @@ function Cart() {
                                     )
                                 }
 
-                            </strong>
-
-                        </div>
-
-
-                        <div>
-
-                            <span>
-                                Delivery
-                            </span>
-
-
-                            <strong
-                                className="aumveda-free"
-                            >
-                                FREE
                             </strong>
 
                         </div>
@@ -1061,7 +1085,7 @@ function Cart() {
                     >
 
                         <span>
-                            Total
+                            Cart Total
                         </span>
 
 
@@ -1085,65 +1109,39 @@ function Cart() {
                         onClick={
                             handleCheckout
                         }
-                        disabled={
-                            !items.length
-                        }
                     >
 
                         Proceed to Checkout
 
                         <ArrowRight
-                            size={18}
+                            size={17}
                         />
 
                     </button>
 
 
                     <div
-                        className="aumveda-cart-trust"
+                        className="aumveda-cart-summary__info"
                     >
 
-                        <div>
+                        <PackageCheck
+                            size={17}
+                        />
 
-                            <ShieldCheck
-                                size={18}
-                            />
-
-                            <span>
-                                Secure checkout
-                            </span>
-
-                        </div>
-
-
-                        <div>
-
-                            <Leaf
-                                size={18}
-                            />
-
-                            <span>
-                                Authentic Ayurveda
-                            </span>
-
-                        </div>
+                        <p>
+                            Shipping charges,
+                            discounts and final
+                            payment details will be
+                            shown during checkout.
+                        </p>
 
                     </div>
-
-
-                    <p
-                        className="aumveda-cart-summary__note"
-                    >
-                        Delivery address and payment
-                        details will be reviewed during
-                        checkout.
-                    </p>
 
                 </aside>
 
             </div>
 
-        </section>
+        </main>
 
     );
 

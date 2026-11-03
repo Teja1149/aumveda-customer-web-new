@@ -3,9 +3,7 @@ import {
     RotateCcw
 } from "lucide-react";
 
-
 import "../../styles/products.css";
-
 
 
 function ProductFilters({
@@ -26,26 +24,20 @@ function ProductFilters({
 
 }) {
 
-
     return (
 
         <div
-            className="
-                product-filters
-            "
+            className="product-filters"
         >
 
-
             <div
-                className="
-                    product-filters__heading
-                "
+                className="product-filters__heading"
             >
 
                 <div>
 
                     <span>
-                        SHOP
+                        BROWSE
                     </span>
 
                     <h2>
@@ -57,27 +49,22 @@ function ProductFilters({
             </div>
 
 
-
             <div
-                className="
-                    product-filters__list
-                "
+                className="product-filters__list"
             >
 
 
-                {/* ALL */}
+                {/* ALL PRODUCTS */}
 
                 <button
                     type="button"
                     className={
-                        `
-                        product-filter-item
-                        ${
-                            selectedCategory === "all"
+                        `product-filter-item ${
+                            selectedCategory ===
+                            "all"
                                 ? "is-active"
                                 : ""
-                        }
-                        `
+                        }`
                     }
                     onClick={() =>
                         onCategoryChange(
@@ -92,21 +79,24 @@ function ProductFilters({
 
 
                     <small>
-                        {totalProducts}
+                        {
+                            totalProducts
+                        }
                     </small>
 
 
                     {
                         selectedCategory ===
-                        "all" &&
+                        "all" && (
 
-                        <Check
-                            size={15}
-                        />
+                            <Check
+                                size={14}
+                            />
+
+                        )
                     }
 
                 </button>
-
 
 
                 {/* CATEGORIES */}
@@ -121,15 +111,12 @@ function ProductFilters({
                                 }
                                 type="button"
                                 className={
-                                    `
-                                    product-filter-item
-                                    ${
+                                    `product-filter-item ${
                                         selectedCategory ===
                                         category.id
                                             ? "is-active"
                                             : ""
-                                    }
-                                    `
+                                    }`
                                 }
                                 onClick={() =>
                                     onCategoryChange(
@@ -156,45 +143,44 @@ function ProductFilters({
 
                                 {
                                     selectedCategory ===
-                                    category.id &&
+                                    category.id && (
 
-                                    <Check
-                                        size={15}
-                                    />
+                                        <Check
+                                            size={14}
+                                        />
+
+                                    )
                                 }
 
                             </button>
 
                         )
                     )
-
                 }
 
             </div>
 
 
-
             {
-                hasActiveFilters &&
+                hasActiveFilters && (
 
-                <button
-                    type="button"
-                    className="
-                        product-filters__clear
-                    "
-                    onClick={
-                        onClear
-                    }
-                >
+                    <button
+                        type="button"
+                        className="product-filters__clear"
+                        onClick={
+                            onClear
+                        }
+                    >
 
-                    <RotateCcw
-                        size={14}
-                    />
+                        <RotateCcw
+                            size={14}
+                        />
 
-                    Reset Filters
+                        Reset Filters
 
-                </button>
+                    </button>
 
+                )
             }
 
         </div>

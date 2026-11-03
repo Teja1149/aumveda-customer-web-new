@@ -1,0 +1,1341 @@
+/* ============================================================
+   AUMVEDA
+   DENSE E-COMMERCE STOREFRONT
+============================================================ */
+
+
+/* ============================================================
+   ROOT
+============================================================ */
+
+.home-storefront {
+    width: 100%;
+    background: #f5f1e9;
+}
+
+
+/* ============================================================
+   SERVICE STRIP
+============================================================ */
+
+.storefront-service-strip {
+    padding: 8px 14px 0;
+}
+
+
+.storefront-service-strip__inner {
+    width: min(100%, 1500px);
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            5,
+            minmax(0, 1fr)
+        );
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        rgba(59, 33, 21, 0.07);
+
+    border-radius: 13px;
+
+    background:
+        rgba(
+            255,
+            253,
+            249,
+            0.97
+        );
+
+    box-shadow:
+        0 5px 17px
+        rgba(
+            59,
+            33,
+            21,
+            0.045
+        );
+}
+
+
+/* ============================================================
+   SERVICE ITEM
+============================================================ */
+
+.storefront-service-item {
+    min-height: 60px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 9px;
+
+    padding:
+        8px
+        12px;
+
+    border-right:
+        1px solid
+        rgba(
+            59,
+            33,
+            21,
+            0.065
+        );
+
+    color: #586b58;
+
+    transition:
+        color .2s ease,
+        background .2s ease;
+}
+
+
+.storefront-service-item:last-child {
+    border-right: none;
+}
+
+
+.storefront-service-item:hover {
+    color: #3b2115;
+    background: #f1ebe1;
+}
+
+
+.storefront-service-item svg {
+    flex-shrink: 0;
+}
+
+
+.storefront-service-item span {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2px;
+
+    color: #8a7e74;
+
+    font-size: 7px;
+
+    line-height: 1.25;
+}
+
+
+.storefront-service-item strong {
+    color: #173e30;
+
+    font-size: 9px;
+
+    font-weight: 750;
+}
+
+
+/* ============================================================
+   CATEGORY WRAPPER
+============================================================ */
+
+.storefront-category-section {
+    padding:
+        8px
+        14px
+        0;
+}
+
+
+/*
+   Remove the oversized spacing from the existing
+   ExploreWellness component only when used on homepage.
+*/
+
+.storefront-category-section
+.explore-wellness {
+    width: min(100%, 1500px);
+
+    margin: 0 auto;
+
+    padding:
+        17px
+        20px
+        15px;
+
+    border:
+        1px solid
+        rgba(
+            59,
+            33,
+            21,
+            0.07
+        );
+
+    border-radius: 13px;
+
+    background: #fffdf9;
+
+    box-shadow:
+        0 5px 17px
+        rgba(
+            59,
+            33,
+            21,
+            0.04
+        );
+}
+
+
+.storefront-category-section
+.explore-wellness__header {
+    margin-bottom: 11px;
+}
+
+
+.storefront-category-section
+.explore-wellness h2 {
+    font-size:
+        clamp(
+            25px,
+            2.3vw,
+            32px
+        );
+}
+
+
+.storefront-category-section
+.explore-wellness__description {
+    margin-top: 3px;
+    font-size: 9px;
+}
+
+
+/* ============================================================
+   PRODUCT SECTIONS
+============================================================ */
+
+.storefront-section {
+    padding:
+        8px
+        14px
+        0;
+}
+
+
+.storefront-section__inner {
+    width: min(100%, 1500px);
+
+    margin: 0 auto;
+
+    padding:
+        16px;
+
+    border:
+        1px solid
+        rgba(
+            59,
+            33,
+            21,
+            0.065
+        );
+
+    border-radius: 13px;
+
+    background: #fffdf9;
+
+    box-shadow:
+        0 5px 18px
+        rgba(
+            59,
+            33,
+            21,
+            0.04
+        );
+}
+
+
+.storefront-section--alternate
+.storefront-section__inner {
+    background:
+        linear-gradient(
+            180deg,
+            #fffdf9 0%,
+            #fbf7ef 100%
+        );
+}
+
+
+/* ============================================================
+   SECTION HEADER
+============================================================ */
+
+.storefront-section__header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 18px;
+
+    margin-bottom: 11px;
+}
+
+
+.storefront-section__title {
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 9px;
+}
+
+
+.storefront-section__title h2 {
+    margin: 0;
+
+    color: #173e30;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(
+            24px,
+            2.3vw,
+            31px
+        );
+
+    font-weight: 600;
+
+    line-height: 1;
+
+    letter-spacing: -.025em;
+}
+
+
+/* ============================================================
+   SECTION TAG
+============================================================ */
+
+.storefront-section__tag {
+    min-height: 24px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding:
+        0
+        8px;
+
+    border-radius: 999px;
+
+    color: #8f6926;
+
+    background:
+        #f2e5c5;
+
+    font-size: 7px;
+
+    font-weight: 750;
+}
+
+
+/* ============================================================
+   VIEW ALL
+============================================================ */
+
+.storefront-view-all {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    flex-shrink: 0;
+
+    color: #3b2115;
+
+    font-size: 8px;
+
+    font-weight: 750;
+
+    transition:
+        color .2s ease,
+        transform .2s ease;
+}
+
+
+.storefront-view-all:hover {
+    color: #586b58;
+
+    transform:
+        translateX(2px);
+}
+
+
+/* ============================================================
+   PRODUCT GRID
+============================================================ */
+
+.storefront-product-grid
+.products-grid {
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(
+            6,
+            minmax(0, 1fr)
+        ) !important;
+
+    gap: 9px !important;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+}
+
+
+/* ============================================================
+   PRODUCT CARDS
+============================================================ */
+
+.storefront-product-grid
+.product-card {
+    height: 100%;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        rgba(
+            59,
+            33,
+            21,
+            0.07
+        ) !important;
+
+    border-radius:
+        11px !important;
+
+    background:
+        #ffffff !important;
+
+    box-shadow:
+        0 4px 12px
+        rgba(
+            59,
+            33,
+            21,
+            0.05
+        ) !important;
+
+    transition:
+        transform .22s ease,
+        box-shadow .22s ease !important;
+}
+
+
+.storefront-product-grid
+.product-card:hover {
+    transform:
+        translateY(-4px) !important;
+
+    box-shadow:
+        0 12px 25px
+        rgba(
+            59,
+            33,
+            21,
+            0.10
+        ) !important;
+}
+
+
+/* ============================================================
+   PRODUCT IMAGE
+============================================================ */
+
+.storefront-product-grid
+.product-card__image-box {
+    min-height: 150px !important;
+
+    height: 150px !important;
+
+    background:
+        linear-gradient(
+            180deg,
+            #fbf8f2,
+            #f4ede2
+        ) !important;
+}
+
+
+.storefront-product-grid
+.product-card__image {
+    max-height: 140px !important;
+
+    object-fit: contain !important;
+}
+
+
+/* ============================================================
+   CARD CONTENT
+============================================================ */
+
+.storefront-product-grid
+.product-card__content {
+    padding:
+        8px
+        9px
+        9px !important;
+}
+
+
+.storefront-product-grid
+.product-card__title-link {
+    font-size: 9.5px !important;
+
+    line-height: 1.25 !important;
+
+    color: #173e30 !important;
+
+    font-weight: 750 !important;
+}
+
+
+.storefront-product-grid
+.product-card__description {
+    display: none !important;
+}
+
+
+/* ============================================================
+   PRODUCT PRICE
+============================================================ */
+
+.storefront-product-grid
+.product-card__prices strong {
+    font-size: 12px !important;
+}
+
+
+/* ============================================================
+   ACTIONS
+============================================================ */
+
+.storefront-product-grid
+.product-card__actions {
+    gap: 5px !important;
+
+    margin-top: 8px !important;
+}
+
+
+.storefront-product-grid
+.product-card__cart,
+.storefront-product-grid
+.product-card__buy-now {
+    min-height: 31px !important;
+
+    font-size: 7px !important;
+
+    border-radius: 7px !important;
+}
+
+
+.storefront-product-grid
+.product-card__cart {
+    color: #ffffff !important;
+
+    border-color: #0d5b40 !important;
+
+    background:
+        #0d5b40 !important;
+}
+
+
+.storefront-product-grid
+.product-card__cart:hover:not(:disabled) {
+    border-color: #3b2115 !important;
+
+    background:
+        #3b2115 !important;
+}
+
+
+.storefront-product-grid
+.product-card__buy-now {
+    color: #3b2115 !important;
+
+    border-color:
+        rgba(
+            59,
+            33,
+            21,
+            0.15
+        ) !important;
+
+    background:
+        #f6efe3 !important;
+}
+
+
+/* ============================================================
+   PROMO BANNER
+============================================================ */
+
+.storefront-promo {
+    padding:
+        8px
+        14px
+        0;
+}
+
+
+.storefront-promo__inner {
+    position: relative;
+
+    width: min(100%, 1500px);
+
+    min-height: 135px;
+
+    margin: 0 auto;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 40px;
+
+    padding:
+        20px
+        40px;
+
+    overflow: hidden;
+
+    border-radius: 13px;
+
+    background:
+        radial-gradient(
+            circle at 15% 60%,
+            rgba(
+                185,
+                147,
+                74,
+                0.18
+            ),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 85% 30%,
+            rgba(
+                88,
+                107,
+                88,
+                0.16
+            ),
+            transparent 26%
+        ),
+        linear-gradient(
+            105deg,
+            #eadbbf,
+            #f9f1e3 50%,
+            #dfcfad
+        );
+
+    border:
+        1px solid
+        rgba(
+            128,
+            91,
+            44,
+            0.13
+        );
+
+    box-shadow:
+        0 7px 20px
+        rgba(
+            59,
+            33,
+            21,
+            0.06
+        );
+}
+
+
+/* ============================================================
+   PROMO ACCENT
+============================================================ */
+
+.storefront-promo__accent {
+    width: 90px;
+
+    height: 90px;
+
+    flex-shrink: 0;
+
+    border-radius:
+        26px 50% 26px 50%;
+
+    transform:
+        rotate(-18deg);
+
+    background:
+        linear-gradient(
+            135deg,
+            #173e30,
+            #687964
+        );
+
+    box-shadow:
+        24px 18px 0
+        rgba(
+            185,
+            147,
+            74,
+            0.20
+        );
+}
+
+
+/* ============================================================
+   PROMO COPY
+============================================================ */
+
+.storefront-promo__copy {
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 560px;
+}
+
+
+.storefront-promo__copy > span {
+    color: #8b6527;
+
+    font-size: 7px;
+
+    font-weight: 800;
+
+    letter-spacing: .15em;
+}
+
+
+.storefront-promo__copy h2 {
+    margin:
+        4px
+        0
+        0;
+
+    color: #173e30;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(
+            27px,
+            3vw,
+            39px
+        );
+
+    line-height: .98;
+
+    font-weight: 600;
+
+    letter-spacing: -.03em;
+}
+
+
+.storefront-promo__copy h2 strong {
+    display: block;
+
+    color: #3b2115;
+
+    font-weight: 600;
+}
+
+
+.storefront-promo__copy p {
+    margin:
+        7px
+        0
+        0;
+
+    color: #75695e;
+
+    font-size: 9px;
+}
+
+
+/* ============================================================
+   PROMO BUTTON
+============================================================ */
+
+.storefront-promo__button {
+    position: relative;
+
+    z-index: 2;
+
+    min-height: 40px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    flex-shrink: 0;
+
+    padding:
+        0
+        18px;
+
+    border-radius: 999px;
+
+    color: #3b2115;
+
+    background:
+        linear-gradient(
+            135deg,
+            #deb968,
+            #c79d46
+        );
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    box-shadow:
+        0 7px 17px
+        rgba(
+            166,
+            120,
+            39,
+            0.20
+        );
+
+    transition:
+        transform .2s ease,
+        color .2s ease,
+        background .2s ease;
+}
+
+
+.storefront-promo__button:hover {
+    transform:
+        translateY(-2px);
+
+    color: #ffffff;
+
+    background: #3b2115;
+}
+
+
+/* ============================================================
+   PROMO DECOR
+============================================================ */
+
+.storefront-promo__decor {
+    position: absolute;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+}
+
+
+.storefront-promo__decor--one {
+    width: 180px;
+
+    height: 180px;
+
+    left: -70px;
+
+    bottom: -100px;
+
+    border:
+        24px solid
+        rgba(
+            88,
+            107,
+            88,
+            0.10
+        );
+}
+
+
+.storefront-promo__decor--two {
+    width: 220px;
+
+    height: 220px;
+
+    right: -80px;
+
+    top: -130px;
+
+    border:
+        29px solid
+        rgba(
+            185,
+            147,
+            74,
+            0.12
+        );
+}
+
+
+/* ============================================================
+   BENEFITS
+============================================================ */
+
+.storefront-benefits {
+    padding:
+        8px
+        14px
+        10px;
+}
+
+
+.storefront-benefits__inner {
+    width: min(100%, 1500px);
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            4,
+            minmax(0, 1fr)
+        );
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        rgba(
+            59,
+            33,
+            21,
+            0.065
+        );
+
+    border-radius: 13px;
+
+    background: #fffdf9;
+}
+
+
+.storefront-benefit {
+    min-height: 66px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    padding:
+        10px
+        15px;
+
+    border-right:
+        1px solid
+        rgba(
+            59,
+            33,
+            21,
+            0.065
+        );
+
+    color: #586b58;
+}
+
+
+.storefront-benefit:last-child {
+    border-right: none;
+}
+
+
+.storefront-benefit span {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2px;
+
+    color: #8b8076;
+
+    font-size: 7px;
+}
+
+
+.storefront-benefit strong {
+    color: #173e30;
+
+    font-size: 9px;
+}
+
+
+/* ============================================================
+   LOADING GRID
+============================================================ */
+
+.storefront-loading-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            6,
+            minmax(0, 1fr)
+        );
+
+    gap: 9px;
+}
+
+
+.storefront-loading-card {
+    min-height: 265px;
+
+    padding: 8px;
+
+    border-radius: 11px;
+
+    background: #ffffff;
+}
+
+
+.storefront-loading-card__image {
+    height: 150px;
+
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ece5d9 20%,
+            #f9f5ed 50%,
+            #ece5d9 80%
+        );
+
+    background-size:
+        200% 100%;
+
+    animation:
+        storefrontShimmer
+        1.3s
+        infinite;
+}
+
+
+.storefront-loading-card__line {
+    width: 72%;
+
+    height: 8px;
+
+    margin-top: 8px;
+
+    border-radius: 999px;
+
+    background: #e9e2d7;
+}
+
+
+.storefront-loading-card__line--title {
+    width: 88%;
+
+    height: 11px;
+
+    margin-top: 12px;
+}
+
+
+.storefront-loading-card__line--short {
+    width: 45%;
+}
+
+
+@keyframes storefrontShimmer {
+
+    from {
+        background-position:
+            200% 0;
+    }
+
+
+    to {
+        background-position:
+            -200% 0;
+    }
+
+}
+
+
+/* ============================================================
+   LAPTOP
+============================================================ */
+
+@media (max-width: 1250px) {
+
+    .storefront-product-grid
+    .products-grid,
+    .storefront-loading-grid {
+        grid-template-columns:
+            repeat(
+                4,
+                minmax(0, 1fr)
+            ) !important;
+    }
+
+
+    .storefront-service-strip__inner {
+        grid-template-columns:
+            repeat(
+                3,
+                minmax(0, 1fr)
+            );
+    }
+
+
+    .storefront-service-item:nth-child(3) {
+        border-right: none;
+    }
+
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 850px) {
+
+    .storefront-service-strip__inner {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+    }
+
+
+    .storefront-service-item:nth-child(odd) {
+        border-right:
+            1px solid
+            rgba(
+                59,
+                33,
+                21,
+                0.065
+            );
+    }
+
+
+    .storefront-service-item:nth-child(even) {
+        border-right: none;
+    }
+
+
+    .storefront-product-grid
+    .products-grid,
+    .storefront-loading-grid {
+        grid-template-columns:
+            repeat(
+                3,
+                minmax(0, 1fr)
+            ) !important;
+    }
+
+
+    .storefront-promo__inner {
+        justify-content:
+            space-between;
+
+        padding:
+            19px
+            24px;
+
+        gap: 22px;
+    }
+
+
+    .storefront-promo__accent {
+        display: none;
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 600px) {
+
+    .storefront-service-strip,
+    .storefront-category-section,
+    .storefront-section,
+    .storefront-promo,
+    .storefront-benefits {
+        padding-left: 7px;
+        padding-right: 7px;
+    }
+
+
+    .storefront-service-strip__inner {
+        display: flex;
+
+        overflow-x: auto;
+
+        scrollbar-width: none;
+    }
+
+
+    .storefront-service-strip__inner::-webkit-scrollbar {
+        display: none;
+    }
+
+
+    .storefront-service-item {
+        min-width: 160px;
+
+        justify-content:
+            flex-start;
+
+        border-right:
+            1px solid
+            rgba(
+                59,
+                33,
+                21,
+                0.065
+            ) !important;
+    }
+
+
+    .storefront-section__inner {
+        padding: 11px;
+
+        border-radius: 11px;
+    }
+
+
+    .storefront-section__header {
+        margin-bottom: 8px;
+    }
+
+
+    .storefront-section__title h2 {
+        font-size: 22px;
+    }
+
+
+    .storefront-section__tag {
+        display: none;
+    }
+
+
+    .storefront-view-all {
+        font-size: 7px;
+    }
+
+
+    .storefront-product-grid
+    .products-grid,
+    .storefront-loading-grid {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            ) !important;
+
+        gap: 7px !important;
+    }
+
+
+    .storefront-product-grid
+    .product-card__image-box {
+        min-height: 135px !important;
+
+        height: 135px !important;
+    }
+
+
+    .storefront-product-grid
+    .product-card__image {
+        max-height: 126px !important;
+    }
+
+
+    .storefront-product-grid
+    .product-card__content {
+        padding:
+            7px !important;
+    }
+
+
+    .storefront-promo__inner {
+        min-height: 145px;
+
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+
+        padding:
+            18px;
+    }
+
+
+    .storefront-promo__copy h2 {
+        font-size: 27px;
+    }
+
+
+    .storefront-benefits__inner {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+    }
+
+
+    .storefront-benefit:nth-child(2) {
+        border-right: none;
+    }
+
+
+    .storefront-benefit {
+        justify-content:
+            flex-start;
+    }
+
+}

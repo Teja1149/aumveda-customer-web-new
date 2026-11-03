@@ -1,0 +1,502 @@
+
+/* ============================================================
+   AUMVEDA — SECTION 11: MORE DISCOVERY
+   PREMIUM COMPACT PROMOTIONAL BANNERS
+
+   - Four cards on desktop
+   - Two columns on tablet
+   - Swipeable cards on mobile
+   - Warm pastel backgrounds
+   - Soft curved corners
+   - Compact vertical dimensions
+   - Product imagery on right
+   - Text protected on left
+============================================================ */
+
+/* GLOBAL */
+
+.more-discovery,
+.more-discovery *,
+.more-discovery *::before,
+.more-discovery *::after {
+  box-sizing: border-box;
+}
+
+/* SECTION */
+
+.more-discovery,
+.aumveda-home-page .more-discovery {
+  position: relative;
+
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  margin: 0;
+  padding: 10px clamp(11px, 1.7vw, 22px) 11px;
+
+  border: 0;
+  border-radius: 13px;
+
+  background: #fffdf8;
+
+  overflow: hidden;
+}
+
+/* CONTAINER */
+
+.more-discovery__container {
+  width: 100%;
+  max-width: 1500px;
+  min-width: 0;
+
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* FOUR-CARD GRID */
+
+.more-discovery__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  align-items: stretch;
+
+  gap: 10px;
+
+  width: 100%;
+  min-width: 0;
+
+  margin: 0;
+  padding: 0;
+}
+
+/* CARD */
+
+.more-discovery__card {
+  position: relative;
+  isolation: isolate;
+
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  min-width: 0;
+
+  aspect-ratio: 2.05 / 1;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(66, 48, 33, 0.08);
+  border-radius: 13px;
+
+  color: #30271f;
+  text-decoration: none;
+
+  box-shadow:
+    0 2px 7px rgba(58, 43, 29, 0.035);
+
+  transition:
+    transform 200ms ease,
+    box-shadow 200ms ease,
+    border-color 200ms ease;
+}
+
+/* COLOUR THEMES */
+
+.more-discovery__card--green {
+  --discovery-bg: #dfebbd;
+  --discovery-button: #14512e;
+
+  background: var(--discovery-bg);
+}
+
+.more-discovery__card--peach {
+  --discovery-bg: #f8d9a7;
+  --discovery-button: #71351d;
+
+  background: var(--discovery-bg);
+}
+
+.more-discovery__card--pink {
+  --discovery-bg: #f7c9ce;
+  --discovery-button: #811a3b;
+
+  background: var(--discovery-bg);
+}
+
+.more-discovery__card--blue {
+  --discovery-bg: #cbdff4;
+  --discovery-button: #104d78;
+
+  background: var(--discovery-bg);
+}
+
+/* IMAGE STAGE
+
+   The source images are ultrawide hero banners.
+   The right-edge crop isolates photography rather
+   than reproducing their original left-side copy.
+*/
+
+.more-discovery__visual {
+  position: absolute;
+  z-index: 1;
+
+  top: 0;
+  right: 0;
+
+  width: 54%;
+  height: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+
+  pointer-events: none;
+}
+
+.more-discovery__visual img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  max-width: none;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+
+  object-fit: cover;
+  object-position: right center;
+
+  transform: scale(1);
+
+  transition: transform 300ms ease;
+}
+
+/* IMAGE FADE */
+
+.more-discovery__shade {
+  position: absolute;
+  z-index: 2;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  background: linear-gradient(
+    90deg,
+    var(--discovery-bg) 0%,
+    var(--discovery-bg) 43%,
+    var(--discovery-bg) 47%,
+    color-mix(
+      in srgb,
+      var(--discovery-bg) 83%,
+      transparent
+    ) 54%,
+    transparent 73%
+  );
+}
+
+/* CONTENT */
+
+.more-discovery__content {
+  position: relative;
+  z-index: 3;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  gap: 5px;
+
+  width: 60%;
+  min-width: 0;
+  min-height: 100%;
+
+  margin: 0;
+  padding: 9px 2px 9px 14px;
+}
+
+/* HEADING */
+
+.more-discovery__content h3 {
+  margin: 0;
+  padding: 0;
+
+  color: #30261f;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: clamp(14px, 1.15vw, 18px);
+  font-weight: 700;
+
+  line-height: 1.17;
+  letter-spacing: -0.025em;
+
+  text-wrap: balance;
+}
+
+/* SUBTITLE */
+
+.more-discovery__content p {
+  margin: 0 0 3px;
+  padding: 0;
+
+  color: #57473b;
+
+  font-family: inherit;
+  font-size: clamp(9px, 0.76vw, 11px);
+  font-weight: 500;
+
+  line-height: 1.35;
+}
+
+/* SHOP NOW */
+
+.more-discovery__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  min-height: 28px;
+
+  margin: 0;
+  padding: 0 11px;
+
+  border: 0;
+  border-radius: 999px;
+
+  background: var(--discovery-button);
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 9px;
+  font-weight: 750;
+  line-height: 1;
+
+  white-space: nowrap;
+
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.more-discovery__button svg {
+  flex: 0 0 auto;
+
+  width: 12px;
+  height: 12px;
+}
+
+/* HOVER */
+
+@media (hover: hover) {
+  .more-discovery__card:hover {
+    transform: translateY(-2px);
+
+    border-color: rgba(66, 48, 33, 0.17);
+
+    box-shadow:
+      0 6px 15px rgba(48, 40, 30, 0.1);
+  }
+
+  .more-discovery__card:hover
+  .more-discovery__visual img {
+    transform: scale(1.045);
+  }
+
+  .more-discovery__card:hover
+  .more-discovery__button {
+    transform: translateX(2px);
+  }
+}
+
+/* LAPTOP */
+
+@media (max-width: 1200px) {
+  .more-discovery,
+  .aumveda-home-page .more-discovery {
+    padding: 9px 12px 10px;
+  }
+
+  .more-discovery__grid {
+    gap: 8px;
+  }
+
+  .more-discovery__card {
+    aspect-ratio: 1.95 / 1;
+  }
+
+  .more-discovery__content {
+    gap: 4px;
+    padding-left: 11px;
+  }
+
+  .more-discovery__content h3 {
+    font-size: 13px;
+  }
+
+  .more-discovery__content p {
+    font-size: 9px;
+  }
+
+  .more-discovery__button {
+    min-height: 25px;
+    padding: 0 9px;
+    font-size: 8px;
+  }
+}
+
+/* TABLET */
+
+@media (max-width: 850px) {
+  .more-discovery__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+
+  .more-discovery__card {
+    aspect-ratio: 2.15 / 1;
+  }
+
+  .more-discovery__content {
+    width: 59%;
+    padding-left: 15px;
+  }
+
+  .more-discovery__content h3 {
+    font-size: 17px;
+  }
+
+  .more-discovery__content p {
+    font-size: 10px;
+  }
+
+  .more-discovery__button {
+    min-height: 28px;
+    padding: 0 11px;
+    font-size: 9px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+  .more-discovery,
+  .aumveda-home-page .more-discovery {
+    padding: 9px 8px 10px;
+
+    border-radius: 10px;
+  }
+
+  .more-discovery__grid {
+    display: flex;
+    flex-wrap: nowrap;
+
+    gap: 9px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    padding: 2px 0 6px;
+
+    scroll-snap-type: x mandatory;
+
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+  }
+
+  .more-discovery__grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .more-discovery__card {
+    flex: 0 0 268px;
+
+    width: 268px;
+    min-width: 268px;
+
+    aspect-ratio: 2.05 / 1;
+
+    border-radius: 11px;
+
+    scroll-snap-align: start;
+  }
+
+  .more-discovery__content {
+    width: 60%;
+    padding: 8px 2px 8px 12px;
+  }
+
+  .more-discovery__content h3 {
+    font-size: 15px;
+  }
+
+  .more-discovery__content p {
+    font-size: 9px;
+  }
+
+  .more-discovery__button {
+    min-height: 26px;
+    padding: 0 10px;
+    font-size: 9px;
+  }
+}
+
+/* SMALL MOBILE */
+
+@media (max-width: 390px) {
+  .more-discovery__card {
+    flex-basis: 245px;
+
+    width: 245px;
+    min-width: 245px;
+  }
+
+  .more-discovery__content {
+    padding-left: 11px;
+  }
+
+  .more-discovery__content h3 {
+    font-size: 14px;
+  }
+}
+
+/* ACCESSIBILITY */
+
+.more-discovery__card:focus-visible {
+  outline: 2px solid #315b3e;
+  outline-offset: 3px;
+}
+
+/* REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+  .more-discovery__card,
+  .more-discovery__visual img,
+  .more-discovery__button {
+    transition: none !important;
+  }
+
+  .more-discovery__grid {
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================
+   END — AUMVEDA MORE DISCOVERY
+============================================================ */

@@ -1,67 +1,64 @@
 import {
-    Leaf,
-    Sprout,
-    ShieldCheck,
-    Globe,
+    BadgeCheck,
+    Headphones,
+    Search,
+    ShoppingBag
 } from "lucide-react";
 
 import {
-    motion,
+    motion
 } from "framer-motion";
-
-import BotanicalDoodles
-    from "../common/BotanicalDoodles";
 
 import "../../styles/why-aumveda.css";
 
 
 function WhyAumveda() {
 
-
     const features = [
 
         {
-            icon: Leaf,
+            icon:
+                Search,
 
             title:
-                "Natural Ingredients",
+                "Easy Discovery",
 
             description:
-                "Carefully selected herbs and natural ingredients.",
+                "Explore wellness products across categories and find what fits your everyday routine."
         },
-
 
         {
-            icon: Sprout,
+            icon:
+                ShoppingBag,
 
             title:
-                "Ayurvedic Knowledge",
+                "Simple Shopping",
 
             description:
-                "Inspired by traditional Ayurvedic wisdom.",
+                "Browse products, manage your cart and move through checkout with ease."
         },
-
 
         {
-            icon: ShieldCheck,
+            icon:
+                BadgeCheck,
 
             title:
-                "Trusted Wellness",
+                "Clear Product Choices",
 
             description:
-                "Quality products designed for everyday wellness.",
+                "Compare products, prices, ratings and available options before you decide."
         },
-
 
         {
-            icon: Globe,
+            icon:
+                Headphones,
 
             title:
-                "Sustainable & Eco-friendly",
+                "Customer Support",
 
             description:
-                "Responsible choices for a healthier planet.",
-        },
+                "Get help with your AUMVEDA shopping experience whenever you need assistance."
+        }
 
     ];
 
@@ -73,81 +70,66 @@ function WhyAumveda() {
             aria-labelledby="why-aumveda-title"
         >
 
-            {/* ==================================================
-                DECORATION
-                Kept outside normal layout flow
-            ================================================== */}
-
-            <div
-                className="why-aumveda__decorations"
-                aria-hidden="true"
-            >
-
-                <BotanicalDoodles
-                    variant="why"
-                />
-
-            </div>
-
-
-            {/* ==================================================
-                CONTENT
-            ================================================== */}
-
             <div
                 className="why-aumveda__inner"
             >
 
 
-                {/* ==================================================
-                    HEADER
-                ================================================== */}
+                {/* HEADER */}
 
                 <motion.div
                     className="why-aumveda__header"
-
                     initial={{
                         opacity: 0,
-                        y: 18,
+                        y: 18
                     }}
-
                     whileInView={{
                         opacity: 1,
-                        y: 0,
+                        y: 0
                     }}
-
                     viewport={{
                         once: true,
-                        amount: 0.25,
+                        amount: 0.25
                     }}
-
                     transition={{
-                        duration: 0.45,
+                        duration: 0.45
                     }}
                 >
 
-                    <p className="why-aumveda__eyebrow">
-                        OUR VALUES
-                    </p>
+                    <div
+                        className="why-aumveda__eyebrow"
+                    >
+
+                        <span />
+
+                        WHY AUMVEDA
+
+                        <span />
+
+                    </div>
 
 
                     <h2
                         id="why-aumveda-title"
                     >
-                        Why AUMVEDA?
+                        Shopping made
+                        <span>
+                            simple.
+                        </span>
                     </h2>
 
 
-                    <span>
-                        Pure. Natural. Trustworthy.
-                    </span>
+                    <p>
+                        Everything you need to
+                        discover, compare and shop
+                        wellness products in one
+                        convenient experience.
+                    </p>
 
                 </motion.div>
 
 
-                {/* ==================================================
-                    FEATURE GRID
-                ================================================== */}
+                {/* FEATURE GRID */}
 
                 <div
                     className="why-aumveda__grid"
@@ -156,52 +138,43 @@ function WhyAumveda() {
                     {
                         features.map(
                             (
-                                item,
+                                feature,
                                 index
                             ) => {
 
                                 const Icon =
-                                    item.icon;
+                                    feature.icon;
 
 
                                 return (
 
                                     <motion.article
-
                                         key={
-                                            item.title
+                                            feature.title
                                         }
-
                                         className="why-aumveda__card"
-
                                         initial={{
                                             opacity: 0,
-                                            y: 22,
+                                            y: 20
                                         }}
-
                                         whileInView={{
                                             opacity: 1,
-                                            y: 0,
+                                            y: 0
                                         }}
-
                                         viewport={{
                                             once: true,
-                                            amount: 0.2,
+                                            amount: 0.2
                                         }}
-
                                         transition={{
                                             duration: 0.42,
                                             delay:
-                                                index * 0.08,
+                                                index *
+                                                0.07
                                         }}
-
                                         whileHover={{
-                                            y: -5,
+                                            y: -5
                                         }}
-
                                     >
-
-                                        {/* ICON */}
 
                                         <div
                                             className="why-aumveda__icon"
@@ -215,18 +188,28 @@ function WhyAumveda() {
                                         </div>
 
 
-                                        {/* TITLE */}
+                                        <div
+                                            className="why-aumveda__number"
+                                        >
+
+                                            0
+                                            {
+                                                index + 1
+                                            }
+
+                                        </div>
+
 
                                         <h3>
-                                            {item.title}
+                                            {
+                                                feature.title
+                                            }
                                         </h3>
 
 
-                                        {/* DESCRIPTION */}
-
                                         <p>
                                             {
-                                                item.description
+                                                feature.description
                                             }
                                         </p>
 

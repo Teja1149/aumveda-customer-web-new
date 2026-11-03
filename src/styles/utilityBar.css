@@ -1,0 +1,153 @@
+
+/* ============================================================
+   AUMVEDA — UTILITY BAR
+   PREMIUM HEADER REFINEMENT
+============================================================ */
+
+.aumveda-utility-bar,
+.aumveda-utility-bar * {
+  box-sizing: border-box;
+}
+
+.aumveda-utility-bar {
+  position: relative;
+  z-index: 1010;
+
+  display: block;
+  width: 100%;
+  min-width: 0;
+
+  margin: 0;
+  padding: 0;
+
+  color: #fffdf7;
+
+  background: linear-gradient(
+    100deg,
+    #31573d 0%,
+    #466b49 50%,
+    #31573d 100%
+  );
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+/* MAIN ROW */
+
+.aumveda-utility-bar__inner {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  align-items: center;
+
+  width: min(calc(100% - 48px), 1440px);
+  min-height: 32px;
+
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* INDIVIDUAL BENEFIT */
+
+.aumveda-utility-bar__item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+  min-width: 0;
+  min-height: 32px;
+
+  padding: 5px 10px;
+
+  color: #fffdf7;
+
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 0.005em;
+
+  text-align: center;
+  white-space: nowrap;
+}
+
+.aumveda-utility-bar__item svg {
+  display: block;
+  flex: 0 0 auto;
+
+  width: 13px;
+  height: 13px;
+
+  color: #e6eddb;
+  stroke-width: 1.8;
+}
+
+.aumveda-utility-bar__item span {
+  display: block;
+  min-width: 0;
+}
+
+/* DESKTOP */
+
+@media (min-width: 1200px) {
+  .aumveda-utility-bar__inner {
+    min-height: 33px;
+  }
+}
+
+/* TABLET */
+
+@media (max-width: 760px) {
+  .aumveda-utility-bar__inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    width: 100%;
+    min-height: 0;
+
+    padding: 4px 10px;
+    row-gap: 1px;
+  }
+
+  .aumveda-utility-bar__item {
+    min-height: 24px;
+    padding: 4px 6px;
+
+    font-size: 9px;
+  }
+
+  .aumveda-utility-bar__item svg {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+/* MOBILE — TWO PRIORITY BENEFITS */
+
+@media (max-width: 480px) {
+  .aumveda-utility-bar__inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    min-height: 29px;
+    padding: 3px 6px;
+  }
+
+  .aumveda-utility-bar__item {
+    min-height: 23px;
+
+    gap: 5px;
+    padding: 3px 4px;
+
+    font-size: 8px;
+  }
+
+  .aumveda-utility-bar__item--payments,
+  .aumveda-utility-bar__item--returns {
+    display: none;
+  }
+
+  .aumveda-utility-bar__item svg {
+    width: 11px;
+    height: 11px;
+  }
+}

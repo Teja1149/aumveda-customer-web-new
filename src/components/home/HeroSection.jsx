@@ -1,1058 +1,446 @@
+
 import {
-    useEffect,
-    useRef,
-    useState
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
 } from "react";
 
-import {
-    motion,
-    useScroll,
-    useTransform
-} from "framer-motion";
-
-import {
-    ArrowRight,
-    CheckCircle2,
-    Leaf,
-    ShieldCheck,
-    Sparkles,
-    Volume2,
-    VolumeX
-} from "lucide-react";
-
-import {
-    useNavigate
-} from "react-router-dom";
-
-import {
-    fadeUp,
-    fadeLeft
-} from "../../animations/motion";
-
-import {
-    getHomeHero
-} from "../../services/homeService";
+import { Link } from "react-router-dom";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import "../../styles/hero.css";
 
-
 /* ============================================================
-   HERO VISUAL CONTROLS
+   AUMVEDA — HERO BANNER
+   PREMIUM REFINED VERSION
+
+   SUPABASE:
+   Bucket: site_assets
+   Folder: products-banner
+
+   FUNCTIONALITY:
+   - Six product banners
+   - Smooth fade carousel
+   - Automatic rotation every 4 seconds
+   - Previous and Next arrows
+   - Pagination dots
+   - Pause on hover or keyboard focus
+   - Touch swipe on mobile
+   - Keyboard navigation
+   - Reduced-motion accessibility
+
+   DESIGN:
+   - 4.4:1 ultrawide viewport
+   - Complete artwork remains visible
+   - Soft image-derived background for ratio differences
+   - No duplicate promotional text
+   - Distinct card separated from Navbar
 ============================================================ */
 
-/*
-    VIDEO_INTENSITY
-
-    Controls how strongly the background video is visible.
-
-    Recommended values:
-
-    0.40 = very soft
-    0.60 = soft
-    0.75 = balanced
-    0.90 = strong
-    1.00 = full video
-
-    Change only this number whenever required.
-*/
-
-const VIDEO_INTENSITY =
-    0.92;
-
-
-/*
-    LEFT_OVERLAY_STRENGTH
-
-    Controls how much cream/light overlay exists
-    behind the hero text.
-
-    Higher value = lighter background / less video
-    Lower value = more visible video
-
-    Recommended:
-
-    0.80 = very light background
-    0.70 = balanced
-    0.60 = stronger video
-    0.50 = very visible video
-*/
-
-const LEFT_OVERLAY_STRENGTH =
-    0.68;
-
-
-/* ============================================================
-   DEFAULT HERO
-============================================================ */
-
-const DEFAULT_HERO = {
-
-    eyebrow:
-        "ANCIENT WISDOM FOR MODERN WELLNESS",
-
-    title_line1:
-        "Rooted in Nature",
-
-    title_line2:
-        "Refined by Ayurveda",
-
-    description:
-        "Discover thoughtfully crafted Ayurvedic wellness essentials inspired by time-honoured traditions and made for modern everyday living.",
-
-    image_url:
-        "https://ihjbssbqwknyyzoewrik.supabase.co/storage/v1/object/public/site-assets/hero/home/hero.webp",
-
-    video_url:
-        "https://zgohazzneofbxnmqnhcl.supabase.co/storage/v1/object/public/site_assets/videos/hero/aumveda-hero-video.mp4",
-
-    primary_cta_text:
-        "Explore Products",
-
-    primary_cta_path:
-        "/products"
-
-};
-
-
-function HeroSection() {
-
-    const navigate =
-        useNavigate();
-
-
-    /* ========================================================
-       HERO DATA
-    ======================================================== */
-
-    const [
-        hero,
-        setHero
-    ] = useState(
-        DEFAULT_HERO
-    );
-
-
-    /* ========================================================
-       VIDEO STATES
-    ======================================================== */
-
-    const [
-        videoLoaded,
-        setVideoLoaded
-    ] = useState(false);
-
-
-    const [
-        videoError,
-        setVideoError
-    ] = useState(false);
-
-
-    const [
-        muted,
-        setMuted
-    ] = useState(true);
-
-
-    const videoRef =
-        useRef(null);
-
-
-    /* ========================================================
-       SCROLL ANIMATION
-    ======================================================== */
-
-    const {
-        scrollY
-    } = useScroll();
-
-
-    const mediaScale =
-        useTransform(
-            scrollY,
-            [
-                0,
-                700
-            ],
-            [
-                1,
-                1.045
-            ]
-        );
-
-
-    const contentY =
-        useTransform(
-            scrollY,
-            [
-                0,
-                650
-            ],
-            [
-                0,
-                28
-            ]
-        );
-
-
-    const contentOpacity =
-        useTransform(
-            scrollY,
-            [
-                0,
-                650
-            ],
-            [
-                1,
-                0.84
-            ]
-        );
-
-
-    /* ========================================================
-       LOAD HERO FROM API
-    ======================================================== */
-
-    useEffect(() => {
-
-        let mounted =
-            true;
-
-
-        async function loadHero() {
-
-            try {
-
-                const data =
-                    await getHomeHero();
-
-
-                if (
-                    !mounted ||
-                    !data
-                ) {
-
-                    return;
-
-                }
-
-
-                setHero(
-                    previous => ({
-                        ...previous,
-                        ...data
-                    })
-                );
-
-            }
-            catch (error) {
-
-                console.error(
-                    "Hero API failed:",
-                    error
-                );
-
-            }
-
-        }
-
-
-        loadHero();
-
-
-        return () => {
-
-            mounted =
-                false;
-
-        };
-
-    }, []);
-
-
-    /* ========================================================
-       AUDIO CONTROL
-    ======================================================== */
-
-    async function toggleAudio() {
-
-        const video =
-            videoRef.current;
-
-
-        if (!video) {
-
-            return;
-
-        }
-
-
-        try {
-
-            if (
-                video.muted
-            ) {
-
-                video.muted =
-                    false;
-
-
-                await video.play();
-
-
-                setMuted(
-                    false
-                );
-
-            }
-            else {
-
-                video.muted =
-                    true;
-
-
-                setMuted(
-                    true
-                );
-
-            }
-
-        }
-        catch (error) {
-
-            console.error(
-                "Audio toggle failed:",
-                error
-            );
-
-        }
-
-    }
-
-
-    /* ========================================================
-       PRIMARY CTA
-    ======================================================== */
-
-    function handlePrimaryCTA() {
-
-        const path =
-            hero.primary_cta_path ||
-            "/products";
-
-
-        if (
-            path.startsWith(
-                "/"
-            )
-        ) {
-
-            navigate(
-                path
-            );
-
-        }
-        else {
-
-            window.location.href =
-                path;
-
-        }
-
-    }
-
-
-    /* ========================================================
-       SECONDARY CTA
-    ======================================================== */
-
-    function handleStoryCTA() {
-
-        navigate(
-            "/about"
-        );
-
-    }
-
-
-    /* ========================================================
-       RENDER
-    ======================================================== */
-
-    return (
-
-        <section
-
-            className="hero"
-
-            style={{
-
-                "--hero-video-opacity":
-                    VIDEO_INTENSITY,
-
-                "--hero-left-overlay":
-                    LEFT_OVERLAY_STRENGTH
-
-            }}
-
-        >
-
-            {/* =================================================
-                BACKGROUND MEDIA
-            ================================================= */}
-
-            <motion.div
-
-                className="
-                    hero__media
-                "
-
-                style={{
-
-                    scale:
-                        mediaScale,
-
-                    backgroundImage:
-                        `url(${hero.image_url})`
-
-                }}
-
-            >
-
-                {
-                    hero.video_url &&
-                    !videoError && (
-
-                        <video
-
-                            ref={
-                                videoRef
-                            }
-
-                            className={
-
-                                videoLoaded
-
-                                    ? "hero-video hero-video--visible"
-
-                                    : "hero-video"
-
-                            }
-
-                            autoPlay
-
-                            loop
-
-                            playsInline
-
-                            preload="auto"
-
-                            muted
-
-                            onCanPlay={() =>
-                                setVideoLoaded(
-                                    true
-                                )
-                            }
-
-                            onError={() =>
-                                setVideoError(
-                                    true
-                                )
-                            }
-
-                        >
-
-                            <source
-
-                                src={
-                                    hero.video_url
-                                }
-
-                                type="
-                                    video/mp4
-                                "
-
-                            />
-
-                        </video>
-
-                    )
-                }
-
-            </motion.div>
-
-
-            {/* =================================================
-                VIDEO OVERLAY
-            ================================================= */}
-
-            <div
-                className="
-                    hero__veil
-                "
-            />
-
-
-            {/* =================================================
-                VERY SUBTLE TEXTURE
-            ================================================= */}
-
-            <div
-                className="
-                    hero__grain
-                "
-            />
-
-
-            {/* =================================================
-                DECORATIVE AMBIENT LIGHT
-            ================================================= */}
-
-            <div
-                className="
-                    hero__ambient
-                    hero__ambient--one
-                "
-            />
-
-
-            <div
-                className="
-                    hero__ambient
-                    hero__ambient--two
-                "
-            />
-
-
-            {/* =================================================
-                MAIN HERO
-            ================================================= */}
-
-            <div
-                className="
-                    hero__inner
-                "
-            >
-
-                {/* =================================================
-                    HERO CONTENT
-                ================================================= */}
-
-                <motion.div
-
-                    className="
-                        hero__content
-                    "
-
-                    style={{
-
-                        opacity:
-                            contentOpacity,
-
-                        y:
-                            contentY
-
-                    }}
-
-                    variants={
-                        fadeLeft
-                    }
-
-                    initial="
-                        hidden
-                    "
-
-                    animate="
-                        visible
-                    "
-
-                >
-
-                    {/* EYEBROW */}
-
-                    <motion.div
-
-                        className="
-                            hero__eyebrow
-                        "
-
-                        variants={
-                            fadeUp
-                        }
-
-                    >
-
-                        <span
-                            className="
-                                hero__eyebrow-line
-                            "
-                        />
-
-
-                        <span>
-
-                            {
-                                hero.eyebrow
-                            }
-
-                        </span>
-
-                    </motion.div>
-
-
-                    {/* MAIN TITLE */}
-
-                    <motion.h1
-
-                        variants={
-                            fadeUp
-                        }
-
-                    >
-
-                        {
-                            hero.title_line1
-                        }
-
-
-                        <span>
-
-                            {
-                                hero.title_line2
-                            }
-
-                        </span>
-
-                    </motion.h1>
-
-
-                    {/* DESCRIPTION */}
-
-                    <motion.p
-
-                        className="
-                            hero__description
-                        "
-
-                        variants={
-                            fadeUp
-                        }
-
-                    >
-
-                        {
-                            hero.description
-                        }
-
-                    </motion.p>
-
-
-                    {/* =================================================
-                        CTA BUTTONS
-                    ================================================= */}
-
-                    <motion.div
-
-                        className="
-                            hero__buttons
-                        "
-
-                        variants={
-                            fadeUp
-                        }
-
-                    >
-
-                        <button
-
-                            className="
-                                hero__primary
-                            "
-
-                            type="
-                                button
-                            "
-
-                            onClick={
-                                handlePrimaryCTA
-                            }
-
-                        >
-
-                            <span>
-
-                                {
-                                    hero.primary_cta_text
-                                }
-
-                            </span>
-
-
-                            <ArrowRight
-                                size={17}
-                            />
-
-                        </button>
-
-
-                        <button
-
-                            className="
-                                hero__secondary
-                            "
-
-                            type="
-                                button
-                            "
-
-                            onClick={
-                                handleStoryCTA
-                            }
-
-                        >
-
-                            <span>
-
-                                Our Story
-
-                            </span>
-
-
-                            <span
-                                className="
-                                    hero__secondary-arrow
-                                "
-                            >
-
-                                ↗
-
-                            </span>
-
-                        </button>
-
-                    </motion.div>
-
-
-                    {/* =================================================
-                        ASSURANCE
-                    ================================================= */}
-
-                    <motion.div
-
-                        className="
-                            hero__assurance
-                        "
-
-                        variants={
-                            fadeUp
-                        }
-
-                    >
-
-                        <span>
-
-                            <CheckCircle2
-                                size={14}
-                            />
-
-                            Thoughtfully sourced
-
-                        </span>
-
-
-                        <span>
-
-                            <CheckCircle2
-                                size={14}
-                            />
-
-                            Ayurveda inspired
-
-                        </span>
-
-                    </motion.div>
-
-                </motion.div>
-
-
-                {/* =================================================
-                    PHILOSOPHY CARD
-                ================================================= */}
-
-                <motion.aside
-
-                    className="
-                        hero__signature
-                    "
-
-                    initial={{
-                        opacity:
-                            0,
-
-                        x:
-                            22
-                    }}
-
-                    animate={{
-                        opacity:
-                            1,
-
-                        x:
-                            0
-                    }}
-
-                    transition={{
-                        duration:
-                            0.75,
-
-                        delay:
-                            0.25
-                    }}
-
-                >
-
-                    <span
-                        className="
-                            hero__signature-label
-                        "
-                    >
-
-                        AUMVEDA PHILOSOPHY
-
-                    </span>
-
-
-                    <p>
-
-                        Wellness should feel natural,
-                        considered and beautifully simple.
-
-                    </p>
-
-
-                    <span
-                        className="
-                            hero__signature-mark
-                        "
-                    >
-
-                        <Leaf
-                            size={17}
-                        />
-
-                        Ancient wisdom • Modern ritual
-
-                    </span>
-
-                </motion.aside>
-
-            </div>
-
-
-            {/* =================================================
-                TRUST STRIP
-            ================================================= */}
-
-            <motion.div
-
-                className="
-                    hero__trust
-                "
-
-                variants={
-                    fadeUp
-                }
-
-                initial="
-                    hidden
-                "
-
-                animate="
-                    visible
-                "
-
-            >
-
-                <div
-                    className="
-                        hero-trust-card
-                    "
-                >
-
-                    <span
-                        className="
-                            hero-trust-card__icon
-                        "
-                    >
-
-                        <Leaf
-                            size={18}
-                        />
-
-                    </span>
-
-
-                    <div>
-
-                        <strong>
-
-                            Nature First
-
-                        </strong>
-
-
-                        <small>
-
-                            Botanical wellness
-
-                        </small>
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    className="
-                        hero-trust-card
-                    "
-                >
-
-                    <span
-                        className="
-                            hero-trust-card__icon
-                        "
-                    >
-
-                        <ShieldCheck
-                            size={18}
-                        />
-
-                    </span>
-
-
-                    <div>
-
-                        <strong>
-
-                            Trusted Quality
-
-                        </strong>
-
-
-                        <small>
-
-                            Carefully considered
-
-                        </small>
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    className="
-                        hero-trust-card
-                    "
-                >
-
-                    <span
-                        className="
-                            hero-trust-card__icon
-                        "
-                    >
-
-                        <Sparkles
-                            size={18}
-                        />
-
-                    </span>
-
-
-                    <div>
-
-                        <strong>
-
-                            Modern Rituals
-
-                        </strong>
-
-
-                        <small>
-
-                            Made for everyday life
-
-                        </small>
-
-                    </div>
-
-                </div>
-
-            </motion.div>
-
-
-            {/* =================================================
-                VIDEO AUDIO CONTROL
-            ================================================= */}
-
-            {
-                hero.video_url &&
-                !videoError && (
-
-                    <button
-
-                        type="
-                            button
-                        "
-
-                        className="
-                            hero-audio-toggle
-                        "
-
-                        onClick={
-                            toggleAudio
-                        }
-
-                        aria-label={
-
-                            muted
-
-                                ? "Unmute video"
-
-                                : "Mute video"
-
-                        }
-
-                    >
-
-                        {
-                            muted
-
-                                ? (
-                                    <VolumeX
-                                        size={15}
-                                    />
-                                )
-
-                                : (
-                                    <Volume2
-                                        size={15}
-                                    />
-                                )
-                        }
-
-                    </button>
-
-                )
-            }
-
-        </section>
-
-    );
-
+const ROTATION_INTERVAL = 4000;
+
+const SUPABASE_URL = (
+  import.meta.env.VITE_SUPABASE_URL ||
+  "https://ihjbssbqwknyyzoewrik.supabase.co"
+).replace(/\/+$/, "");
+
+const STORAGE_BUCKET = "site_assets";
+const STORAGE_FOLDER = "products-banner";
+
+function storageUrl(filename) {
+  if (!filename || !SUPABASE_URL) return "";
+
+  const path = [
+    STORAGE_BUCKET,
+    STORAGE_FOLDER,
+    filename,
+  ]
+    .map(encodeURIComponent)
+    .join("/");
+
+  return (
+    `${SUPABASE_URL}/storage/v1/object/public/${path}`
+  );
 }
 
+/*
+  Verify the full filenames in Supabase.
+  The screenshot previously provided truncated
+  several filenames.
+*/
 
-export default HeroSection;
+const HERO_BANNERS = [
+  {
+    id: "ancient",
+    title: "Ancient Wisdom for Modern Wellness",
+    filename: "ancient-products-banner.webp",
+    destination: "/products",
+    theme: "green",
+  },
+  {
+    id: "goodness",
+    title: "Discover Natural Goodness",
+    filename: "goodness-products-banner.webp",
+    destination: "/products",
+    theme: "gold",
+  },
+  {
+    id: "nature",
+    title: "Inspired by Nature",
+    filename: "nature-products-banner.webp",
+    destination: "/products",
+    theme: "green",
+  },
+  {
+    id: "natures",
+    title: "Nature's Wellness Collection",
+    filename: "natures-products-banner.webp",
+    destination: "/products",
+    theme: "rose",
+  },
+  {
+    id: "skin",
+    title: "Discover Skin Care",
+    filename: "skin-products-banner.webp",
+    destination: "/products?search=skin",
+    theme: "rose",
+  },
+  {
+    id: "wellness",
+    title: "Everyday Wellness",
+    filename: "wellness-products-banner.webp",
+    destination: "/products?search=wellness",
+    theme: "gold",
+  },
+];
+
+const SLIDES = HERO_BANNERS.map((banner) => ({
+  ...banner,
+  imageUrl: storageUrl(banner.filename),
+}));
+
+export default function HeroSection() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+  const [failedImages, setFailedImages] = useState({});
+
+  const touchStartRef = useRef(null);
+
+  const slideCount = SLIDES.length;
+
+  /* REDUCED MOTION */
+
+  useEffect(() => {
+    if (
+      typeof window === "undefined" ||
+      !window.matchMedia
+    ) {
+      return undefined;
+    }
+
+    const media = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    );
+
+    const updateMotion = () => {
+      setReducedMotion(media.matches);
+    };
+
+    updateMotion();
+
+    media.addEventListener?.(
+      "change",
+      updateMotion
+    );
+
+    return () => {
+      media.removeEventListener?.(
+        "change",
+        updateMotion
+      );
+    };
+  }, []);
+
+  /* CAROUSEL NAVIGATION */
+
+  const nextSlide = useCallback(() => {
+    setActiveIndex(
+      (current) => (current + 1) % slideCount
+    );
+  }, [slideCount]);
+
+  const previousSlide = useCallback(() => {
+    setActiveIndex(
+      (current) =>
+        (current - 1 + slideCount) % slideCount
+    );
+  }, [slideCount]);
+
+  const goToSlide = useCallback(
+    (index) => {
+      if (index < 0 || index >= slideCount) return;
+      setActiveIndex(index);
+    },
+    [slideCount]
+  );
+
+  /* AUTOPLAY */
+
+  useEffect(() => {
+    if (
+      slideCount <= 1 ||
+      isHovered ||
+      isFocused ||
+      reducedMotion
+    ) {
+      return undefined;
+    }
+
+    const interval = window.setInterval(() => {
+      if (!document.hidden) {
+        nextSlide();
+      }
+    }, ROTATION_INTERVAL);
+
+    return () => {
+      window.clearInterval(interval);
+    };
+  }, [
+    slideCount,
+    isHovered,
+    isFocused,
+    reducedMotion,
+    nextSlide,
+  ]);
+
+  /* TOUCH SWIPE */
+
+  function handleTouchStart(event) {
+    touchStartRef.current =
+      event.touches[0]?.clientX ?? null;
+  }
+
+  function handleTouchEnd(event) {
+    const startX = touchStartRef.current;
+    const endX = event.changedTouches[0]?.clientX;
+
+    touchStartRef.current = null;
+
+    if (
+      typeof startX !== "number" ||
+      typeof endX !== "number"
+    ) {
+      return;
+    }
+
+    const difference = endX - startX;
+
+    if (Math.abs(difference) < 45) return;
+
+    if (difference < 0) {
+      nextSlide();
+    } else {
+      previousSlide();
+    }
+  }
+
+  /* KEYBOARD */
+
+  function handleKeyDown(event) {
+    if (event.target !== event.currentTarget) return;
+
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      previousSlide();
+    }
+
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      nextSlide();
+    }
+  }
+
+  /* IMAGE ERRORS */
+
+  function markImageFailed(filename) {
+    setFailedImages((previous) => {
+      if (previous[filename]) return previous;
+
+      console.warn(
+        "AUMVEDA Hero image unavailable:",
+        filename
+      );
+
+      return {
+        ...previous,
+        [filename]: true,
+      };
+    });
+  }
+
+  return (
+    <section
+      className="aum-hero"
+      aria-label="AUMVEDA promotional banners"
+      aria-roledescription="carousel"
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onFocusCapture={() => setIsFocused(true)}
+      onBlurCapture={(event) => {
+        if (
+          !event.currentTarget.contains(
+            event.relatedTarget
+          )
+        ) {
+          setIsFocused(false);
+        }
+      }}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onTouchCancel={() => {
+        touchStartRef.current = null;
+      }}
+    >
+      <div className="aum-hero__frame">
+        <div className="aum-hero__viewport">
+          {SLIDES.map((slide, index) => {
+            const isActive = activeIndex === index;
+            const imageFailed = Boolean(
+              failedImages[slide.filename]
+            );
+
+            return (
+              <article
+                key={slide.id}
+                className={[
+                  "aum-hero__slide",
+                  `aum-hero__slide--${slide.theme}`,
+                  isActive
+                    ? "aum-hero__slide--active"
+                    : "",
+                ].join(" ")}
+                aria-hidden={!isActive}
+                inert={!isActive}
+                aria-roledescription="slide"
+                aria-label={`${index + 1} of ${slideCount}`}
+              >
+                <Link
+                  to={slide.destination}
+                  className="aum-hero__image-link"
+                  tabIndex={isActive ? 0 : -1}
+                  aria-label={slide.title}
+                >
+                  {!imageFailed ? (
+                    <>
+                      {/* Backdrop fills unused sides
+                          when source ratios differ. */}
+
+                      <div
+                        className="aum-hero__backdrop"
+                        aria-hidden="true"
+                      >
+                        <img
+                          src={slide.imageUrl}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                          draggable={false}
+                        />
+                      </div>
+
+                      {/* Primary image remains uncropped. */}
+
+                      <picture className="aum-hero__picture">
+                        <img
+                          src={slide.imageUrl}
+                          alt={slide.title}
+                          loading={
+                            index === 0
+                              ? "eager"
+                              : "lazy"
+                          }
+                          fetchPriority={
+                            index === 0
+                              ? "high"
+                              : "auto"
+                          }
+                          decoding="async"
+                          draggable={false}
+                          onError={() =>
+                            markImageFailed(
+                              slide.filename
+                            )
+                          }
+                        />
+                      </picture>
+                    </>
+                  ) : (
+                    <div className="aum-hero__fallback">
+                      <span>{slide.title}</span>
+                    </div>
+                  )}
+                </Link>
+              </article>
+            );
+          })}
+
+          {slideCount > 1 && (
+            <>
+              <button
+                type="button"
+                className="aum-hero__arrow aum-hero__arrow--left"
+                aria-label="Previous banner"
+                onClick={previousSlide}
+              >
+                <ChevronLeft
+                  size={18}
+                  aria-hidden="true"
+                />
+              </button>
+
+              <button
+                type="button"
+                className="aum-hero__arrow aum-hero__arrow--right"
+                aria-label="Next banner"
+                onClick={nextSlide}
+              >
+                <ChevronRight
+                  size={18}
+                  aria-hidden="true"
+                />
+              </button>
+            </>
+          )}
+
+          {slideCount > 1 && (
+            <div
+              className="aum-hero__dots"
+              aria-label="Banner navigation"
+            >
+              {SLIDES.map((slide, index) => (
+                <button
+                  type="button"
+                  key={slide.id}
+                  className={
+                    "aum-hero__dot " +
+                    (index === activeIndex
+                      ? "aum-hero__dot--active"
+                      : "")
+                  }
+                  aria-label={`Show banner ${index + 1}`}
+                  aria-pressed={index === activeIndex}
+                  onClick={() => goToSlide(index)}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}

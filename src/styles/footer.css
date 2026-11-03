@@ -1,981 +1,809 @@
+
 /* ============================================================
-   AUMVEDA
-   PREMIUM COMPACT FOOTER
+   AUMVEDA CUSTOMER WEB
+   COMPACT PREMIUM FOOTER
+   STEP 17E.8 — COMPLETE CSS
+
+   DESIGN:
+   - Compact five-column desktop layout
+   - Forest-green background
+   - Champagne-gold accents
+   - Smooth curved corners
+   - Clear typography
+   - Responsive tablet/mobile layout
+============================================================ */
+
+/* ============================================================
+   01 — ROOT
 ============================================================ */
 
 .footer {
+    --footer-green: #073b2b;
+    --footer-dark: #052d21;
+    --footer-gold: #e4c58c;
+    --footer-ivory: #fffaf0;
+    --footer-muted: rgba(255, 250, 240, 0.74);
 
     position: relative;
+    isolation: isolate;
 
     width: 100%;
-
-    margin: 0 !important;
-
-    padding: 34px 0 0 !important;
-
     overflow: hidden;
 
+    color: var(--footer-ivory);
+
     background:
+        radial-gradient(
+            ellipse at 8% 0%,
+            rgba(100, 158, 106, 0.14),
+            transparent 38%
+        ),
         linear-gradient(
-            135deg,
-            #576654 0%,
-            #4d5b4a 100%
+            120deg,
+            #062f23 0%,
+            #0b4632 55%,
+            #073426 100%
         );
 
-    color: #eeeae2;
+    border-top: 1px solid rgba(228, 197, 140, 0.25);
+}
 
+.footer *,
+.footer *::before,
+.footer *::after {
     box-sizing: border-box;
 }
 
+/* ============================================================
+   02 — BACKGROUND DETAILS
+============================================================ */
+
+.footer::before,
+.footer::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.footer::before {
+    width: 240px;
+    height: 240px;
+
+    top: -160px;
+    left: -90px;
+
+    border: 1px solid rgba(228, 197, 140, 0.09);
+}
+
+.footer::after {
+    width: 250px;
+    height: 250px;
+
+    right: -120px;
+    bottom: -180px;
+
+    border: 1px solid rgba(228, 197, 140, 0.08);
+}
 
 /* ============================================================
-   MAIN CONTAINER
+   03 — MAIN CONTAINER
 ============================================================ */
 
 .footer__container {
+    position: relative;
+    z-index: 1;
 
-    width: 100%;
-
-    max-width: 1280px;
-
+    width: min(calc(100% - 48px), 1440px);
     margin: 0 auto;
-
-    padding: 0 42px;
 
     display: grid;
 
     grid-template-columns:
-        2fr 1fr 1fr 1.25fr;
-
-    column-gap: 32px;
-
-    row-gap: 22px;
+        minmax(245px, 1.5fr)
+        minmax(95px, 0.65fr)
+        minmax(110px, 0.75fr)
+        minmax(190px, 1.05fr)
+        minmax(170px, 0.9fr);
 
     align-items: start;
 
-    box-sizing: border-box;
+    gap: clamp(16px, 2vw, 34px);
+
+    padding: 22px 0 20px;
 }
 
-
 /* ============================================================
-   BRAND SECTION
+   04 — BRAND SECTION
 ============================================================ */
 
 .footer__brand {
-
-    position: relative;
-
     min-width: 0;
 
-    padding-right: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 7px;
+
+    padding-right: 8px;
 }
 
-
 /* ============================================================
-   LOGO BROWN CURVED PANEL
+   05 — BRAND LOGO
 ============================================================ */
 
 .footer__logo {
+    width: 180px;
+    height: 84px;
 
-    position: relative;
-
-    display: inline-flex;
-
+    display: flex;
     align-items: center;
-
     justify-content: center;
 
-    width: fit-content;
-
-    margin: 0 0 11px;
-
-    padding:
-        8px 15px 7px;
-
-    background:
-        #eeeae2;
-
-    /*
-       Organic curved shape.
-       Slightly asymmetric so it feels
-       more premium than a standard rectangle.
-    */
-
-    border-radius:
-        18px 18px 28px 18px;
-
-    border:
-        5px solid
-        rgba(
-            237,
-            228,
-            212,
-            0.22
-        );
-
-    box-shadow:
-        0 8px 18px
-        rgba(
-            56,
-            31,
-            18,
-            0.22
-        );
+    padding: 3px 5px;
 
     overflow: hidden;
 
-    box-sizing: border-box;
+    border: 1px solid rgba(255, 255, 255, 0.48);
+    border-radius: 15px;
+
+    color: #173e30;
+    background: #f8f5ed;
+
+    box-shadow:
+        0 4px 13px rgba(0, 0, 0, 0.12);
+
+    text-decoration: none;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
+.footer__logo:hover {
+    transform: translateY(-2px);
 
-/*
-   Soft decorative highlight inside
-   the brown logo panel.
-*/
-
-.footer__logo::before {
-
-    content: "";
-
-    position: absolute;
-
-    width: 65px;
-
-    height: 65px;
-
-    top: -42px;
-
-    right: -22px;
-
-    border-radius: 50%;
-
-    background:
-        rgba(
-            237,
-            228,
-            212,
-            0.10
-        );
-
-    pointer-events: none;
-
-    z-index: 1;
+    box-shadow:
+        0 7px 17px rgba(0, 0, 0, 0.16);
 }
-
-
-/*
-   Very subtle lower highlight.
-*/
-
-.footer__logo::after {
-
-    content: "";
-
-    position: absolute;
-
-    width: 90px;
-
-    height: 30px;
-
-    left: -35px;
-
-    bottom: -23px;
-
-    border-radius: 50%;
-
-    background:
-        rgba(
-            237,
-            228,
-            212,
-            0.06
-        );
-
-    pointer-events: none;
-
-    z-index: 1;
-}
-
-
-/* ============================================================
-   LOGO IMAGE
-============================================================ */
 
 .footer__logo img {
-
-    position: relative;
-
-    z-index: 2;
-
-    width: 175px;
-
-    height: auto;
-
-    max-height: 72px;
-
     display: block;
+
+    width: 100%;
+    height: 100%;
 
     object-fit: contain;
-
-    filter:
-        drop-shadow(
-            0 5px 10px
-            rgba(
-                0,
-                0,
-                0,
-                0.16
-            )
-        );
+    object-position: center;
 }
 
-
-/* ============================================================
-   BRAND DECORATIVE LINE
-============================================================ */
-
-.footer__brand > .footer__logo + .footer__tagline::before {
-
-    content: "";
-
-    display: block;
-
-    width: 55px;
-
-    height: 1px;
-
-    margin:
-        0 0 10px;
-
-    background:
-        #ede4d4;
-
-    opacity: .55;
-}
-
-
-/* ============================================================
-   TAGLINE
-============================================================ */
-
-.footer__tagline {
-
-    margin: 0 !important;
-
-    padding: 0 !important;
-
-    color:
-        #ffffff !important;
+.footer__logo > span {
+    color: #173e30;
 
     font-family:
         Georgia,
         "Times New Roman",
         serif;
 
-    font-size:
-        15px !important;
-
-    line-height:
-        1.35 !important;
-
-    font-weight:
-        600;
-
-    letter-spacing:
-        .3px;
+    font-size: 18px;
+    font-weight: 700;
 }
 
-
 /* ============================================================
-   DESCRIPTION
+   06 — BRAND TEXT
 ============================================================ */
 
-.footer__description {
+.footer__brand-copy {
+    display: flex;
+    flex-direction: column;
 
-    max-width:
-        285px;
-
-    margin:
-        9px 0 0 !important;
-
-    padding:
-        0 !important;
-
-    color:
-        #ddd8ce !important;
-
-    font-size:
-        11px !important;
-
-    line-height:
-        1.55 !important;
+    gap: 5px;
+    min-width: 0;
 }
 
+.footer__tagline {
+    margin: 0;
+
+    color: #fffaf0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.18;
+    letter-spacing: -0.025em;
+}
+
+.footer__tagline span {
+    color: var(--footer-gold);
+    font-style: italic;
+}
+
+.footer__description {
+    max-width: 285px;
+
+    margin: 0;
+
+    color: var(--footer-muted);
+
+    font-size: 10.5px;
+    line-height: 1.5;
+}
 
 /* ============================================================
-   FOOTER COLUMNS
+   07 — SHOP BUTTON
+============================================================ */
+
+.footer__shop-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    width: fit-content;
+    min-height: 32px;
+
+    margin-top: 3px;
+    padding: 0 13px;
+
+    border: 1px solid rgba(240, 212, 158, 0.65);
+    border-radius: 999px;
+
+    color: #392715;
+
+    background:
+        linear-gradient(
+            120deg,
+            #efd29b,
+            #d9b26e
+        );
+
+    font-size: 10px;
+    font-weight: 800;
+    text-decoration: none;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+.footer__shop-button:hover {
+    transform: translateY(-1px);
+
+    color: #173e30;
+    background: #f7dba7;
+}
+
+.footer__shop-button svg {
+    width: 13px;
+    height: 13px;
+}
+
+/* ============================================================
+   08 — NAVIGATION COLUMNS
 ============================================================ */
 
 .footer__column {
-
     min-width: 0;
 
-    display:
-        flex;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 
-    flex-direction:
-        column;
-
-    align-items:
-        flex-start;
-
-    gap:
-        7px;
+    gap: 7px;
+    padding-top: 3px;
 }
 
-
 .footer__column h3 {
+    position: relative;
 
-    margin:
-        0 0 6px !important;
+    margin: 0 0 6px;
+    padding-bottom: 9px;
 
-    padding:
-        0 !important;
-
-    color:
-        #ede4d4;
+    color: #f0d69e;
 
     font-family:
         Georgia,
         "Times New Roman",
         serif;
 
-    font-size:
-        16px;
-
-    line-height:
-        1.2;
-
-    font-weight:
-        700;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
 }
 
+.footer__column h3::after {
+    content: "";
 
-.footer__column a {
+    position: absolute;
 
-    margin:
-        0;
+    left: 0;
+    bottom: 0;
 
-    padding:
-        0;
+    width: 26px;
+    height: 2px;
 
-    color:
-        #eeeae2;
+    border-radius: 999px;
 
-    text-decoration:
-        none;
-
-    font-size:
-        11px;
-
-    line-height:
-        1.3;
-
-    transition:
-        color .25s ease,
-        transform .25s ease;
-
-    cursor:
-        pointer;
+    background: #d6b47d;
 }
-
-
-.footer__column a:hover {
-
-    color:
-        #ffffff;
-
-    transform:
-        translateX(3px);
-}
-
 
 /* ============================================================
-   CONNECT
+   09 — NAVIGATION LINKS
 ============================================================ */
 
-.footer__connect {
+.footer__column > a {
+    display: inline-flex;
+    align-items: center;
 
-    align-items:
-        flex-start;
+    gap: 6px;
+    min-width: 0;
+
+    color: rgba(255, 250, 240, 0.78);
+
+    font-size: 10.5px;
+    font-weight: 500;
+    line-height: 1.45;
+
+    text-decoration: none;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
 }
 
+.footer__column > a:hover {
+    color: #efd29b;
+    transform: translateX(2px);
+}
 
 /* ============================================================
-   SOCIAL ICONS
+   10 — COLUMN DESCRIPTION
+============================================================ */
+
+.footer__column > p {
+    max-width: 220px;
+
+    margin: 0;
+
+    color: rgba(255, 250, 240, 0.67);
+
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+/* ============================================================
+   11 — CUSTOMER CARE
+============================================================ */
+
+.footer__support-link {
+    min-height: 29px;
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 6px;
+    padding: 0 10px;
+
+    border: 1px solid rgba(228, 197, 140, 0.28);
+    border-radius: 999px;
+
+    color: #efd29b !important;
+    background: rgba(255, 255, 255, 0.05);
+
+    font-size: 10px;
+    font-weight: 750;
+}
+
+.footer__support-link:hover {
+    color: #173e30 !important;
+    background: #efd29b;
+    transform: none;
+}
+
+.footer__support-link svg {
+    width: 12px;
+    height: 12px;
+}
+
+.footer__email-link {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 6px;
+    min-width: 0;
+
+    margin-top: 1px;
+
+    color: rgba(255, 250, 240, 0.83) !important;
+
+    font-size: 10px;
+
+    overflow-wrap: anywhere;
+}
+
+.footer__email-link svg {
+    width: 13px;
+    height: 13px;
+
+    flex-shrink: 0;
+    color: #e4c58c;
+}
+
+/* ============================================================
+   12 — SOCIAL ICONS
 ============================================================ */
 
 .footer__icons {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
 
-    display:
-        flex;
+    gap: 7px;
 
-    align-items:
-        center;
-
-    gap:
-        8px;
-
-    margin:
-        0 0 7px;
+    margin-top: 2px;
 }
 
+.footer__icons a,
+.footer__social-icon {
+    width: 30px;
+    height: 30px;
 
-.footer__icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
-    width:
-        31px;
+    flex-shrink: 0;
 
-    height:
-        31px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 50%;
 
-    padding:
-        0;
+    color: #173e30;
+    background: #f6f2e9;
 
-    border-radius:
-        50%;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    background:
-        #ede4d4;
-
-    color:
-        #381f12;
-
-    font-size:
-        13px;
+    font-size: 12px;
+    text-decoration: none;
 
     transition:
-        background .25s ease,
-        color .25s ease,
-        transform .25s ease;
+        transform 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease;
 }
 
+.footer__social-icon {
+    cursor: default;
+}
 
 .footer__icons a:hover {
+    transform: translateY(-2px);
 
-    background:
-        #381f12;
-
-    color:
-        #ede4d4;
-
-    transform:
-        translateY(-3px);
+    color: #173e30;
+    background: #efd29b;
 }
-
 
 /* ============================================================
-   EMAIL
+   13 — LOWER FOOTER
 ============================================================ */
 
-.footer__email {
+.footer__lower {
+    position: relative;
+    z-index: 1;
 
-    margin:
-        0 !important;
+    border-top: 1px solid rgba(228, 197, 140, 0.17);
 
-    padding:
-        0 !important;
-
-    color:
-        #eeeae2;
-
-    font-size:
-        10px !important;
-
-    line-height:
-        1.4 !important;
+    background: rgba(0, 18, 12, 0.2);
 }
 
+.footer__lower-inner {
+    width: min(calc(100% - 48px), 1440px);
+    min-height: 37px;
+
+    margin: 0 auto;
+    padding: 6px 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+.footer__lower-left {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    color: rgba(255, 250, 240, 0.66);
+    font-size: 9px;
+}
+
+.footer__lower-brand {
+    color: #ecd19b;
+    font-weight: 750;
+}
+
+.footer__lower-dot {
+    width: 4px;
+    height: 4px;
+
+    flex-shrink: 0;
+    border-radius: 50%;
+
+    background: #d6b47d;
+}
+
+.footer__copyright {
+    margin: 0;
+
+    color: rgba(255, 250, 240, 0.7);
+
+    font-size: 9px;
+    white-space: nowrap;
+}
 
 /* ============================================================
-   NEWSLETTER
+   14 — LAPTOP
 ============================================================ */
 
-.footer__newsletter {
-
-    width:
-        100%;
-
-    margin:
-        10px 0 0;
-}
-
-
-.footer__newsletter p {
-
-    margin:
-        0 0 6px !important;
-
-    padding:
-        0 !important;
-
-    color:
-        #ddd4c5;
-
-    font-size:
-        10px;
-
-    line-height:
-        1.35;
-}
-
-
-/* ============================================================
-   SUBSCRIBE
-============================================================ */
-
-.footer__subscribe {
-
-    width:
-        100%;
-
-    max-width:
-        260px;
-
-    height:
-        32px;
-
-    display:
-        flex;
-
-    margin:
-        0;
-
-    overflow:
-        hidden;
-
-    border-radius:
-        18px;
-
-    background:
-        #faf7ef;
-}
-
-
-.footer__subscribe input {
-
-    flex:
-        1;
-
-    min-width:
-        0;
-
-    width:
-        100%;
-
-    height:
-        32px;
-
-    padding:
-        0 11px;
-
-    border:
-        none;
-
-    outline:
-        none;
-
-    background:
-        #faf7ef;
-
-    color:
-        #381f12;
-
-    font-family:
-        inherit;
-
-    font-size:
-        9px;
-}
-
-
-.footer__subscribe input::placeholder {
-
-    color:
-        #8c857d;
-}
-
-
-.footer__subscribe button {
-
-    flex-shrink:
-        0;
-
-    height:
-        32px;
-
-    padding:
-        0 13px;
-
-    border:
-        none;
-
-    background:
-        #381f12;
-
-    color:
-        #ede4d4;
-
-    font-family:
-        inherit;
-
-    font-size:
-        9px;
-
-    font-weight:
-        600;
-
-    cursor:
-        pointer;
-
-    transition:
-        background .25s ease,
-        color .25s ease;
-}
-
-
-.footer__subscribe button:hover {
-
-    background:
-        #ede4d4;
-
-    color:
-        #381f12;
-}
-
-
-/* ============================================================
-   COPYRIGHT
-============================================================ */
-
-.footer__bottom {
-
-    margin-top:
-        25px;
-
-    padding:
-        12px 42px;
-
-    border-top:
-        1px solid
-        rgba(
-            255,
-            255,
-            255,
-            .16
-        );
-
-    text-align:
-        center;
-
-    box-sizing:
-        border-box;
-}
-
-
-.footer__bottom p {
-
-    margin:
-        0;
-
-    padding:
-        0;
-
-    color:
-        #eeeae2;
-
-    font-size:
-        9px;
-
-    line-height:
-        1.3;
-}
-
-
-/* ============================================================
-   LARGE TABLET
-============================================================ */
-
-@media (max-width: 1100px) {
-
-    .footer {
-
-        padding-top:
-            30px !important;
+@media (max-width: 1200px) {
+    .footer__container {
+        grid-template-columns:
+            minmax(230px, 1.3fr)
+            repeat(3, minmax(0, 1fr));
+
+        gap: 20px;
     }
 
+    .footer__connect {
+        grid-column: 2 / -1;
 
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+
+        gap: 10px 18px;
+    }
+
+    .footer__connect h3 {
+        margin: 0;
+    }
+
+    .footer__connect h3::after {
+        display: none;
+    }
+}
+
+/* ============================================================
+   15 — TABLET
+============================================================ */
+
+@media (max-width: 900px) {
     .footer__container {
-
-        padding:
-            0 32px;
+        width: calc(100% - 36px);
 
         grid-template-columns:
-            1.7fr 1fr 1fr 1.2fr;
+            minmax(220px, 1.2fr)
+            repeat(2, minmax(0, 1fr));
 
-        column-gap:
-            25px;
+        gap: 20px;
     }
-
-
-    .footer__logo img {
-
-        width:
-            155px;
-    }
-
-}
-
-
-/* ============================================================
-   TABLET
-============================================================ */
-
-@media (max-width: 850px) {
-
-    .footer__container {
-
-        grid-template-columns:
-            repeat(
-                2,
-                minmax(0, 1fr)
-            );
-
-        gap:
-            25px 30px;
-    }
-
 
     .footer__brand {
-
-        padding-right:
-            0;
+        grid-row: span 2;
     }
 
-
-    .footer__bottom {
-
-        margin-top:
-            22px;
-
-        padding:
-            11px 30px;
+    .footer__support {
+        grid-column: 2;
     }
 
+    .footer__connect {
+        grid-column: 3;
+
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        gap: 8px;
+    }
+
+    .footer__connect h3 {
+        margin-bottom: 6px;
+    }
+
+    .footer__connect h3::after {
+        display: block;
+    }
+
+    .footer__lower-inner {
+        width: calc(100% - 36px);
+        flex-wrap: wrap;
+    }
 }
 
-
 /* ============================================================
-   MOBILE
+   16 — MOBILE
 ============================================================ */
 
 @media (max-width: 600px) {
-
-    .footer {
-
-        padding-top:
-            27px !important;
-    }
-
-
     .footer__container {
-
-        padding:
-            0 20px;
+        width: calc(100% - 26px);
 
         grid-template-columns:
-            1fr;
+            repeat(2, minmax(0, 1fr));
 
-        gap:
-            22px;
+        gap: 19px 14px;
+        padding: 20px 0;
     }
 
+    .footer__brand {
+        grid-column: 1 / -1;
+        grid-row: auto;
+
+        display: grid;
+
+        grid-template-columns:
+            112px minmax(0, 1fr);
+
+        grid-template-areas:
+            "logo copy"
+            "button button";
+
+        align-items: center;
+
+        gap: 9px 12px;
+        padding: 0 0 13px;
+
+        border-bottom:
+            1px solid rgba(228, 197, 140, 0.16);
+    }
 
     .footer__logo {
+        grid-area: logo;
 
-        padding:
-            7px 12px 6px;
-
-        border-radius:
-            15px 15px 23px 15px;
+        width: 112px;
+        height: 56px;
     }
 
-
-    .footer__logo img {
-
-        width:
-            150px;
-
-        max-height:
-            65px;
+    .footer__brand-copy {
+        grid-area: copy;
     }
-
-
-    .footer__brand
-    > .footer__logo
-    + .footer__tagline::before {
-
-        width:
-            48px;
-
-        margin-bottom:
-            8px;
-    }
-
 
     .footer__tagline {
-
-        font-size:
-            14px !important;
+        font-size: 17px;
     }
-
 
     .footer__description {
-
-        margin-top:
-            7px !important;
-
-        max-width:
-            300px;
-
-        font-size:
-            10px !important;
+        font-size: 9px;
     }
 
+    .footer__shop-button {
+        grid-area: button;
+        justify-self: start;
+    }
 
     .footer__column {
-
-        gap:
-            6px;
+        gap: 7px;
     }
-
 
     .footer__column h3 {
-
-        margin-bottom:
-            5px !important;
-
-        font-size:
-            15px;
+        font-size: 13px;
     }
 
-
-    .footer__column a {
-
-        font-size:
-            10px;
+    .footer__column > a {
+        font-size: 10px;
     }
 
-
-    .footer__icons {
-
-        gap:
-            7px;
+    .footer__column > p {
+        font-size: 9.5px;
     }
 
-
-    .footer__icons a {
-
-        width:
-            30px;
-
-        height:
-            30px;
-
-        font-size:
-            12px;
+    .footer__support {
+        grid-column: 1;
     }
 
+    .footer__connect {
+        grid-column: 2;
 
-    .footer__newsletter {
-
-        margin-top:
-            8px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
     }
 
-
-    .footer__subscribe {
-
-        max-width:
-            300px;
+    .footer__connect h3 {
+        margin-bottom: 6px;
     }
 
-
-    .footer__bottom {
-
-        margin-top:
-            22px;
-
-        padding:
-            11px 20px;
+    .footer__connect h3::after {
+        display: block;
     }
 
-
-    .footer__bottom p {
-
-        font-size:
-            8px;
+    .footer__icons a,
+    .footer__social-icon {
+        width: 29px;
+        height: 29px;
     }
 
+    .footer__lower-inner {
+        width: calc(100% - 26px);
+
+        flex-direction: column;
+        justify-content: center;
+
+        gap: 6px;
+        padding: 10px 0;
+
+        text-align: center;
+    }
+
+    .footer__lower-left {
+        justify-content: center;
+    }
 }
-
 
 /* ============================================================
-   VERY SMALL MOBILE
+   17 — SMALL MOBILE
 ============================================================ */
 
-@media (max-width: 380px) {
-
+@media (max-width: 390px) {
     .footer__container {
-
-        padding:
-            0 16px;
-
-        gap:
-            20px;
+        gap: 17px 10px;
     }
 
+    .footer__brand {
+        grid-template-columns:
+            100px minmax(0, 1fr);
+    }
 
     .footer__logo {
-
-        padding:
-            6px 10px 5px;
-
-        border-radius:
-            14px 14px 21px 14px;
+        width: 100px;
+        height: 51px;
     }
 
-
-    .footer__logo img {
-
-        width:
-            135px;
+    .footer__tagline {
+        font-size: 15px;
     }
 
-
-    .footer__subscribe {
-
-        max-width:
-            100%;
+    .footer__description {
+        font-size: 9px;
     }
 
+    .footer__column > a {
+        font-size: 9.5px;
+    }
+
+    .footer__email-link {
+        font-size: 9px;
+    }
 }
+
+/* ============================================================
+   18 — ACCESSIBILITY
+============================================================ */
+
+.footer a:focus-visible {
+    outline: 2px solid #f0d49e;
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .footer *,
+    .footer *::before,
+    .footer *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
+
+/* ============================================================
+   END — AUMVEDA COMPACT PREMIUM FOOTER
+============================================================ */

@@ -1,0 +1,498 @@
+
+/* ============================================================
+   AUMVEDA — SECTION 10: TRUST & BENEFITS
+   PREMIUM ULTRA-COMPACT SAGE STRIP
+
+   DESIGN:
+   - Slim premium sage-green benefits strip
+   - Five equal columns on desktop
+   - Three + two columns on tablet
+   - Two + two + one columns on mobile
+   - Compact icon and text alignment
+   - Soft rounded corners
+   - Minimal vertical whitespace
+
+   PRESERVED:
+   - Existing TrustBenefits.jsx
+   - All five benefits
+   - Existing icons and descriptions
+   - Responsive layout
+============================================================ */
+
+
+/* ============================================================
+   01 — BOX MODEL
+============================================================ */
+
+.trust-benefits,
+.trust-benefits *,
+.trust-benefits *::before,
+.trust-benefits *::after {
+  box-sizing: border-box;
+}
+
+
+/* ============================================================
+   02 — SECTION ROOT
+
+   Remove excessive outer whitespace.
+============================================================ */
+
+.trust-benefits,
+.aumveda-home-page .trust-benefits {
+  position: relative;
+
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  margin: 0;
+  padding: 7px clamp(10px, 1.5vw, 20px);
+
+  overflow: hidden;
+
+  border: 0;
+  border-radius: 12px;
+
+  background: #fffdf8;
+}
+
+
+/* ============================================================
+   03 — SAGE GREEN CONTAINER
+
+   Main visual identity of the section.
+============================================================ */
+
+.trust-benefits__container {
+  width: 100%;
+  max-width: 1500px;
+  min-width: 0;
+
+  margin: 0 auto;
+  padding: 2px 5px;
+
+  overflow: hidden;
+
+  border: 1px solid #d6e1ca;
+  border-radius: 12px;
+
+  background: linear-gradient(
+    110deg,
+    #eef4e6 0%,
+    #e8f0dc 48%,
+    #e3ecd7 100%
+  );
+
+  box-shadow:
+    0 2px 7px rgba(47, 79, 46, 0.035);
+}
+
+
+/* ============================================================
+   04 — FIVE-COLUMN GRID
+
+   No unnecessary minimum height.
+============================================================ */
+
+.trust-benefits__grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(5, minmax(0, 1fr));
+
+  align-items: stretch;
+
+  width: 100%;
+  min-height: 0;
+
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ============================================================
+   05 — BENEFIT ITEM
+============================================================ */
+
+.trust-benefits__item {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  min-width: 0;
+  min-height: 58px;
+
+  margin: 0;
+  padding: 9px 7px;
+}
+
+
+/* ============================================================
+   06 — COLUMN SEPARATORS
+============================================================ */
+
+.trust-benefits__item:not(:last-child)::after {
+  content: "";
+
+  position: absolute;
+
+  top: 22%;
+  right: 0;
+  bottom: 22%;
+
+  width: 1px;
+
+  background: #cedbc3;
+
+  pointer-events: none;
+}
+
+
+/* ============================================================
+   07 — ICON CONTAINER
+
+   Smaller, more balanced circular icons.
+============================================================ */
+
+.trust-benefits__icon {
+  display: grid;
+  place-items: center;
+
+  flex: 0 0 32px;
+
+  width: 32px;
+  height: 32px;
+
+  margin: 0;
+  padding: 0;
+
+  border: 1px solid #77967a;
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.48);
+  color: #315d40;
+}
+
+
+/* ============================================================
+   08 — ICON SVG
+============================================================ */
+
+.trust-benefits__icon svg {
+  display: block;
+
+  width: 18px;
+  height: 18px;
+
+  stroke-width: 1.8;
+}
+
+
+/* ============================================================
+   09 — TEXT WRAPPER
+============================================================ */
+
+.trust-benefits__copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  gap: 2px;
+
+  min-width: 0;
+
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ============================================================
+   10 — BENEFIT TITLE
+============================================================ */
+
+.trust-benefits__copy h3 {
+  margin: 0;
+  padding: 0;
+
+  color: #285138;
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 800;
+
+  line-height: 1.23;
+  letter-spacing: -0.015em;
+}
+
+
+/* ============================================================
+   11 — BENEFIT DESCRIPTION
+============================================================ */
+
+.trust-benefits__copy p {
+  margin: 0;
+  padding: 0;
+
+  color: #65775d;
+
+  font-family: inherit;
+  font-size: 9px;
+  font-weight: 500;
+
+  line-height: 1.3;
+}
+
+
+/* ============================================================
+   12 — LAPTOP
+============================================================ */
+
+@media (max-width: 1150px) {
+  .trust-benefits,
+  .aumveda-home-page .trust-benefits {
+    padding: 7px 11px;
+  }
+
+  .trust-benefits__item {
+    gap: 6px;
+    min-height: 56px;
+
+    padding: 8px 5px;
+  }
+
+  .trust-benefits__icon {
+    flex-basis: 29px;
+
+    width: 29px;
+    height: 29px;
+  }
+
+  .trust-benefits__icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .trust-benefits__copy h3 {
+    font-size: 10.5px;
+  }
+
+  .trust-benefits__copy p {
+    font-size: 8.5px;
+  }
+}
+
+
+/* ============================================================
+   13 — TABLET
+
+   First row: 3 benefits
+   Second row: 2 centered benefits
+============================================================ */
+
+@media (max-width: 850px) {
+  .trust-benefits__grid {
+    grid-template-columns:
+      repeat(6, minmax(0, 1fr));
+  }
+
+  .trust-benefits__item {
+    grid-column: span 2;
+
+    justify-content: center;
+
+    min-height: 54px;
+
+    padding: 8px 9px;
+  }
+
+  .trust-benefits__item:nth-child(-n + 3) {
+    border-bottom: 1px solid #cedbc3;
+  }
+
+  .trust-benefits__item:nth-child(3)::after {
+    display: none;
+  }
+
+  .trust-benefits__item:nth-child(4) {
+    grid-column: 2 / span 2;
+  }
+
+  .trust-benefits__item:nth-child(5) {
+    grid-column: 4 / span 2;
+  }
+
+  .trust-benefits__item:nth-child(5)::after {
+    display: none;
+  }
+
+  .trust-benefits__copy h3 {
+    font-size: 11px;
+  }
+
+  .trust-benefits__copy p {
+    font-size: 9px;
+  }
+}
+
+
+/* ============================================================
+   14 — MOBILE
+
+   2 + 2 + 1 layout.
+============================================================ */
+
+@media (max-width: 600px) {
+  .trust-benefits,
+  .aumveda-home-page .trust-benefits {
+    padding: 7px;
+
+    border-radius: 10px;
+  }
+
+  .trust-benefits__container {
+    padding: 2px 3px;
+
+    border-radius: 10px;
+  }
+
+  .trust-benefits__grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    min-height: 0;
+  }
+
+  .trust-benefits__item {
+    grid-column: auto;
+
+    justify-content: flex-start;
+
+    gap: 7px;
+
+    min-height: 54px;
+
+    padding: 8px 7px;
+  }
+
+  /* Reset tablet placement */
+
+  .trust-benefits__item:nth-child(4),
+  .trust-benefits__item:nth-child(5) {
+    grid-column: auto;
+  }
+
+  /* Reset desktop separators */
+
+  .trust-benefits__item::after,
+  .trust-benefits__item:not(:last-child)::after {
+    display: none;
+  }
+
+  /* Vertical separators */
+
+  .trust-benefits__item:nth-child(odd):not(:last-child)::after {
+    display: block;
+
+    top: 20%;
+    right: 0;
+    bottom: 20%;
+  }
+
+  /* Horizontal separators */
+
+  .trust-benefits__item:nth-child(-n + 4) {
+    border-bottom: 1px solid #cedbc3;
+  }
+
+  /* Center final benefit */
+
+  .trust-benefits__item:last-child {
+    grid-column: 1 / -1;
+
+    justify-content: center;
+
+    border-bottom: 0;
+  }
+
+  .trust-benefits__icon {
+    flex: 0 0 29px;
+
+    width: 29px;
+    height: 29px;
+  }
+
+  .trust-benefits__icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .trust-benefits__copy h3 {
+    font-size: 10.5px;
+  }
+
+  .trust-benefits__copy p {
+    font-size: 8.5px;
+  }
+}
+
+
+/* ============================================================
+   15 — SMALL MOBILE
+============================================================ */
+
+@media (max-width: 390px) {
+  .trust-benefits,
+  .aumveda-home-page .trust-benefits {
+    padding: 6px;
+  }
+
+  .trust-benefits__item {
+    gap: 5px;
+
+    min-height: 52px;
+
+    padding: 7px 5px;
+  }
+
+  .trust-benefits__icon {
+    flex-basis: 27px;
+
+    width: 27px;
+    height: 27px;
+  }
+
+  .trust-benefits__icon svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .trust-benefits__copy h3 {
+    font-size: 10px;
+  }
+
+  .trust-benefits__copy p {
+    font-size: 8px;
+  }
+}
+
+
+/* ============================================================
+   16 — REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .trust-benefits,
+  .trust-benefits * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ============================================================
+   END — AUMVEDA TRUST & BENEFITS
+============================================================ */

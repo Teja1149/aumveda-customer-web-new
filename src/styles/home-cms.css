@@ -1,0 +1,674 @@
+
+/* ============================================================
+   AUMVEDA — PREMIUM HOMEPAGE CANVAS
+   GLOBAL HOMEPAGE STYLING
+
+   PURPOSE:
+   Make the homepage visually richer and more premium
+   without modifying any finalized homepage section.
+
+   PRESERVED:
+   - Full-width navbar and footer
+   - Centered 1440px homepage
+   - Existing section dimensions and styles
+   - Hero banner 4.4:1 ratio
+   - Section gaps: 7px / 6px / 5px
+   - All carousel animations
+   - All product interactions
+   - All section backgrounds and cards
+   - Mobile responsive behavior
+
+   GLOBAL IMPROVEMENTS:
+   - Layered warm ivory background
+   - Soft sage and champagne ambient gradients
+   - Subtle botanical-inspired side decoration
+   - Better large-screen visual depth
+   - Elegant overall presentation
+============================================================ */
+
+
+/* ============================================================
+   01 — HOMEPAGE DESIGN VARIABLES
+============================================================ */
+
+.aumveda-home-page {
+  --aum-home-max-width: 1440px;
+
+  --aum-home-ivory: #fffdf8;
+  --aum-home-cream: #faf8f1;
+  --aum-home-sand: #f5efe4;
+  --aum-home-sage: #e8efdf;
+
+  --aum-home-outer-background: #f1eee6;
+
+  --aum-home-forest: #28543a;
+  --aum-home-heading: #36291f;
+  --aum-home-text: #55493e;
+  --aum-home-muted: #81766a;
+
+  --aum-home-border: #ece5da;
+
+  --aum-home-section-gap: 7px;
+  --aum-home-section-radius: 12px;
+  --aum-home-card-radius: 10px;
+
+  --aum-home-ambient-sage:
+    rgba(142, 170, 119, 0.17);
+
+  --aum-home-ambient-gold:
+    rgba(208, 166, 100, 0.14);
+
+  --aum-home-ambient-cream:
+    rgba(255, 249, 232, 0.75);
+}
+
+
+/* ============================================================
+   02 — BOX MODEL
+============================================================ */
+
+.aumveda-home-page,
+.aumveda-home-page *,
+.aumveda-home-page *::before,
+.aumveda-home-page *::after {
+  box-sizing: border-box;
+}
+
+
+/* ============================================================
+   03 — GLOBAL HOMEPAGE CANVAS
+
+   Instead of a plain beige background, use multiple
+   soft gradients to create an elegant atmosphere.
+
+   These gradients are painted behind the homepage.
+   They do not affect the section components.
+============================================================ */
+
+.aumveda-home-page {
+  position: relative;
+  isolation: isolate;
+
+  display: block;
+
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  margin: 0;
+
+  padding: 18px 65px 24px;
+
+  overflow-x: clip;
+
+  background-color: #f2efe7;
+
+  background-image:
+    radial-gradient(
+      ellipse 520px 650px at 0% 9%,
+      rgba(163, 188, 141, 0.21),
+      transparent 76%
+    ),
+
+    radial-gradient(
+      ellipse 530px 650px at 100% 23%,
+      rgba(218, 181, 121, 0.16),
+      transparent 78%
+    ),
+
+    radial-gradient(
+      ellipse 480px 630px at 1% 51%,
+      rgba(177, 196, 157, 0.18),
+      transparent 78%
+    ),
+
+    radial-gradient(
+      ellipse 550px 680px at 100% 76%,
+      rgba(209, 177, 125, 0.14),
+      transparent 78%
+    ),
+
+    linear-gradient(
+      180deg,
+      #f4f0e7 0%,
+      #f1eee6 28%,
+      #f3efe7 55%,
+      #f0ede5 82%,
+      #f5f0e7 100%
+    );
+
+  color: var(--aum-home-text);
+}
+
+
+/* ============================================================
+   04 — BOTANICAL-INSPIRED SIDE DECORATION
+
+   Pure CSS decoration, no image requests.
+
+   These shapes remain behind the content.
+============================================================ */
+
+.aumveda-home-page::before,
+.aumveda-home-page::after {
+  content: "";
+
+  position: absolute;
+  z-index: -1;
+
+  width: 360px;
+  height: 520px;
+
+  pointer-events: none;
+
+  opacity: 0.55;
+}
+
+
+/* LEFT DECORATION */
+
+.aumveda-home-page::before {
+  top: 110px;
+  left: -210px;
+
+  border: 1px solid rgba(71, 112, 72, 0.14);
+
+  border-radius:
+    75% 25% 68% 32% /
+    65% 42% 58% 35%;
+
+  background:
+    radial-gradient(
+      ellipse at 55% 45%,
+      rgba(133, 167, 117, 0.10),
+      transparent 75%
+    );
+
+  transform: rotate(-22deg);
+}
+
+
+/* RIGHT DECORATION */
+
+.aumveda-home-page::after {
+  top: 950px;
+  right: -210px;
+
+  border: 1px solid rgba(174, 138, 83, 0.13);
+
+  border-radius:
+    30% 70% 35% 65% /
+    55% 35% 65% 45%;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(205, 165, 108, 0.09),
+      transparent 75%
+    );
+
+  transform: rotate(20deg);
+}
+
+
+/* ============================================================
+   05 — MAIN HOMEPAGE CONTAINER
+
+   No large white wrapper.
+
+   Individual homepage sections keep their own
+   backgrounds, border radii and layout.
+============================================================ */
+
+.aumveda-home-page__container {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+
+  max-width: var(--aum-home-max-width);
+  min-width: 0;
+
+  margin: 0 auto;
+  padding: 0;
+
+  border: 0;
+  border-radius: 0;
+
+  background: transparent;
+  box-shadow: none;
+
+  overflow: visible;
+}
+
+
+/* ============================================================
+   06 — HOMEPAGE SECTION WRAPPERS
+
+   Strictly preserve the original section dimensions.
+============================================================ */
+
+.aumveda-home-page__container
+> [class^="rv-slot-"] {
+  display: block;
+
+  flex: 0 0 auto;
+
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+
+  border: 0;
+  border-radius: var(--aum-home-section-radius);
+}
+
+
+/* ============================================================
+   07 — EXISTING SECTION GAPS
+
+   Do not increase vertical whitespace.
+============================================================ */
+
+.aumveda-home-page__container
+> [class^="rv-slot-"] +
+[class^="rv-slot-"] {
+  margin-top: var(--aum-home-section-gap);
+}
+
+
+/* ============================================================
+   08 — SECTION WIDTH SAFETY
+
+   No changes to any section's height, padding,
+   card dimensions or internal layouts.
+============================================================ */
+
+.aumveda-home-page__container :where(
+  .aum-hero,
+  .explore-wellness,
+  .shop-by-need,
+  .best-deals,
+  .main-promo-hero,
+  .featured-products,
+  .category-campaigns,
+  .category-showcase,
+  .trust-benefits,
+  .more-discovery
+) {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+
+/* ============================================================
+   09 — HERO SECTION WRAPPER
+
+   Preserve approved banner treatment.
+============================================================ */
+
+.aumveda-home-page__container
+.rv-slot-hero_banner {
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+
+  margin: 0;
+  padding: 0;
+
+  border: none;
+  border-radius: 12px;
+
+  background: transparent;
+  box-shadow: none;
+
+  overflow: hidden;
+}
+
+.aumveda-home-page__container
+.aum-hero {
+  width: 100%;
+  max-width: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  border: none;
+  border-radius: 12px;
+
+  background: transparent;
+  box-shadow: none;
+}
+
+
+/* ============================================================
+   10 — HERO BANNER PROPORTION
+
+   Keep existing 4.4:1 ultrawide ratio.
+============================================================ */
+
+.aumveda-home-page__container
+.aum-hero__viewport {
+  width: 100%;
+  height: auto;
+
+  aspect-ratio: 4.4 / 1;
+}
+
+
+/* ============================================================
+   11 — EXISTING SECTION BACKGROUNDS
+
+   These remain unchanged.
+============================================================ */
+
+.aumveda-home-page
+.rv-slot-explore_categories {
+  background: var(--aum-home-cream);
+}
+
+.aumveda-home-page
+.rv-slot-shop_by_need {
+  background: var(--aum-home-cream);
+}
+
+.aumveda-home-page
+.rv-slot-best_deals {
+  background: var(--aum-home-ivory);
+}
+
+.aumveda-home-page
+.rv-slot-main_promo {
+  background: var(--aum-home-cream);
+}
+
+.aumveda-home-page
+.rv-slot-featured_products {
+  background: var(--aum-home-ivory);
+}
+
+.aumveda-home-page
+.rv-slot-category_campaigns {
+  background: var(--aum-home-cream);
+}
+
+.aumveda-home-page
+.rv-slot-category_product_showcase {
+  background: var(--aum-home-cream);
+}
+
+.aumveda-home-page
+.rv-slot-trust_benefits {
+  background: var(--aum-home-ivory);
+}
+
+.aumveda-home-page
+.rv-slot-more_discovery {
+  background: var(--aum-home-ivory);
+}
+
+
+/* ============================================================
+   12 — SECTION CORNERS
+
+   Preserve the original global section radius.
+============================================================ */
+
+.aumveda-home-page__container :where(
+  .rv-slot-explore_categories,
+  .rv-slot-shop_by_need,
+  .rv-slot-best_deals,
+  .rv-slot-main_promo,
+  .rv-slot-featured_products,
+  .rv-slot-category_campaigns,
+  .rv-slot-category_product_showcase,
+  .rv-slot-trust_benefits,
+  .rv-slot-more_discovery
+) {
+  border-radius: var(--aum-home-section-radius);
+}
+
+
+/* ============================================================
+   13 — SHARED TYPOGRAPHY RULES
+
+   Preserved from the existing stylesheet.
+============================================================ */
+
+.aumveda-home-page :where(
+  .shop-by-need__header h2,
+  .best-deals__heading h2,
+  .featured-products__heading h2,
+  .explore-wellness__heading h2
+) {
+  color: var(--aum-home-heading);
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-weight: 700;
+
+  letter-spacing: -0.035em;
+}
+
+
+/* ============================================================
+   14 — SMALL LABELS
+============================================================ */
+
+.aumveda-home-page :where(
+  .shop-by-need__eyebrow,
+  .best-deals__eyebrow,
+  .featured-products__eyebrow,
+  .explore-wellness__eyebrow
+) {
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+
+/* ============================================================
+   15 — IMAGE SAFETY
+============================================================ */
+
+.aumveda-home-page img {
+  max-width: 100%;
+}
+
+
+/* ============================================================
+   16 — PRODUCT CAROUSEL CONTAINMENT
+============================================================ */
+
+.aumveda-home-page :where(
+  .rv-slot-best_deals,
+  .rv-slot-featured_products,
+  .rv-slot-category_product_showcase
+) {
+  min-width: 0;
+  max-width: 100%;
+}
+
+
+/* ============================================================
+   17 — PROMOTIONAL CARD CONSISTENCY
+============================================================ */
+
+.aumveda-home-page :where(
+  .shop-need-card,
+  .category-campaign,
+  .more-discovery__card
+) {
+  border-radius: var(--aum-home-card-radius);
+}
+
+
+/* ============================================================
+   18 — ACCESSIBILITY
+============================================================ */
+
+.aumveda-home-page a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.aumveda-home-page :where(
+  a,
+  button
+):focus-visible {
+  outline: 2px solid var(--aum-home-forest);
+  outline-offset: 3px;
+}
+
+
+/* ============================================================
+   19 — LARGE DESKTOP
+
+   More visible ambient background on larger monitors.
+============================================================ */
+
+@media (min-width: 1600px) {
+  .aumveda-home-page {
+    padding: 18px 80px 26px;
+  }
+}
+
+
+/* ============================================================
+   20 — LAPTOP
+============================================================ */
+
+@media (max-width: 1200px) {
+  .aumveda-home-page {
+    --aum-home-section-gap: 7px;
+
+    padding: 16px 40px 20px;
+  }
+
+  .aumveda-home-page::before,
+  .aumveda-home-page::after {
+    opacity: 0.35;
+  }
+}
+
+
+/* ============================================================
+   21 — TABLET
+============================================================ */
+
+@media (max-width: 900px) {
+  .aumveda-home-page {
+    --aum-home-section-gap: 6px;
+    --aum-home-section-radius: 10px;
+
+    padding: 12px 20px 16px;
+  }
+
+  .aumveda-home-page::before,
+  .aumveda-home-page::after {
+    display: none;
+  }
+
+  .aumveda-home-page__container
+  .rv-slot-hero_banner,
+  .aumveda-home-page__container
+  .aum-hero {
+    border-radius: 10px;
+  }
+}
+
+
+/* ============================================================
+   22 — MOBILE
+
+   Keep existing compact mobile layout.
+============================================================ */
+
+@media (max-width: 650px) {
+  .aumveda-home-page {
+    --aum-home-section-gap: 5px;
+    --aum-home-section-radius: 9px;
+
+    padding: 9px 8px 12px;
+
+    background-color: #f1eee6;
+
+    background-image:
+      radial-gradient(
+        ellipse 300px 390px at 0% 10%,
+        rgba(151, 177, 130, 0.13),
+        transparent 78%
+      ),
+
+      radial-gradient(
+        ellipse 320px 420px at 100% 75%,
+        rgba(213, 174, 112, 0.11),
+        transparent 80%
+      ),
+
+      linear-gradient(
+        180deg,
+        #f4f0e8,
+        #f1eee6 65%,
+        #f4f0e8
+      );
+  }
+
+  .aumveda-home-page__container {
+    width: 100%;
+    max-width: none;
+
+    border: 0;
+    border-radius: 0;
+
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .aumveda-home-page__container
+  .rv-slot-hero_banner,
+  .aumveda-home-page__container
+  .aum-hero {
+    border-radius: 9px;
+  }
+}
+
+
+/* ============================================================
+   23 — SMALL MOBILE
+============================================================ */
+
+@media (max-width: 390px) {
+  .aumveda-home-page {
+    padding-right: 6px;
+    padding-left: 6px;
+  }
+}
+
+
+/* ============================================================
+   24 — REDUCED MOTION
+
+   No new animations are introduced.
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .aumveda-home-page {
+    scroll-behavior: auto;
+  }
+}
+
+
+/* ============================================================
+   END — AUMVEDA PREMIUM HOMEPAGE CANVAS
+============================================================ */

@@ -1,0 +1,872 @@
+
+/* ============================================================
+   AUMVEDA — CONTINUE YOUR WELLNESS JOURNEY
+   PREMIUM COMPACT HORIZONTAL DESIGN
+
+   Goals:
+   - Match the existing premium homepage
+   - Remove excessive empty space
+   - Larger, clearly visible product images
+   - Readable typography
+   - Four products across desktop
+   - Compact section height
+   - Responsive horizontal carousel
+   - No JSX or API changes
+============================================================ */
+
+.aum-journey {
+  --journey-green: #24543b;
+  --journey-dark-green: #173e30;
+  --journey-heading: #362b21;
+  --journey-muted: #766c60;
+  --journey-border: #e7e1d6;
+
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  padding: 12px 18px 10px;
+
+  background:
+    linear-gradient(
+      120deg,
+      #fffdf8 0%,
+      #faf8f1 55%,
+      #f4f7ec 100%
+    );
+
+  color: var(--journey-heading);
+}
+
+/* ============================================================
+   01 — HEADER
+============================================================ */
+
+.aum-journey__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  margin: 0 0 8px;
+  padding: 0;
+}
+
+.aum-journey__title {
+  min-width: 0;
+}
+
+.aum-journey__eyebrow {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 5px;
+  margin: 0 0 3px;
+
+  color: #497653;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+
+  line-height: 1.2;
+  letter-spacing: 0.1em;
+}
+
+.aum-journey__eyebrow svg {
+  width: 13px;
+  height: 13px;
+}
+
+.aum-journey__header h2 {
+  margin: 0;
+
+  color: #2e3d2d;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: clamp(19px, 1.8vw, 24px);
+  font-weight: 700;
+
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+}
+
+.aum-journey__header p {
+  margin: 3px 0 0;
+
+  color: var(--journey-muted);
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+/* EXPLORE PRODUCTS */
+
+.aum-journey__view-all {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  flex: 0 0 auto;
+
+  padding: 7px 12px;
+
+  border: 1px solid #d7e5d4;
+  border-radius: 999px;
+
+  background: #f0f6ec;
+  color: #28563c;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+
+  white-space: nowrap;
+  cursor: pointer;
+
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.aum-journey__view-all svg {
+  width: 14px;
+  height: 14px;
+}
+
+.aum-journey__view-all:hover {
+  background: #e3efdf;
+  border-color: #b9d2b5;
+}
+
+/* ============================================================
+   02 — TABS
+============================================================ */
+
+.aum-journey__tabs {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  min-width: 0;
+
+  margin: 0 0 9px;
+  padding: 0 0 7px;
+
+  border-bottom: 1px solid #eae5d9;
+}
+
+.aum-journey__tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  min-height: 27px;
+  padding: 5px 12px;
+
+  border: 1px solid #e7e4dc;
+  border-radius: 999px;
+
+  background: #f5f2ec;
+  color: #70665a;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.aum-journey__tab svg {
+  width: 13px;
+  height: 13px;
+}
+
+.aum-journey__tab span {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  min-width: 18px;
+  height: 18px;
+
+  padding: 0 5px;
+
+  border-radius: 999px;
+
+  background: rgba(0, 0, 0, 0.07);
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.aum-journey__tab.is-active {
+  background: var(--journey-dark-green);
+  border-color: var(--journey-dark-green);
+  color: #fff;
+}
+
+.aum-journey__tab.is-active span {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* ============================================================
+   03 — PRODUCTS CONTAINER
+
+   Horizontal cards naturally fill the desktop width.
+
+   Four cards across desktop, without a giant unused
+   blank region beside tiny cards.
+============================================================ */
+
+.aum-journey__products {
+  display: flex;
+  align-items: stretch;
+
+  gap: 10px;
+
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+
+  margin: 0;
+  padding: 1px 1px 5px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scroll-snap-type: x proximity;
+  overscroll-behavior-inline: contain;
+
+  scrollbar-width: thin;
+  scrollbar-color: #ccd7c6 transparent;
+}
+
+/* ============================================================
+   04 — HORIZONTAL PRODUCT CARD
+============================================================ */
+
+.aum-journey-card {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+
+  flex: 0 0 calc((100% - 30px) / 4);
+
+  width: calc((100% - 30px) / 4);
+  min-width: 0;
+
+  height: 120px;
+  min-height: 120px;
+  max-height: 120px;
+
+  overflow: hidden;
+
+  scroll-snap-align: start;
+
+  border: 1px solid #e9e5dc;
+  border-radius: 10px;
+
+  background: #fff;
+
+  box-shadow:
+    0 2px 8px rgba(40, 55, 33, 0.045);
+
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.aum-journey-card:hover {
+  border-color: #c4d6be;
+
+  box-shadow:
+    0 5px 14px rgba(40, 55, 33, 0.09);
+}
+
+/* ============================================================
+   05 — LARGE PRODUCT IMAGE
+============================================================ */
+
+.aum-journey-card__image {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 44%;
+
+  width: 44%;
+  height: 100%;
+  min-width: 0;
+
+  padding: 6px;
+
+  border: 0;
+  border-right: 1px solid #f0ede5;
+  border-bottom: 0;
+
+  background:
+    linear-gradient(
+      150deg,
+      #fcfbf7,
+      #f6f5ee
+    );
+
+  cursor: pointer;
+
+  overflow: hidden;
+}
+
+.aum-journey-card__image img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+  object-position: center;
+
+  transition: transform 220ms ease;
+}
+
+.aum-journey-card:hover
+.aum-journey-card__image img {
+  transform: scale(1.055);
+}
+
+.aum-journey-card__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  color: #9aa79b;
+}
+
+/* DISCOUNT TAG */
+
+.aum-journey-card__discount {
+  position: absolute;
+
+  top: 6px;
+  left: 6px;
+
+  padding: 4px 5px;
+
+  border-radius: 4px;
+
+  background: #285f40;
+  color: #fff;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   06 — CARD CONTENT
+============================================================ */
+
+.aum-journey-card__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  flex: 1 1 0;
+
+  gap: 5px;
+
+  min-width: 0;
+  height: 100%;
+
+  padding: 9px 10px;
+}
+
+/* SMALL LABEL */
+
+.aum-journey-card__eyebrow {
+  display: block;
+
+  color: #648268;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+
+  line-height: 1.1;
+  letter-spacing: 0.025em;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* PRODUCT NAME */
+
+.aum-journey-card__content h3 {
+  display: -webkit-box;
+
+  min-height: 0;
+  margin: 0;
+
+  overflow: hidden;
+
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+
+  color: #302b23;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  line-height: 1.24;
+  letter-spacing: -0.01em;
+
+  overflow-wrap: anywhere;
+}
+
+/* PREVIOUSLY PURCHASED VARIANT */
+
+.aum-journey-card__variant {
+  margin: 0;
+
+  color: #807467;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  line-height: 1.2;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* PRICE AND RATING */
+
+.aum-journey-card__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  flex-wrap: wrap;
+
+  gap: 4px;
+
+  min-width: 0;
+}
+
+.aum-journey-card__price {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+
+  gap: 5px;
+  min-width: 0;
+}
+
+.aum-journey-card__price strong {
+  color: #20543a;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: 14px;
+  font-weight: 800;
+
+  line-height: 1.15;
+
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+}
+
+.aum-journey-card__price del {
+  color: #a19687;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+}
+
+.aum-journey-card__rating {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 3px;
+
+  color: #a27a2f;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+
+  white-space: nowrap;
+}
+
+.aum-journey-card__rating svg {
+  width: 11px;
+  height: 11px;
+}
+
+/* ============================================================
+   07 — ACTION BUTTON
+============================================================ */
+
+.aum-journey-card__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  width: 100%;
+  min-height: 26px;
+
+  margin-top: auto;
+  padding: 5px 6px;
+
+  border: 1px solid #285c40;
+  border-radius: 5px;
+
+  background: #285c40;
+  color: white;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+
+  line-height: 1.15;
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  transition: background-color 180ms ease;
+}
+
+.aum-journey-card__action svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.aum-journey-card__action:hover {
+  background: #36754f;
+}
+
+/* ============================================================
+   08 — FOOTER
+============================================================ */
+
+.aum-journey__footer {
+  margin: 5px 0 0;
+
+  color: #81796d;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9px;
+
+  line-height: 1.2;
+  text-align: right;
+}
+
+/* ============================================================
+   09 — MEDIUM DESKTOP
+============================================================ */
+
+@media (max-width: 1200px) {
+  .aum-journey {
+    padding: 11px 14px 9px;
+  }
+
+  .aum-journey-card {
+    flex-basis: calc((100% - 20px) / 3);
+    width: calc((100% - 20px) / 3);
+
+    height: 118px;
+    min-height: 118px;
+    max-height: 118px;
+  }
+
+  .aum-journey-card__image {
+    flex-basis: 43%;
+    width: 43%;
+  }
+
+  .aum-journey-card__content {
+    padding: 8px;
+  }
+}
+
+/* ============================================================
+   10 — TABLET
+============================================================ */
+
+@media (max-width: 850px) {
+  .aum-journey-card {
+    flex-basis: calc((100% - 10px) / 2);
+    width: calc((100% - 10px) / 2);
+
+    height: 117px;
+    min-height: 117px;
+    max-height: 117px;
+  }
+
+  .aum-journey__header h2 {
+    font-size: 20px;
+  }
+}
+
+/* ============================================================
+   11 — MOBILE
+============================================================ */
+
+@media (max-width: 650px) {
+  .aum-journey {
+    padding: 10px 10px 8px;
+  }
+
+  .aum-journey__header {
+    gap: 8px;
+    margin-bottom: 7px;
+  }
+
+  .aum-journey__eyebrow {
+    font-size: 8px;
+  }
+
+  .aum-journey__header h2 {
+    font-size: 17px;
+  }
+
+  .aum-journey__header p {
+    font-size: 10px;
+  }
+
+  .aum-journey__view-all {
+    width: 30px;
+    height: 30px;
+
+    padding: 0;
+
+    font-size: 0;
+  }
+
+  .aum-journey__view-all svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .aum-journey__tabs {
+    gap: 6px;
+    margin-bottom: 8px;
+    padding-bottom: 7px;
+  }
+
+  .aum-journey__tab {
+    gap: 4px;
+    padding: 5px 9px;
+
+    font-size: 10px;
+  }
+
+  .aum-journey__products {
+    gap: 8px;
+  }
+
+  .aum-journey-card {
+    flex: 0 0 270px;
+    width: 270px;
+
+    height: 116px;
+    min-height: 116px;
+    max-height: 116px;
+  }
+
+  .aum-journey-card__image {
+    flex-basis: 42%;
+    width: 42%;
+
+    padding: 5px;
+  }
+
+  .aum-journey-card__content {
+    gap: 4px;
+    padding: 8px;
+  }
+
+  .aum-journey-card__content h3 {
+    font-size: 12px;
+  }
+
+  .aum-journey-card__price strong {
+    font-size: 13px;
+  }
+
+  .aum-journey-card__action {
+    font-size: 9px;
+    min-height: 25px;
+  }
+
+  .aum-journey__footer {
+    margin-top: 5px;
+    font-size: 8px;
+  }
+}
+
+/* ============================================================
+   12 — SMALL MOBILE
+============================================================ */
+
+@media (max-width: 360px) {
+  .aum-journey {
+    padding: 9px 8px;
+  }
+
+  .aum-journey__header h2 {
+    font-size: 16px;
+  }
+
+  .aum-journey-card {
+    flex-basis: 248px;
+    width: 248px;
+  }
+
+  .aum-journey-card__content h3 {
+    font-size: 11px;
+  }
+}
+
+/* ============================================================
+   13 — ACCESSIBILITY
+============================================================ */
+
+.aum-journey button:focus-visible {
+  outline: 2px solid #b89253;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aum-journey-card,
+  .aum-journey-card__image img,
+  .aum-journey__view-all,
+  .aum-journey__tab,
+  .aum-journey-card__action {
+    transition: none;
+  }
+}
+
+/* ============================================================
+   AUMVEDA — FIX LONG PRODUCT NAMES
+   Preserve compact horizontal card design
+============================================================ */
+
+.aum-journey-card {
+  height: 136px;
+  min-height: 136px;
+  max-height: none;
+}
+
+.aum-journey-card__content {
+  justify-content: flex-start;
+  gap: 4px;
+  padding: 8px 10px;
+  overflow: hidden;
+}
+
+.aum-journey-card__content h3 {
+  display: -webkit-box;
+
+  min-height: 0;
+  max-height: none;
+
+  margin: 0;
+
+  color: #302b23;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+
+.aum-journey-card__eyebrow {
+  flex-shrink: 0;
+  font-size: 8px;
+}
+
+.aum-journey-card__variant {
+  flex-shrink: 0;
+  font-size: 9px;
+}
+
+.aum-journey-card__meta {
+  flex-shrink: 0;
+}
+
+.aum-journey-card__action {
+  flex-shrink: 0;
+  margin-top: auto;
+  min-height: 27px;
+}
+
+@media (max-width: 1200px) {
+  .aum-journey-card {
+    height: 136px;
+    min-height: 136px;
+    max-height: none;
+  }
+}
+
+@media (max-width: 850px) {
+  .aum-journey-card {
+    height: 136px;
+    min-height: 136px;
+    max-height: none;
+  }
+}
+
+@media (max-width: 650px) {
+  .aum-journey-card {
+    height: 132px;
+    min-height: 132px;
+    max-height: none;
+  }
+
+  .aum-journey-card__content h3 {
+    font-size: 12px;
+    line-height: 1.3;
+  }
+}

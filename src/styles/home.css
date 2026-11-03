@@ -1,168 +1,1536 @@
+
 /* ============================================================
-   AUMVEDA HOME — PREMIUM RHYTHM
+   AUMVEDA — PREMIUM HOMEPAGE DESIGN SYSTEM
+   VERSION 3.0
+
+   PURPOSE:
+   - Premium Ayurvedic e-commerce presentation
+   - Rich botanical green + warm ivory identity
+   - Elegant typography and visual hierarchy
+   - Refined product cards and editorial panels
+   - Consistent CTA and interactive styling
+
+   STRICT PRESERVATION:
+   - No section content changes
+   - No section order changes
+   - No product/card size changes beyond existing V2
+   - No image dimension changes beyond existing V2
+   - No carousel speed changes
+   - No API, routing or wishlist changes
+   - Responsive structure preserved
+
+   NOTE:
+   Component-specific styles remain in their own CSS files.
 ============================================================ */
 
-.home-wrapper {
+/* ============================================================
+   01 — GLOBAL HOMEPAGE DESIGN TOKENS
+============================================================ */
 
-    position:
-        relative;
+.aumveda-home-page {
+    --av-forest: #153d2b;
+    --av-forest-deep: #0b3022;
+    --av-green: #315a43;
+    --av-green-soft: #577861;
 
-    width:
-        100%;
+    --av-ivory: #f8f3e9;
+    --av-cream: #fffaf1;
+    --av-paper: #fffdf8;
+    --av-sand: #e9dcc8;
 
-    overflow:
-        hidden;
+    --av-gold: #d6b47d;
+    --av-gold-light: #e8d2ab;
+    --av-gold-deep: #a67c45;
 
-    background:
-        var(
-            --aum-ivory
-        );
+    --av-brown: #43291f;
+    --av-ink: #332a22;
+    --av-muted: #776b5e;
 
+    --av-border: rgba(99, 74, 44, .14);
+    --av-border-hover: rgba(153, 111, 53, .34);
+
+    --av-shadow-soft:
+        0 2px 6px rgba(48, 35, 22, .025),
+        0 8px 18px rgba(48, 35, 22, .045);
+
+    --av-shadow-hover:
+        0 7px 17px rgba(48, 35, 22, .07),
+        0 15px 28px rgba(48, 35, 22, .09);
+
+    width: 100%;
+    overflow-x: clip;
+
+    color: var(--av-ink);
+    background: var(--av-ivory);
+
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
-
 /* ============================================================
-   MAIN CONTENT
+   02 — PAGE WRAPPER
+   ORIGINAL COMPACT MODE V2 PRESERVED
 ============================================================ */
 
-.home-content {
+.aumveda-home-content {
+    display: flex;
+    flex-direction: column;
 
-    position:
-        relative;
+    gap: 0 !important;
 
-    z-index:
-        2;
-
-    margin:
-        0;
-
-    padding:
-        0;
-
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
-
-/* ============================================================
-   SECTION BASE
-============================================================ */
-
-.home-section {
-
-    position:
-        relative;
-
-    margin:
-        0;
-
+.aumveda-home-content > * {
+    margin-block: 0 !important;
 }
 
-
 /* ============================================================
-   EXPLORE
+   03 — ORIGINAL COMPACT SECTION SPACING
+   UNCHANGED FROM YOUR V2
 ============================================================ */
 
-.home-section--explore {
-
-    background:
-        var(
-            --aum-cream
-        );
-
-}
-
-
-/* ============================================================
-   FEATURED
-============================================================ */
-
-.home-section--featured {
-
-    background:
-        var(
-            --aum-ivory-soft
-        );
-
-}
-
-
-/* ============================================================
-   WHY
-============================================================ */
-
-.home-section--why {
-
-    background:
-        var(
-            --aum-ivory
-        );
-
-}
-
-
-/* ============================================================
-   FORMULATIONS
-============================================================ */
-
-.home-section--formulations {
-
-    background:
-        #f1eadf;
-
-}
-
-
-/* ============================================================
-   DECORATIVE LAYER
-============================================================ */
-
-.decorations-area {
-
-    position:
-        absolute;
-
-    inset:
-        720px 0 auto;
-
-    z-index:
-        1;
-
-    pointer-events:
-        none;
-
-    opacity:
-        0.56;
-
-}
-
-
-/* ============================================================
-   FOOTER
-============================================================ */
-
-.home-footer {
-
-    position:
-        relative;
-
-    z-index:
-        2;
-
-}
-
-
-/* ============================================================
-   TABLET
-============================================================ */
-
-@media(
-    max-width:900px
+.aumveda-home-content > :is(
+    .explore-wellness,
+    .shop-by-need,
+    .category-showcase,
+    .trust-benefits,
+    .more-discovery
 ) {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
 
-    .decorations-area {
+.aumveda-home-content :is(
+    .explore-wellness__header,
+    .shop-by-need__header,
+    .more-discovery__heading
+) {
+    margin-bottom: 9px !important;
+}
 
-        opacity:
-            0.34;
+.aumveda-home-content .explore-wellness__header {
+    gap: 2px !important;
+}
 
+/* ============================================================
+   04 — EXISTING SHOP BY NEED DIMENSIONS
+   UNCHANGED FROM YOUR V2
+============================================================ */
+
+.aumveda-home-content .shop-need-card {
+    height: clamp(195px, 15vw, 235px) !important;
+}
+
+.aumveda-home-content .shop-need-card__content {
+    min-height: 66px !important;
+    padding: 11px 13px !important;
+}
+
+/* ============================================================
+   05 — EXISTING CATEGORY SHOWCASE DIMENSIONS
+   UNCHANGED FROM YOUR V2
+============================================================ */
+
+.aumveda-home-content .category-showcase__layout {
+    min-height: 0 !important;
+}
+
+.aumveda-home-content .category-showcase__editorial {
+    padding: 16px 18px !important;
+}
+
+.aumveda-home-content .category-showcase__editorial-main {
+    margin: 10px 0 !important;
+    gap: 7px !important;
+}
+
+.aumveda-home-content .category-showcase__gallery {
+    padding: 10px !important;
+}
+
+.aumveda-home-content .category-showcase__gallery-header {
+    margin-bottom: 7px !important;
+}
+
+.aumveda-home-content .category-showcase__product-visual {
+    height: 132px !important;
+}
+
+.aumveda-home-content .category-showcase__gallery-footer {
+    padding-top: 6px !important;
+}
+
+/* ============================================================
+   06 — EXISTING TRUST BENEFITS DIMENSIONS
+   UNCHANGED FROM YOUR V2
+============================================================ */
+
+.aumveda-home-content .trust-benefits__grid {
+    min-height: 78px !important;
+}
+
+.aumveda-home-content .trust-benefits__item {
+    padding: 10px 12px !important;
+}
+
+.aumveda-home-content .trust-benefits__icon {
+    width: 36px !important;
+    height: 36px !important;
+}
+
+/* ============================================================
+   07 — EXISTING MORE DISCOVERY DIMENSIONS
+   UNCHANGED FROM YOUR V2
+============================================================ */
+
+.aumveda-home-content .more-discovery__heading {
+    margin-bottom: 9px !important;
+}
+
+.aumveda-home-content .more-discovery__mosaic {
+    height: 240px !important;
+}
+
+.aumveda-home-content .more-discovery__editorial {
+    padding: 16px !important;
+    gap: 9px !important;
+}
+
+.aumveda-home-content .more-discovery__editorial-content {
+    gap: 7px !important;
+}
+
+/* ============================================================
+   08 — PREMIUM SECTION BACKGROUND RHYTHM
+
+   Visual color refinement only.
+   No position or size changes.
+============================================================ */
+
+.aumveda-home-page .best-deals {
+    background: linear-gradient(
+        180deg,
+        #f5efe4 0%,
+        #faf7f0 100%
+    );
+}
+
+
+.aumveda-home-page .featured-products {
+    background:
+        radial-gradient(
+            ellipse at 90% 0%,
+            rgba(255, 255, 248, 0.48),
+            transparent 44%
+        ),
+        radial-gradient(
+            ellipse at 5% 90%,
+            rgba(155, 182, 148, 0.16),
+            transparent 48%
+        ),
+        linear-gradient(
+            135deg,
+            #dce8d7 0%,
+            #d5e3d0 52%,
+            #e4ecde 100%
+        );
+}
+
+.aumveda-home-page .wellness-promo {
+    background: #f5efe4;
+}
+
+.aumveda-home-page .main-promo-hero {
+    background: #f8f5ec;
+}
+
+/* ============================================================
+   09 — REFINED EDITORIAL TYPOGRAPHY
+
+   No heading sizes, content or layout changes.
+============================================================ */
+
+.aumveda-home-page :is(
+    .best-deals__heading h2,
+    .featured-products__header h2,
+    .shop-by-need__heading-group h2
+) {
+    color: var(--av-brown);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-weight: 600;
+    letter-spacing: -.04em;
+
+    text-wrap: balance;
+}
+
+.aumveda-home-page :is(
+    .best-deals__eyebrow,
+    .featured-products__eyebrow,
+    .shop-by-need__eyebrow
+) {
+    color: #8b6b42;
+    font-weight: 800;
+    letter-spacing: .15em;
+}
+
+/* ============================================================
+   10 — PREMIUM SHOPPING LINKS
+============================================================ */
+
+.aumveda-home-page :is(
+    .best-deals__view-all,
+    .featured-products__view-all,
+    .shop-by-need__view-all
+) {
+    color: var(--av-forest);
+
+    font-weight: 800;
+    text-decoration: none;
+
+    transition:
+        color .2s ease,
+        opacity .2s ease;
+}
+
+.aumveda-home-page :is(
+    .best-deals__view-all,
+    .featured-products__view-all,
+    .shop-by-need__view-all
+):hover {
+    color: var(--av-gold-deep);
+}
+
+/* ============================================================
+   11 — PREMIUM PRODUCT CARD SURFACES
+
+   Preserve existing widths, heights and image sizing.
+============================================================ */
+
+.aumveda-home-page :is(
+    .best-deal-card,
+    .featured-card
+) {
+    border-color: var(--av-border);
+
+    background: var(--av-paper);
+
+    box-shadow: var(--av-shadow-soft);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease;
+}
+
+.aumveda-home-page :is(
+    .best-deal-card,
+    .featured-card
+):hover {
+    transform: translateY(-3px);
+
+    border-color: var(--av-border-hover);
+
+    box-shadow: var(--av-shadow-hover);
+}
+
+/* PRODUCT IMAGE SURFACES */
+
+.aumveda-home-page .best-deal-card__visual {
+    background: radial-gradient(
+        ellipse at 50% 35%,
+        #fffdf7 0%,
+        #f1e8d9 100%
+    );
+}
+
+.aumveda-home-page .featured-card__visual {
+    background: radial-gradient(
+        ellipse at 50% 35%,
+        #fffefa 0%,
+        #ebe6d8 100%
+    );
+}
+
+/* PRICE HIERARCHY */
+
+.aumveda-home-page :is(
+    .best-deal-card__price strong,
+    .featured-card__pricing strong
+) {
+    color: #155239;
+
+    font-weight: 850;
+    letter-spacing: -.02em;
+}
+
+.aumveda-home-page :is(
+    .best-deal-card__price del,
+    .featured-card__pricing del
+) {
+    color: #a19586;
+}
+
+/* PRODUCT NAMES */
+
+.aumveda-home-page :is(
+    .best-deal-card__details h3 a,
+    .featured-card__body h3 a
+) {
+    color: #362b21;
+
+    text-decoration: none;
+
+    transition: color .2s ease;
+}
+
+.aumveda-home-page :is(
+    .best-deal-card__details h3 a,
+    .featured-card__body h3 a
+):hover {
+    color: #246345;
+}
+
+/* DISCOUNT BADGES */
+
+.aumveda-home-page :is(
+    .best-deal-card__badge,
+    .featured-card__discount
+) {
+    background: linear-gradient(
+        110deg,
+        #174e37,
+        #286649
+    );
+
+    box-shadow:
+        0 2px 6px rgba(15, 64, 42, .15);
+}
+
+/* WISHLIST CONTROLS */
+
+.aumveda-home-page :is(
+    .best-deal-card__wishlist,
+    .featured-card__wishlist
+) {
+    border-color: rgba(78, 58, 35, .14);
+
+    box-shadow:
+        0 2px 6px rgba(48, 35, 22, .07);
+
+    transition:
+        transform .2s ease,
+        background .2s ease,
+        color .2s ease;
+}
+
+.aumveda-home-page :is(
+    .best-deal-card__wishlist,
+    .featured-card__wishlist
+):hover {
+    transform: scale(1.07);
+}
+
+/* ============================================================
+   12 — DEALS OF THE WEEK VISUAL REFINEMENT
+
+   Existing card dimensions and animation untouched.
+============================================================ */
+
+.aumveda-home-page .home-deals-hero__inner {
+    box-shadow:
+        0 6px 14px rgba(21, 55, 36, .10),
+        0 14px 30px rgba(21, 55, 36, .07);
+}
+
+.aumveda-home-page .home-deal-card {
+    border-color: rgba(76, 55, 33, .11);
+
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, .09);
+}
+
+.aumveda-home-page .home-deal-card__image {
+    background: radial-gradient(
+        circle at center,
+        #fffdf7,
+        #eee7d8
+    );
+}
+
+.aumveda-home-page .home-deal-card__price strong {
+    color: #155239;
+}
+
+/* ============================================================
+   13 — MAIN HERO VISUAL REFINEMENT
+
+   Existing section size, positioning and content preserved.
+============================================================ */
+
+.aumveda-home-page .main-promo-hero__inner {
+    box-shadow:
+        0 5px 14px rgba(30, 58, 30, .07),
+        0 16px 30px rgba(30, 58, 30, .06);
+}
+
+.aumveda-home-page .main-promo-hero__copy h1 {
+    color: #153d2b;
+
+    letter-spacing: -.055em;
+}
+
+.aumveda-home-page .main-promo-hero__shop {
+    color: #fffdf8;
+
+    background: linear-gradient(
+        110deg,
+        #174a34,
+        #286747
+    );
+
+    border: 1px solid rgba(255, 255, 255, .12);
+
+    box-shadow:
+        0 6px 15px rgba(18, 65, 43, .17);
+}
+
+.aumveda-home-page .main-promo-hero__shop:hover {
+    color: #ffffff;
+    background: #133f2c;
+}
+
+.aumveda-home-page .main-promo-hero__floating-label {
+    background: rgba(255, 253, 247, .83);
+
+    border-color: rgba(255, 255, 255, .7);
+
+    box-shadow:
+        0 3px 12px rgba(36, 68, 36, .08);
+}
+
+/* ============================================================
+   14 — SHOP BY NEED PREMIUM VISUAL TREATMENT
+
+   Card sizes and content positioning preserved.
+============================================================ */
+
+.aumveda-home-page .shop-need-card {
+    border-color: rgba(77, 53, 30, .14);
+
+    box-shadow:
+        0 4px 12px rgba(65, 43, 23, .06);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease;
+}
+
+.aumveda-home-page .shop-need-card:hover {
+    transform: translateY(-3px);
+
+    border-color: rgba(153, 111, 53, .30);
+
+    box-shadow:
+        0 10px 22px rgba(65, 43, 23, .12);
+}
+
+/* ============================================================
+   15 — PREMIUM EDITORIAL TRIO
+
+   Layout and 3.5-second slider behavior preserved.
+============================================================ */
+
+.aumveda-home-page .wellness-promo__editorial {
+    background:
+        radial-gradient(
+            ellipse at 100% 0%,
+            rgba(214, 180, 125, .13),
+            transparent 52%
+        ),
+        linear-gradient(
+            125deg,
+            #37231a 0%,
+            #5a382b 68%,
+            #41271d 100%
+        );
+}
+
+.aumveda-home-page .wellness-promo__editorial-content h2 {
+    color: #fff4e5;
+    letter-spacing: -.05em;
+}
+
+.aumveda-home-page .wellness-promo__editorial-button {
+    color: #392417;
+
+    background: linear-gradient(
+        100deg,
+        #e5c998,
+        #d3ad73
+    );
+
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, .10);
+}
+
+.aumveda-home-page .wellness-promo__editorial-button:hover {
+    color: #392417;
+    background: #eed5ac;
+}
+
+.aumveda-home-page .wellness-promo__featured {
+    box-shadow:
+        0 4px 14px rgba(65, 40, 25, .09);
+}
+
+/* ============================================================
+   16 — CATEGORY SHOWCASE VISUAL REFINEMENT
+
+   No modifications to category selection or card count.
+============================================================ */
+
+.aumveda-home-page .category-showcase__editorial {
+    background:
+        radial-gradient(
+            ellipse at 100% 15%,
+            rgba(217, 190, 136, .10),
+            transparent 55%
+        ),
+        linear-gradient(
+            125deg,
+            #234934,
+            #315c43
+        );
+}
+
+.aumveda-home-page .category-showcase__gallery {
+    background: #fbf8f1;
+}
+
+/* ============================================================
+   17 — TRUST BENEFITS VISUAL REFINEMENT
+
+   Existing strip height preserved.
+============================================================ */
+
+.aumveda-home-page .trust-benefits__icon {
+    color: #376d4c;
+}
+
+.aumveda-home-page .trust-benefits__item {
+    color: #504436;
+}
+
+/* ============================================================
+   18 — MORE DISCOVERY VISUAL REFINEMENT
+
+   Mosaic sizing and arrangement unchanged.
+============================================================ */
+
+.aumveda-home-page .more-discovery__editorial {
+    background:
+        radial-gradient(
+            circle at 100% 0%,
+            rgba(232, 210, 171, .11),
+            transparent 55%
+        ),
+        linear-gradient(
+            135deg,
+            #294b38,
+            #3b5b44
+        );
+}
+
+.aumveda-home-page .more-discovery__mosaic {
+    filter:
+        drop-shadow(
+            0 5px 13px rgba(57, 39, 22, .055)
+        );
+}
+
+/* ============================================================
+   19 — ACCESSIBILITY AND INTERACTIVE POLISH
+============================================================ */
+
+.aumveda-home-page :is(
+    .best-deal-card__details a,
+    .featured-card__body a,
+    .shop-need-card,
+    .main-promo-hero__shop,
+    .wellness-promo__editorial-button
+):focus-visible {
+    outline: 2px solid #a87836;
+    outline-offset: 3px;
+}
+
+/* ============================================================
+   20 — ORIGINAL TABLET OVERRIDES
+   PRESERVED FROM COMPACT MODE V2
+============================================================ */
+
+@media (max-width: 1000px) {
+    .aumveda-home-content .shop-need-card {
+        height: 205px !important;
     }
 
+    .aumveda-home-content .more-discovery__mosaic {
+        height: 225px !important;
+    }
+}
+
+/* ============================================================
+   21 — ORIGINAL MOBILE OVERRIDES
+   PRESERVED FROM COMPACT MODE V2
+============================================================ */
+
+@media (max-width: 700px) {
+    .aumveda-home-content > :is(
+        .explore-wellness,
+        .shop-by-need,
+        .category-showcase,
+        .trust-benefits,
+        .more-discovery
+    ) {
+        padding-top: 9px !important;
+        padding-bottom: 9px !important;
+    }
+
+    .aumveda-home-content .shop-need-card {
+        height: 195px !important;
+    }
+
+    .aumveda-home-content .category-showcase__editorial {
+        min-height: 180px !important;
+    }
+
+    .aumveda-home-content .category-showcase__product-visual {
+        height: 130px !important;
+    }
+
+    .aumveda-home-content .trust-benefits__item {
+        padding: 11px 9px !important;
+    }
+
+    .aumveda-home-content .more-discovery__mosaic {
+        height: auto !important;
+
+        grid-template-rows:
+            195px
+            115px
+            auto !important;
+    }
+
+    .aumveda-home-content .more-discovery__image-tile--main {
+        height: 195px !important;
+    }
+
+    .aumveda-home-content :is(
+        .more-discovery__stack,
+        .more-discovery__image-tile--top,
+        .more-discovery__image-tile--bottom
+    ) {
+        height: 115px !important;
+    }
+}
+
+/* ============================================================
+   22 — TOUCH AND REDUCED MOTION
+============================================================ */
+
+@media (hover: none) {
+    .aumveda-home-page :is(
+        .best-deal-card,
+        .featured-card,
+        .shop-need-card
+    ):hover {
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .aumveda-home-page :is(
+        .best-deal-card,
+        .featured-card,
+        .shop-need-card,
+        .main-promo-hero__shop,
+        .wellness-promo__editorial-button
+    ) {
+        transition: none !important;
+    }
+}
+
+/* ============================================================
+   AUMVEDA — PREMIUM HOMEPAGE DESIGN SYSTEM
+   VERSION 3.0
+
+   PURPOSE:
+   - Premium Ayurvedic e-commerce presentation
+   - Rich botanical green + warm ivory identity
+   - Elegant typography and visual hierarchy
+   - Refined product cards and editorial panels
+   - Consistent CTA and interactive styling
+
+   STRICT PRESERVATION:
+   - No section content changes
+   - No section order changes
+   - No product/card size changes beyond existing V2
+   - No image dimension changes beyond existing V2
+   - No carousel speed changes
+   - No API, routing or wishlist changes
+   - Responsive structure preserved
+
+   NOTE:
+   Component-specific styles remain in their own CSS files.
+============================================================ */
+
+/* ============================================================
+   01 — GLOBAL HOMEPAGE DESIGN TOKENS
+============================================================ */
+
+.aumveda-home-page {
+    --av-forest: #153d2b;
+    --av-forest-deep: #0b3022;
+    --av-green: #315a43;
+    --av-green-soft: #577861;
+
+    --av-ivory: #f8f3e9;
+    --av-cream: #fffaf1;
+    --av-paper: #fffdf8;
+    --av-sand: #e9dcc8;
+
+    --av-gold: #d6b47d;
+    --av-gold-light: #e8d2ab;
+    --av-gold-deep: #a67c45;
+
+    --av-brown: #43291f;
+    --av-ink: #332a22;
+    --av-muted: #776b5e;
+
+    --av-border: rgba(99, 74, 44, .14);
+    --av-border-hover: rgba(153, 111, 53, .34);
+
+    --av-shadow-soft:
+        0 2px 6px rgba(48, 35, 22, .025),
+        0 8px 18px rgba(48, 35, 22, .045);
+
+    --av-shadow-hover:
+        0 7px 17px rgba(48, 35, 22, .07),
+        0 15px 28px rgba(48, 35, 22, .09);
+
+    width: 100%;
+    overflow-x: clip;
+
+    color: var(--av-ink);
+    background: var(--av-ivory);
+
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+/* ============================================================
+   02 — PAGE WRAPPER
+   ORIGINAL COMPACT MODE V2 PRESERVED
+============================================================ */
+
+.aumveda-home-content {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0 !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.aumveda-home-content > * {
+    margin-block: 0 !important;
+}
+
+/* ============================================================
+   03 — ORIGINAL COMPACT SECTION SPACING
+   UNCHANGED FROM YOUR V2
+============================================================ */
+
+.aumveda-home-content > :is(
+    .explore-wellness,
+    .shop-by-need,
+    .category-showcase,
+    .trust-benefits,
+    .more-discovery
+) {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
+
+.aumveda-home-content :is(
+    .explore-wellness__header,
+    .shop-by-need__header,
+    .more-discovery__heading
+) {
+    margin-bottom: 9px !important;
+}
+
+.aumveda-home-content .explore-wellness__header {
+    gap: 2px !important;
+}
+
+/* ============================================================
+   04 — EXISTING SHOP BY NEED DIMENSIONS
+   UNCHANGED FROM YOUR V2
+============================================================ */
+
+.aumveda-home-content .shop-need-card {
+    height: clamp(195px, 15vw, 235px) !important;
+}
+
+.aumveda-home-content .shop-need-card__content {
+    min-height: 66px !important;
+    padding: 11px 13px !important;
+}
+
+/* ============================================================
+   05 — EXISTING CATEGORY SHOWCASE DIMENSIONS
+   UNCHANGED FROM YOUR V2
+============================================================ */
+
+.aumveda-home-content .category-showcase__layout {
+    min-height: 0 !important;
+}
+
+.aumveda-home-content .category-showcase__editorial {
+    padding: 16px 18px !important;
+}
+
+.aumveda-home-content .category-showcase__editorial-main {
+    margin: 10px 0 !important;
+    gap: 7px !important;
+}
+
+.aumveda-home-content .category-showcase__gallery {
+    padding: 10px !important;
+}
+
+.aumveda-home-content .category-showcase__gallery-header {
+    margin-bottom: 7px !important;
+}
+
+.aumveda-home-content .category-showcase__product-visual {
+    height: 132px !important;
+}
+
+.aumveda-home-content .category-showcase__gallery-footer {
+    padding-top: 6px !important;
+}
+
+/* ============================================================
+   06 — EXISTING TRUST BENEFITS DIMENSIONS
+   UNCHANGED FROM YOUR V2
+============================================================ */
+
+.aumveda-home-content .trust-benefits__grid {
+    min-height: 78px !important;
+}
+
+.aumveda-home-content .trust-benefits__item {
+    padding: 10px 12px !important;
+}
+
+.aumveda-home-content .trust-benefits__icon {
+    width: 36px !important;
+    height: 36px !important;
+}
+
+/* ============================================================
+   07 — EXISTING MORE DISCOVERY DIMENSIONS
+   UNCHANGED FROM YOUR V2
+============================================================ */
+
+.aumveda-home-content .more-discovery__heading {
+    margin-bottom: 9px !important;
+}
+
+.aumveda-home-content .more-discovery__mosaic {
+    height: 240px !important;
+}
+
+.aumveda-home-content .more-discovery__editorial {
+    padding: 16px !important;
+    gap: 9px !important;
+}
+
+.aumveda-home-content .more-discovery__editorial-content {
+    gap: 7px !important;
+}
+
+/* ============================================================
+   08 — PREMIUM SECTION BACKGROUND RHYTHM
+
+   Visual color refinement only.
+   No position or size changes.
+============================================================ */
+
+.aumveda-home-page .best-deals {
+    background: linear-gradient(
+        180deg,
+        #f5efe4 0%,
+        #faf7f0 100%
+    );
+}
+
+
+.aumveda-home-page .featured-products {
+    background:
+        radial-gradient(
+            ellipse at 90% 0%,
+            rgba(255, 255, 248, 0.48),
+            transparent 44%
+        ),
+        radial-gradient(
+            ellipse at 5% 90%,
+            rgba(155, 182, 148, 0.16),
+            transparent 48%
+        ),
+        linear-gradient(
+            135deg,
+            #dce8d7 0%,
+            #d5e3d0 52%,
+            #e4ecde 100%
+        );
+}
+
+.aumveda-home-page .wellness-promo {
+    background: #f5efe4;
+}
+
+.aumveda-home-page .main-promo-hero {
+    background: #f8f5ec;
+}
+
+/* ============================================================
+   09 — REFINED EDITORIAL TYPOGRAPHY
+
+   No heading sizes, content or layout changes.
+============================================================ */
+
+.aumveda-home-page :is(
+    .best-deals__heading h2,
+    .featured-products__header h2,
+    .shop-by-need__heading-group h2
+) {
+    color: var(--av-brown);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-weight: 600;
+    letter-spacing: -.04em;
+
+    text-wrap: balance;
+}
+
+.aumveda-home-page :is(
+    .best-deals__eyebrow,
+    .featured-products__eyebrow,
+    .shop-by-need__eyebrow
+) {
+    color: #8b6b42;
+    font-weight: 800;
+    letter-spacing: .15em;
+}
+
+/* ============================================================
+   10 — PREMIUM SHOPPING LINKS
+============================================================ */
+
+.aumveda-home-page :is(
+    .best-deals__view-all,
+    .featured-products__view-all,
+    .shop-by-need__view-all
+) {
+    color: var(--av-forest);
+
+    font-weight: 800;
+    text-decoration: none;
+
+    transition:
+        color .2s ease,
+        opacity .2s ease;
+}
+
+.aumveda-home-page :is(
+    .best-deals__view-all,
+    .featured-products__view-all,
+    .shop-by-need__view-all
+):hover {
+    color: var(--av-gold-deep);
+}
+
+/* ============================================================
+   11 — PREMIUM PRODUCT CARD SURFACES
+
+   Preserve existing widths, heights and image sizing.
+============================================================ */
+
+.aumveda-home-page :is(
+    .best-deal-card,
+    .featured-card
+) {
+    border-color: var(--av-border);
+
+    background: var(--av-paper);
+
+    box-shadow: var(--av-shadow-soft);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease;
+}
+
+.aumveda-home-page :is(
+    .best-deal-card,
+    .featured-card
+):hover {
+    transform: translateY(-3px);
+
+    border-color: var(--av-border-hover);
+
+    box-shadow: var(--av-shadow-hover);
+}
+
+/* PRODUCT IMAGE SURFACES */
+
+.aumveda-home-page .best-deal-card__visual {
+    background: radial-gradient(
+        ellipse at 50% 35%,
+        #fffdf7 0%,
+        #f1e8d9 100%
+    );
+}
+
+.aumveda-home-page .featured-card__visual {
+    background: radial-gradient(
+        ellipse at 50% 35%,
+        #fffefa 0%,
+        #ebe6d8 100%
+    );
+}
+
+/* PRICE HIERARCHY */
+
+.aumveda-home-page :is(
+    .best-deal-card__price strong,
+    .featured-card__pricing strong
+) {
+    color: #155239;
+
+    font-weight: 850;
+    letter-spacing: -.02em;
+}
+
+.aumveda-home-page :is(
+    .best-deal-card__price del,
+    .featured-card__pricing del
+) {
+    color: #a19586;
+}
+
+/* PRODUCT NAMES */
+
+.aumveda-home-page :is(
+    .best-deal-card__details h3 a,
+    .featured-card__body h3 a
+) {
+    color: #362b21;
+
+    text-decoration: none;
+
+    transition: color .2s ease;
+}
+
+.aumveda-home-page :is(
+    .best-deal-card__details h3 a,
+    .featured-card__body h3 a
+):hover {
+    color: #246345;
+}
+
+/* DISCOUNT BADGES */
+
+.aumveda-home-page :is(
+    .best-deal-card__badge,
+    .featured-card__discount
+) {
+    background: linear-gradient(
+        110deg,
+        #174e37,
+        #286649
+    );
+
+    box-shadow:
+        0 2px 6px rgba(15, 64, 42, .15);
+}
+
+/* WISHLIST CONTROLS */
+
+.aumveda-home-page :is(
+    .best-deal-card__wishlist,
+    .featured-card__wishlist
+) {
+    border-color: rgba(78, 58, 35, .14);
+
+    box-shadow:
+        0 2px 6px rgba(48, 35, 22, .07);
+
+    transition:
+        transform .2s ease,
+        background .2s ease,
+        color .2s ease;
+}
+
+.aumveda-home-page :is(
+    .best-deal-card__wishlist,
+    .featured-card__wishlist
+):hover {
+    transform: scale(1.07);
+}
+
+/* ============================================================
+   12 — DEALS OF THE WEEK VISUAL REFINEMENT
+
+   Existing card dimensions and animation untouched.
+============================================================ */
+
+.aumveda-home-page .home-deals-hero__inner {
+    box-shadow:
+        0 6px 14px rgba(21, 55, 36, .10),
+        0 14px 30px rgba(21, 55, 36, .07);
+}
+
+.aumveda-home-page .home-deal-card {
+    border-color: rgba(76, 55, 33, .11);
+
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, .09);
+}
+
+.aumveda-home-page .home-deal-card__image {
+    background: radial-gradient(
+        circle at center,
+        #fffdf7,
+        #eee7d8
+    );
+}
+
+.aumveda-home-page .home-deal-card__price strong {
+    color: #155239;
+}
+
+/* ============================================================
+   13 — MAIN HERO VISUAL REFINEMENT
+
+   Existing section size, positioning and content preserved.
+============================================================ */
+
+.aumveda-home-page .main-promo-hero__inner {
+    box-shadow:
+        0 5px 14px rgba(30, 58, 30, .07),
+        0 16px 30px rgba(30, 58, 30, .06);
+}
+
+.aumveda-home-page .main-promo-hero__copy h1 {
+    color: #153d2b;
+
+    letter-spacing: -.055em;
+}
+
+.aumveda-home-page .main-promo-hero__shop {
+    color: #fffdf8;
+
+    background: linear-gradient(
+        110deg,
+        #174a34,
+        #286747
+    );
+
+    border: 1px solid rgba(255, 255, 255, .12);
+
+    box-shadow:
+        0 6px 15px rgba(18, 65, 43, .17);
+}
+
+.aumveda-home-page .main-promo-hero__shop:hover {
+    color: #ffffff;
+    background: #133f2c;
+}
+
+.aumveda-home-page .main-promo-hero__floating-label {
+    background: rgba(255, 253, 247, .83);
+
+    border-color: rgba(255, 255, 255, .7);
+
+    box-shadow:
+        0 3px 12px rgba(36, 68, 36, .08);
+}
+
+/* ============================================================
+   14 — SHOP BY NEED PREMIUM VISUAL TREATMENT
+
+   Card sizes and content positioning preserved.
+============================================================ */
+
+.aumveda-home-page .shop-need-card {
+    border-color: rgba(77, 53, 30, .14);
+
+    box-shadow:
+        0 4px 12px rgba(65, 43, 23, .06);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease;
+}
+
+.aumveda-home-page .shop-need-card:hover {
+    transform: translateY(-3px);
+
+    border-color: rgba(153, 111, 53, .30);
+
+    box-shadow:
+        0 10px 22px rgba(65, 43, 23, .12);
+}
+
+/* ============================================================
+   15 — PREMIUM EDITORIAL TRIO
+
+   Layout and 3.5-second slider behavior preserved.
+============================================================ */
+
+.aumveda-home-page .wellness-promo__editorial {
+    background:
+        radial-gradient(
+            ellipse at 100% 0%,
+            rgba(214, 180, 125, .13),
+            transparent 52%
+        ),
+        linear-gradient(
+            125deg,
+            #37231a 0%,
+            #5a382b 68%,
+            #41271d 100%
+        );
+}
+
+.aumveda-home-page .wellness-promo__editorial-content h2 {
+    color: #fff4e5;
+    letter-spacing: -.05em;
+}
+
+.aumveda-home-page .wellness-promo__editorial-button {
+    color: #392417;
+
+    background: linear-gradient(
+        100deg,
+        #e5c998,
+        #d3ad73
+    );
+
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, .10);
+}
+
+.aumveda-home-page .wellness-promo__editorial-button:hover {
+    color: #392417;
+    background: #eed5ac;
+}
+
+.aumveda-home-page .wellness-promo__featured {
+    box-shadow:
+        0 4px 14px rgba(65, 40, 25, .09);
+}
+
+/* ============================================================
+   16 — CATEGORY SHOWCASE VISUAL REFINEMENT
+
+   No modifications to category selection or card count.
+============================================================ */
+
+.aumveda-home-page .category-showcase__editorial {
+    background:
+        radial-gradient(
+            ellipse at 100% 15%,
+            rgba(217, 190, 136, .10),
+            transparent 55%
+        ),
+        linear-gradient(
+            125deg,
+            #234934,
+            #315c43
+        );
+}
+
+.aumveda-home-page .category-showcase__gallery {
+    background: #fbf8f1;
+}
+
+/* ============================================================
+   17 — TRUST BENEFITS VISUAL REFINEMENT
+
+   Existing strip height preserved.
+============================================================ */
+
+.aumveda-home-page .trust-benefits__icon {
+    color: #376d4c;
+}
+
+.aumveda-home-page .trust-benefits__item {
+    color: #504436;
+}
+
+/* ============================================================
+   18 — MORE DISCOVERY VISUAL REFINEMENT
+
+   Mosaic sizing and arrangement unchanged.
+============================================================ */
+
+.aumveda-home-page .more-discovery__editorial {
+    background:
+        radial-gradient(
+            circle at 100% 0%,
+            rgba(232, 210, 171, .11),
+            transparent 55%
+        ),
+        linear-gradient(
+            135deg,
+            #294b38,
+            #3b5b44
+        );
+}
+
+.aumveda-home-page .more-discovery__mosaic {
+    filter:
+        drop-shadow(
+            0 5px 13px rgba(57, 39, 22, .055)
+        );
+}
+
+/* ============================================================
+   19 — ACCESSIBILITY AND INTERACTIVE POLISH
+============================================================ */
+
+.aumveda-home-page :is(
+    .best-deal-card__details a,
+    .featured-card__body a,
+    .shop-need-card,
+    .main-promo-hero__shop,
+    .wellness-promo__editorial-button
+):focus-visible {
+    outline: 2px solid #a87836;
+    outline-offset: 3px;
+}
+
+/* ============================================================
+   20 — ORIGINAL TABLET OVERRIDES
+   PRESERVED FROM COMPACT MODE V2
+============================================================ */
+
+@media (max-width: 1000px) {
+    .aumveda-home-content .shop-need-card {
+        height: 205px !important;
+    }
+
+    .aumveda-home-content .more-discovery__mosaic {
+        height: 225px !important;
+    }
+}
+
+/* ============================================================
+   21 — ORIGINAL MOBILE OVERRIDES
+   PRESERVED FROM COMPACT MODE V2
+============================================================ */
+
+@media (max-width: 700px) {
+    .aumveda-home-content > :is(
+        .explore-wellness,
+        .shop-by-need,
+        .category-showcase,
+        .trust-benefits,
+        .more-discovery
+    ) {
+        padding-top: 9px !important;
+        padding-bottom: 9px !important;
+    }
+
+    .aumveda-home-content .shop-need-card {
+        height: 195px !important;
+    }
+
+    .aumveda-home-content .category-showcase__editorial {
+        min-height: 180px !important;
+    }
+
+    .aumveda-home-content .category-showcase__product-visual {
+        height: 130px !important;
+    }
+
+    .aumveda-home-content .trust-benefits__item {
+        padding: 11px 9px !important;
+    }
+
+    .aumveda-home-content .more-discovery__mosaic {
+        height: auto !important;
+
+        grid-template-rows:
+            195px
+            115px
+            auto !important;
+    }
+
+    .aumveda-home-content .more-discovery__image-tile--main {
+        height: 195px !important;
+    }
+
+    .aumveda-home-content :is(
+        .more-discovery__stack,
+        .more-discovery__image-tile--top,
+        .more-discovery__image-tile--bottom
+    ) {
+        height: 115px !important;
+    }
+}
+
+/* ============================================================
+   22 — TOUCH AND REDUCED MOTION
+============================================================ */
+
+@media (hover: none) {
+    .aumveda-home-page :is(
+        .best-deal-card,
+        .featured-card,
+        .shop-need-card
+    ):hover {
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .aumveda-home-page :is(
+        .best-deal-card,
+        .featured-card,
+        .shop-need-card,
+        .main-promo-hero__shop,
+        .wellness-promo__editorial-button
+    ) {
+        transition: none !important;
+    }
 }

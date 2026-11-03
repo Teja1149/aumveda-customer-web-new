@@ -1,2133 +1,596 @@
+
 /* ============================================================
-   AUMVEDA PREMIUM HERO
+   AUMVEDA — HERO BANNER
+   CLEAN INDEPENDENT BANNER DESIGN
+
+   - No unnecessary outer white background
+   - No nested card appearance
+   - One clean rounded banner
+   - 4.4:1 ultrawide viewport
+   - Original Supabase images remain uncropped
+   - Soft photographic backdrop for ratio differences
+   - Smooth fade carousel
+   - Refined arrows and pagination
+   - Responsive mobile presentation
+
+   No changes to HeroSection.jsx required.
 ============================================================ */
 
-.hero {
-
-    position:
-        relative;
-
-    width:
-        100%;
-
-    min-height:
-        clamp(
-            650px,
-            78vh,
-            820px
-        );
-
-    overflow:
-        hidden;
-
-    isolation:
-        isolate;
-
-    background:
-        #d9d2c5;
-
-
-    /*
-        These values come from HeroSection.jsx.
-
-        --hero-video-opacity:
-            controls video visibility
-
-        --hero-left-overlay:
-            controls cream overlay on left
-    */
-
-    --hero-video-opacity:
-        0.92;
-
-    --hero-left-overlay:
-        0.68;
-
-}
-
 
 /* ============================================================
-   BACKGROUND MEDIA
+   01 — BOX MODEL
 ============================================================ */
 
-.hero__media {
-
-    position:
-        absolute;
-
-    inset:
-        0;
-
-    z-index:
-        0;
-
-    background-size:
-        cover;
-
-    background-position:
-        center;
-
-    transform-origin:
-        center;
-
+.aum-hero,
+.aum-hero *,
+.aum-hero *::before,
+.aum-hero *::after {
+  box-sizing: border-box;
 }
 
 
 /* ============================================================
-   VIDEO
-============================================================ */
-
-.hero-video {
-
-    position:
-        absolute;
-
-    inset:
-        0;
-
-    width:
-        100%;
-
-    height:
-        100%;
-
-    object-fit:
-        cover;
-
-    opacity:
-        0;
-
-    /*
-        Gives the background slightly richer visual depth.
-    */
-
-    filter:
-        saturate(1.08)
-        contrast(1.05)
-        brightness(0.98);
-
-    transition:
-        opacity
-        900ms ease;
-
-}
-
-
-/*
-    Video intensity is controlled by:
-
-    const VIDEO_INTENSITY = 0.92;
-
-    inside HeroSection.jsx.
-*/
-
-.hero-video--visible {
-
-    opacity:
-        var(
-            --hero-video-opacity
-        );
-
-}
-
-
-/* ============================================================
-   BALANCED VIDEO OVERLAY
-============================================================ */
-
-.hero__veil {
-
-    position:
-        absolute;
-
-    inset:
-        0;
-
-    z-index:
-        1;
-
-    pointer-events:
-        none;
-
-    background:
-
-        linear-gradient(
-
-            90deg,
-
-            rgba(
-                247,
-                243,
-                235,
-                var(
-                    --hero-left-overlay
-                )
-            )
-            0%,
-
-            rgba(
-                247,
-                243,
-                235,
-                0.60
-            )
-            20%,
-
-            rgba(
-                247,
-                243,
-                235,
-                0.40
-            )
-            38%,
-
-            rgba(
-                247,
-                243,
-                235,
-                0.19
-            )
-            57%,
-
-            rgba(
-                247,
-                243,
-                235,
-                0.06
-            )
-            74%,
-
-            rgba(
-                56,
-                31,
-                18,
-                0.07
-            )
-            100%
-
-        ),
-
-        linear-gradient(
-
-            180deg,
-
-            rgba(
-                255,
-                255,
-                255,
-                0.03
-            )
-            0%,
-
-            rgba(
-                255,
-                255,
-                255,
-                0
-            )
-            55%,
-
-            rgba(
-                56,
-                31,
-                18,
-                0.12
-            )
-            100%
-
-        );
-
-}
-
-
-/* ============================================================
-   VERY SUBTLE TEXTURE
-============================================================ */
-
-.hero__grain {
-
-    position:
-        absolute;
-
-    inset:
-        0;
-
-    z-index:
-        2;
-
-    pointer-events:
-        none;
-
-    opacity:
-        0.055;
-
-    background-image:
-
-        radial-gradient(
-
-            rgba(
-                56,
-                31,
-                18,
-                0.18
-            )
-            0.5px,
-
-            transparent
-            0.5px
-
-        );
-
-    background-size:
-        7px 7px;
-
-}
-
-
-/* ============================================================
-   AMBIENT DECORATION
-============================================================ */
-
-.hero__ambient {
-
-    position:
-        absolute;
-
-    z-index:
-        2;
-
-    pointer-events:
-        none;
-
-    border-radius:
-        50%;
-
-    filter:
-        blur(
-            9px
-        );
-
-}
-
-
-.hero__ambient--one {
-
-    width:
-        390px;
-
-    height:
-        390px;
-
-    top:
-        7%;
-
-    left:
-        -170px;
-
-    background:
-
-        radial-gradient(
-
-            circle,
-
-            rgba(
-                185,
-                147,
-                74,
-                0.11
-            ),
-
-            transparent
-            70%
-
-        );
-
-}
-
-
-.hero__ambient--two {
-
-    width:
-        380px;
-
-    height:
-        380px;
-
-    right:
-        8%;
-
-    bottom:
-        -190px;
-
-    background:
-
-        radial-gradient(
-
-            circle,
-
-            rgba(
-                87,
-                102,
-                84,
-                0.13
-            ),
-
-            transparent
-            70%
-
-        );
-
-}
-
-
-/* ============================================================
-   MAIN INNER CONTAINER
-============================================================ */
-
-.hero__inner {
-
-    position:
-        relative;
-
-    z-index:
-        4;
-
-    width:
-        min(
-            calc(
-                100% - 100px
-            ),
-            1480px
-        );
-
-    min-height:
-        clamp(
-            650px,
-            78vh,
-            820px
-        );
-
-    margin:
-        0 auto;
-
-    display:
-        grid;
-
-    grid-template-columns:
-
-        minmax(
-            0,
-            1.05fr
-        )
-
-        minmax(
-            300px,
-            0.72fr
-        );
-
-    align-items:
-        center;
-
-    gap:
-        70px;
-
-    padding:
-        80px 0
-        128px;
-
-}
-
-
-/* ============================================================
-   CONTENT
-============================================================ */
-
-.hero__content {
-
-    max-width:
-        720px;
-
-}
-
-
-/* ============================================================
-   EYEBROW
-============================================================ */
-
-.hero__eyebrow {
-
-    display:
-        inline-flex;
-
-    align-items:
-        center;
-
-    gap:
-        13px;
-
-    margin-bottom:
-        20px;
-
-    color:
-        #576654;
-
-    font-size:
-        11px;
-
-    font-weight:
-        700;
-
-    letter-spacing:
-        2.7px;
-
-    text-transform:
-        uppercase;
-
-}
-
-
-.hero__eyebrow-line {
-
-    width:
-        38px;
-
-    height:
-        1px;
-
-    flex-shrink:
-        0;
-
-    background:
-        #b9934a;
-
-}
-
-
-/* ============================================================
-   MAIN HERO HEADING
+   02 — OUTER HERO SECTION
 
    IMPORTANT:
-   THIS USES THE ORIGINAL AUMVEDA HERO FONT
+   No padding and no white outer card.
+   Homepage spacing is handled by home-cms.css.
 ============================================================ */
 
-.hero h1 {
+.aumveda-home-page .aum-hero,
+.aum-hero {
+  position: relative;
+  isolation: isolate;
 
-    max-width:
-        760px;
+  display: block;
 
-    margin:
-        0;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 
+  margin: 0;
+  padding: 0;
 
-    /*
-        Original font restored exactly.
-    */
+  border: none;
+  border-radius: 12px;
 
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
+  background: transparent;
 
-
-    font-size:
-        clamp(
-            56px,
-            5.7vw,
-            82px
-        );
-
-    font-weight:
-        400;
-
-    line-height:
-        1.01;
-
-    letter-spacing:
-        -0.035em;
-
-    color:
-        #381f12;
-
-
-    /*
-        Helps readability while still allowing
-        the video to remain visible.
-    */
-
-    text-shadow:
-        0 1px 10px
-        rgba(
-            255,
-            255,
-            255,
-            0.28
-        );
-
+  overflow: hidden;
 }
 
 
 /* ============================================================
-   SECOND HEADING LINE
+   03 — SINGLE BANNER FRAME
+
+   No second background container or card shadow.
 ============================================================ */
 
-.hero h1 span {
+.aum-hero__frame {
+  position: relative;
+  isolation: isolate;
 
-    display:
-        block;
+  display: block;
 
-    margin-top:
-        3px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 
-    color:
-        #576654;
+  margin: 0;
+  padding: 0;
 
+  overflow: hidden;
 
-    /*
-        Keep original typography.
-        No italic transformation.
-    */
+  border: none;
+  border-radius: 12px;
 
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
+  background: #e6eddc;
 
-    font-style:
-        normal;
-
-    font-weight:
-        400;
-
+  box-shadow: none;
 }
 
 
 /* ============================================================
-   DESCRIPTION
+   04 — BANNER VIEWPORT
+
+   4.4:1 ultrawide aspect ratio.
+
+   1440px width = approximately 327px height.
 ============================================================ */
 
-.hero__description {
+.aumveda-home-page
+.aumveda-home-page__container
+.aum-hero__viewport,
+.aumveda-home-page .aum-hero__viewport,
+.aum-hero__viewport {
+  position: relative;
 
-    max-width:
-        610px;
+  display: block;
 
-    margin:
-        27px 0 0;
+  width: 100%;
+  max-width: 100%;
 
-    color:
-        #55483f;
+  height: auto;
+  aspect-ratio: 4.4 / 1;
 
-    font-size:
-        clamp(
-            15px,
-            1.25vw,
-            17px
-        );
+  margin: 0;
+  padding: 0;
 
-    line-height:
-        1.75;
+  overflow: hidden;
 
-    text-shadow:
-        0 1px 8px
-        rgba(
-            255,
-            255,
-            255,
-            0.30
-        );
-
+  background: #e6eddc;
 }
 
 
 /* ============================================================
-   BUTTON AREA
+   05 — CAROUSEL SLIDES
 ============================================================ */
 
-.hero__buttons {
+.aum-hero__slide {
+  position: absolute;
+  inset: 0;
 
-    display:
-        flex;
+  z-index: 0;
 
-    align-items:
-        center;
+  display: block;
 
-    flex-wrap:
-        wrap;
+  width: 100%;
+  height: 100%;
 
-    gap:
-        14px;
+  margin: 0;
+  padding: 0;
 
-    margin-top:
-        34px;
+  overflow: hidden;
 
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition:
+    opacity 650ms ease,
+    visibility 650ms ease;
+}
+
+
+/* ACTIVE SLIDE */
+
+.aum-hero__slide--active {
+  z-index: 1;
+
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 
 /* ============================================================
-   PRIMARY BUTTON
+   06 — FALLBACK SLIDE COLORS
 ============================================================ */
 
-.hero__primary {
+.aum-hero__slide--green {
+  background: #e3ebda;
+}
 
-    position:
-        relative;
+.aum-hero__slide--gold {
+  background: #f3e9d4;
+}
 
-    min-height:
-        50px;
+.aum-hero__slide--rose {
+  background: #f2e2df;
+}
 
-    display:
-        inline-flex;
+.aum-hero__slide--lavender {
+  background: #e6e0ef;
+}
 
-    align-items:
-        center;
 
-    justify-content:
-        center;
+/* ============================================================
+   07 — CLICKABLE BANNER AREA
+============================================================ */
 
-    gap:
-        10px;
+.aum-hero__image-link {
+  position: absolute;
+  inset: 0;
 
-    padding:
-        0 24px;
+  z-index: 1;
 
-    overflow:
-        hidden;
+  display: block;
 
-    border:
-        1px solid
-        #576654;
+  width: 100%;
+  height: 100%;
 
-    border-radius:
-        999px;
+  margin: 0;
+  padding: 0;
 
-    background:
-        linear-gradient(
-            135deg,
-            #61725e,
-            #4f604d
-        );
+  overflow: hidden;
 
-    color:
-        #ffffff;
+  color: inherit;
+  text-decoration: none;
 
-    font-size:
-        12px;
+  cursor: pointer;
+}
 
-    font-weight:
-        700;
 
-    letter-spacing:
-        .01em;
+/* ============================================================
+   08 — PHOTOGRAPHIC BACKDROP
+
+   Only visible when original image proportions
+   differ from the viewport.
+
+   Main artwork is never stretched.
+============================================================ */
+
+.aum-hero__backdrop {
+  position: absolute;
+  z-index: 0;
+
+  inset: 0;
+
+  display: block;
+
+  overflow: hidden;
+
+  pointer-events: none;
+}
+
+.aum-hero__backdrop img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  max-width: none;
+
+  object-fit: cover;
+  object-position: center;
+
+  filter: blur(22px) brightness(1.05);
+
+  transform: scale(1.08);
+}
+
+.aum-hero__backdrop::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background: rgba(255, 253, 247, 0.12);
+
+  pointer-events: none;
+}
+
+
+/* ============================================================
+   09 — PRIMARY IMAGE WRAPPER
+============================================================ */
+
+.aum-hero__picture {
+  position: absolute;
+  z-index: 1;
+
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+}
+
+
+/* ============================================================
+   10 — ORIGINAL SUPABASE IMAGE
+
+   object-fit: contain:
+   - Complete source image
+   - No distortion
+   - No cropping
+   - No unwanted zoom
+============================================================ */
+
+.aumveda-home-page .aum-hero__picture img,
+.aum-hero__picture img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  max-width: 100%;
+  max-height: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  border: none;
+
+  object-fit: contain;
+  object-position: center center;
+
+  image-rendering: auto;
+
+  filter: none;
+  transform: none;
+}
+
+
+/* ============================================================
+   11 — FAILED IMAGE FALLBACK
+============================================================ */
+
+.aum-hero__fallback {
+  display: grid;
+  place-items: center;
+
+  width: 100%;
+  height: 100%;
+
+  margin: 0;
+  padding: 20px;
+
+  color: #31553e;
+
+  background: linear-gradient(
+    110deg,
+    #e9f0df 0%,
+    #faf6e9 100%
+  );
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: clamp(17px, 2.1vw, 29px);
+  font-weight: 700;
+  line-height: 1.2;
+
+  text-align: center;
+}
+
+
+/* ============================================================
+   12 — NAVIGATION ARROWS
+============================================================ */
+
+.aum-hero__arrow {
+  position: absolute;
+  z-index: 5;
+
+  top: 50%;
+
+  display: grid;
+  place-items: center;
+
+  width: 34px;
+  height: 34px;
+
+  margin: 0;
+  padding: 0;
+
+  border: 1px solid rgba(48, 76, 54, 0.12);
+  border-radius: 50%;
+
+  background: rgba(255, 254, 250, 0.94);
+  color: #28543b;
+
+  box-shadow:
+    0 3px 12px rgba(31, 48, 33, 0.13);
+
+  transform: translateY(-50%);
+
+  cursor: pointer;
+
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.aum-hero__arrow--left {
+  left: 14px;
+}
+
+.aum-hero__arrow--right {
+  right: 14px;
+}
+
+.aum-hero__arrow svg {
+  display: block;
+
+  width: 18px;
+  height: 18px;
+
+  stroke-width: 1.9;
+}
+
+@media (hover: hover) {
+  .aum-hero__arrow:hover {
+    color: #fffdf8;
+    background: #2c573d;
 
     box-shadow:
-        0 14px 32px
-        rgba(
-            87,
-            102,
-            84,
-            0.24
-        );
-
-    transition:
-        transform
-        240ms ease,
-        background
-        240ms ease,
-        border-color
-        240ms ease,
-        box-shadow
-        240ms ease;
-
+      0 5px 16px rgba(31, 48, 33, 0.2);
+  }
 }
 
 
 /* ============================================================
-   PRIMARY BUTTON SHINE
+   13 — PAGINATION DOTS
 ============================================================ */
 
-.hero__primary::before {
+.aum-hero__dots {
+  position: absolute;
+  z-index: 6;
 
-    content:
-        "";
+  bottom: 12px;
+  left: 50%;
 
-    position:
-        absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    top:
-        -50%;
+  gap: 6px;
 
-    left:
-        -40%;
+  margin: 0;
+  padding: 6px 9px;
 
-    width:
-        30%;
+  border-radius: 999px;
 
-    height:
-        200%;
+  background: rgba(28, 49, 34, 0.23);
 
-    transform:
-        rotate(
-            20deg
-        );
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(
-                255,
-                255,
-                255,
-                0.20
-            ),
-            transparent
-        );
-
-    transition:
-        left
-        500ms
-        cubic-bezier(
-            .22,
-            1,
-            .36,
-            1
-        );
-
+  transform: translateX(-50%);
 }
 
+.aum-hero__dot {
+  display: block;
+  flex: 0 0 auto;
 
-.hero__primary:hover::before {
+  width: 7px;
+  height: 7px;
 
-    left:
-        120%;
+  margin: 0;
+  padding: 0;
 
+  border: 0;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.7);
+
+  cursor: pointer;
+
+  transition:
+    width 220ms ease,
+    background-color 220ms ease;
 }
 
-
-.hero__primary:hover {
-
-    transform:
-        translateY(
-            -3px
-        );
-
-    border-color:
-        #381f12;
-
-    background:
-        linear-gradient(
-            135deg,
-            #4d3020,
-            #381f12
-        );
-
-    box-shadow:
-        0 18px 40px
-        rgba(
-            56,
-            31,
-            18,
-            0.20
-        );
-
-}
-
-
-.hero__primary:active {
-
-    transform:
-        translateY(
-            0
-        )
-        scale(
-            0.96
-        );
-
-}
-
-
-.hero__primary svg {
-
-    transition:
-        transform
-        220ms ease;
-
-}
-
-
-.hero__primary:hover svg {
-
-    transform:
-        translateX(
-            3px
-        );
-
+.aum-hero__dot--active {
+  width: 22px;
+  background: #ffffff;
 }
 
 
 /* ============================================================
-   SECONDARY BUTTON
+   14 — KEYBOARD ACCESSIBILITY
 ============================================================ */
 
-.hero__secondary {
-
-    min-height:
-        50px;
-
-    display:
-        inline-flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    gap:
-        8px;
-
-    padding:
-        0 22px;
-
-    border:
-        1px solid
-        rgba(
-            56,
-            31,
-            18,
-            0.18
-        );
-
-    border-radius:
-        999px;
-
-    background:
-        rgba(
-            255,
-            255,
-            255,
-            0.52
-        );
-
-    color:
-        #381f12;
-
-    font-size:
-        12px;
-
-    font-weight:
-        650;
-
-    backdrop-filter:
-        blur(
-            12px
-        );
-
-    -webkit-backdrop-filter:
-        blur(
-            12px
-        );
-
-    transition:
-        transform
-        240ms ease,
-        background
-        240ms ease,
-        border-color
-        240ms ease,
-        box-shadow
-        240ms ease;
-
-}
-
-
-.hero__secondary:hover {
-
-    transform:
-        translateY(
-            -3px
-        );
-
-    border-color:
-        rgba(
-            87,
-            102,
-            84,
-            0.38
-        );
-
-    background:
-        rgba(
-            255,
-            255,
-            255,
-            0.88
-        );
-
-    color:
-        #576654;
-
-    box-shadow:
-        0 13px 28px
-        rgba(
-            56,
-            31,
-            18,
-            0.08
-        );
-
-}
-
-
-.hero__secondary:active {
-
-    transform:
-        scale(
-            0.96
-        );
-
-}
-
-
-.hero__secondary-arrow {
-
-    transition:
-        transform
-        220ms ease;
-
-}
-
-
-.hero__secondary:hover
-.hero__secondary-arrow {
-
-    transform:
-        translate(
-            2px,
-            -2px
-        );
-
+.aum-hero :is(button, a):focus-visible,
+.aum-hero:focus-visible {
+  outline: 2px solid #b99456;
+  outline-offset: 3px;
 }
 
 
 /* ============================================================
-   ASSURANCE
+   15 — TABLET
 ============================================================ */
 
-.hero__assurance {
+@media (max-width: 900px) {
+  .aumveda-home-page .aum-hero,
+  .aum-hero,
+  .aum-hero__frame {
+    border-radius: 10px;
+  }
 
-    display:
-        flex;
+  .aum-hero__arrow {
+    width: 29px;
+    height: 29px;
+  }
 
-    align-items:
-        center;
+  .aum-hero__arrow--left {
+    left: 9px;
+  }
 
-    flex-wrap:
-        wrap;
+  .aum-hero__arrow--right {
+    right: 9px;
+  }
 
-    gap:
-        18px;
-
-    margin-top:
-        24px;
-
-    color:
-        #71645a;
-
-}
-
-
-.hero__assurance span {
-
-    display:
-        inline-flex;
-
-    align-items:
-        center;
-
-    gap:
-        6px;
-
-    font-size:
-        14px;
-
-    font-weight:
-        500;
-
-}
-
-
-.hero__assurance svg {
-
-    color:
-        #a77f32;
-
+  .aum-hero__dots {
+    bottom: 8px;
+  }
 }
 
 
 /* ============================================================
-   PHILOSOPHY CARD
+   16 — MOBILE
 ============================================================ */
 
-.hero__signature {
+@media (max-width: 640px) {
+  .aumveda-home-page .aum-hero,
+  .aum-hero,
+  .aum-hero__frame {
+    padding: 0;
+    border-radius: 8px;
+  }
 
-    justify-self:
-        end;
+  .aumveda-home-page
+  .aumveda-home-page__container
+  .aum-hero__viewport,
+  .aumveda-home-page .aum-hero__viewport,
+  .aum-hero__viewport {
+    aspect-ratio: 4.4 / 1;
+  }
 
-    align-self:
-        end;
+  .aum-hero__backdrop img {
+    filter: blur(12px) brightness(1.04);
+  }
 
-    width:
-        min(
-            360px,
-            100%
-        );
+  .aum-hero__arrow {
+    width: 23px;
+    height: 23px;
+  }
 
-    margin-bottom:
-        95px;
+  .aum-hero__arrow svg {
+    width: 13px;
+    height: 13px;
+  }
 
-    padding:
-        24px 25px;
+  .aum-hero__arrow--left {
+    left: 5px;
+  }
 
-    border:
-        1px solid
-        rgba(
-            255,
-            255,
-            255,
-            0.58
-        );
+  .aum-hero__arrow--right {
+    right: 5px;
+  }
 
-    border-radius:
-        22px;
+  .aum-hero__dots {
+    bottom: 5px;
+    gap: 4px;
+    padding: 4px 6px;
+  }
 
-    background:
-        rgba(
-            255,
-            255,
-            255,
-            0.48
-        );
+  .aum-hero__dot {
+    width: 5px;
+    height: 5px;
+  }
 
-    backdrop-filter:
-        blur(
-            18px
-        );
-
-    -webkit-backdrop-filter:
-        blur(
-            18px
-        );
-
-    box-shadow:
-        0 20px 55px
-        rgba(
-            56,
-            31,
-            18,
-            0.10
-        );
-
-    transition:
-        transform
-        300ms ease,
-        background
-        300ms ease,
-        box-shadow
-        300ms ease;
-
-}
-
-
-.hero__signature:hover {
-
-    transform:
-        translateY(
-            -4px
-        );
-
-    background:
-        rgba(
-            255,
-            255,
-            255,
-            0.62
-        );
-
-    box-shadow:
-        0 26px 65px
-        rgba(
-            56,
-            31,
-            18,
-            0.13
-        );
-
+  .aum-hero__dot--active {
+    width: 14px;
+  }
 }
 
 
 /* ============================================================
-   SIGNATURE LABEL
+   17 — REDUCED MOTION
 ============================================================ */
 
-.hero__signature-label {
-
-    display:
-        block;
-
-    color:
-        #576654;
-
-    font-size:
-        9px;
-
-    font-weight:
-        750;
-
-    letter-spacing:
-        2px;
-
+@media (prefers-reduced-motion: reduce) {
+  .aum-hero__slide,
+  .aum-hero__arrow,
+  .aum-hero__dot {
+    transition: none !important;
+  }
 }
-
 
 /* ============================================================
-   SIGNATURE TEXT
+   END — AUMVEDA HERO BANNER
 ============================================================ */
-
-.hero__signature p {
-
-    margin:
-        10px 0 16px;
-
-    color:
-        #45352b;
-
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-    font-size:
-        23px;
-
-    line-height:
-        1.25;
-
-}
-
-
-/* ============================================================
-   SIGNATURE MARK
-============================================================ */
-
-.hero__signature-mark {
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    gap:
-        7px;
-
-    color:
-        #716359;
-
-    font-size:
-        10px;
-
-    font-weight:
-        600;
-
-}
-
-
-.hero__signature-mark svg {
-
-    color:
-        #a77f32;
-
-}
-
-
-/* ============================================================
-   TRUST STRIP
-============================================================ */
-
-.hero__trust {
-
-    position:
-        absolute;
-
-    z-index:
-        5;
-
-    left:
-        50%;
-
-    bottom:
-        26px;
-
-    width:
-        min(
-            calc(
-                100% - 100px
-            ),
-            1480px
-        );
-
-    transform:
-        translateX(
-            -50%
-        );
-
-    display:
-        grid;
-
-    grid-template-columns:
-        repeat(
-            3,
-            minmax(
-                0,
-                1fr
-            )
-        );
-
-    overflow:
-        hidden;
-
-    border:
-        1px solid
-        rgba(
-            255,
-            255,
-            255,
-            0.58
-        );
-
-    border-radius:
-        20px;
-
-    background:
-        rgba(
-            251,
-            248,
-            242,
-            0.74
-        );
-
-    backdrop-filter:
-        blur(
-            19px
-        );
-
-    -webkit-backdrop-filter:
-        blur(
-            19px
-        );
-
-    box-shadow:
-        0 18px 54px
-        rgba(
-            56,
-            31,
-            18,
-            0.10
-        );
-
-}
-
-
-/* ============================================================
-   TRUST CARD
-============================================================ */
-
-.hero-trust-card {
-
-    position:
-        relative;
-
-    min-height:
-        72px;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    gap:
-        12px;
-
-    padding:
-        13px 26px;
-
-    transition:
-        background
-        240ms ease;
-
-}
-
-
-.hero-trust-card:hover {
-
-    background:
-        rgba(
-            255,
-            255,
-            255,
-            0.40
-        );
-
-}
-
-
-/* ============================================================
-   TRUST DIVIDER
-============================================================ */
-
-.hero-trust-card +
-.hero-trust-card::before {
-
-    content:
-        "";
-
-    position:
-        absolute;
-
-    left:
-        0;
-
-    top:
-        18px;
-
-    bottom:
-        18px;
-
-    width:
-        1px;
-
-    background:
-        rgba(
-            56,
-            31,
-            18,
-            0.10
-        );
-
-}
-
-
-/* ============================================================
-   TRUST ICON
-============================================================ */
-
-.hero-trust-card__icon {
-
-    width:
-        36px;
-
-    height:
-        36px;
-
-    display:
-        inline-flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    flex-shrink:
-        0;
-
-    border-radius:
-        50%;
-
-    background:
-        rgba(
-            87,
-            102,
-            84,
-            0.10
-        );
-
-    color:
-        #576654;
-
-    transition:
-        transform
-        240ms ease,
-        background
-        240ms ease;
-
-}
-
-
-.hero-trust-card:hover
-.hero-trust-card__icon {
-
-    transform:
-        scale(
-            1.08
-        );
-
-    background:
-        rgba(
-            87,
-            102,
-            84,
-            0.15
-        );
-
-}
-
-
-/* ============================================================
-   TRUST TEXT
-============================================================ */
-
-.hero-trust-card div {
-
-    display:
-        flex;
-
-    flex-direction:
-        column;
-
-    gap:
-        2px;
-
-}
-
-
-.hero-trust-card strong {
-
-    color:
-        #381f12;
-
-    font-size:
-        15px;
-
-    font-weight:
-        700;
-
-}
-
-
-.hero-trust-card small {
-
-    color:
-        #807267;
-
-    font-size:
-        9px;
-
-}
-
-
-/* ============================================================
-   AUDIO CONTROL
-============================================================ */
-
-.hero-audio-toggle {
-
-    position:
-        absolute;
-
-    right:
-        34px;
-
-    bottom:
-        116px;
-
-    z-index:
-        7;
-
-    width:
-        42px;
-
-    height:
-        42px;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    border:
-        1px solid
-        rgba(
-            255,
-            255,
-            255,
-            0.58
-        );
-
-    border-radius:
-        50%;
-
-    background:
-        rgba(
-            255,
-            255,
-            255,
-            0.70
-        );
-
-    color:
-        #381f12;
-
-    backdrop-filter:
-        blur(
-            14px
-        );
-
-    -webkit-backdrop-filter:
-        blur(
-            14px
-        );
-
-    box-shadow:
-        0 10px 28px
-        rgba(
-            56,
-            31,
-            18,
-            0.12
-        );
-
-    transition:
-        transform
-        230ms ease,
-        background
-        230ms ease,
-        color
-        230ms ease;
-
-}
-
-
-.hero-audio-toggle:hover {
-
-    transform:
-        translateY(
-            -3px
-        );
-
-    background:
-        #576654;
-
-    color:
-        #ffffff;
-
-}
-
-
-.hero-audio-toggle:active {
-
-    transform:
-        scale(
-            0.92
-        );
-
-}
-
-
-/* ============================================================
-   LAPTOP
-============================================================ */
-
-@media(
-    max-width:1100px
-) {
-
-    .hero__inner {
-
-        width:
-            min(
-                calc(
-                    100% - 56px
-                ),
-                1480px
-            );
-
-        grid-template-columns:
-            minmax(
-                0,
-                1fr
-            )
-            280px;
-
-        gap:
-            28px;
-
-    }
-
-
-    .hero__trust {
-
-        width:
-            min(
-                calc(
-                    100% - 56px
-                ),
-                1480px
-            );
-
-    }
-
-
-    .hero__signature {
-
-        margin-bottom:
-            100px;
-
-    }
-
-}
-
-
-/* ============================================================
-   TABLET
-============================================================ */
-
-@media(
-    max-width:900px
-) {
-
-    .hero {
-
-        min-height:
-            710px;
-
-    }
-
-
-    /*
-        Tablet overlay remains slightly stronger
-        because background video can interfere with text.
-    */
-
-    .hero__veil {
-
-        background:
-
-            linear-gradient(
-
-                90deg,
-
-                rgba(
-                    247,
-                    243,
-                    235,
-                    0.84
-                )
-                0%,
-
-                rgba(
-                    247,
-                    243,
-                    235,
-                    0.68
-                )
-                48%,
-
-                rgba(
-                    247,
-                    243,
-                    235,
-                    0.28
-                )
-                100%
-
-            ),
-
-            linear-gradient(
-
-                180deg,
-
-                transparent
-                52%,
-
-                rgba(
-                    56,
-                    31,
-                    18,
-                    0.12
-                )
-                100%
-
-            );
-
-    }
-
-
-    .hero__inner {
-
-        width:
-            min(
-                calc(
-                    100% - 40px
-                ),
-                1480px
-            );
-
-        min-height:
-            710px;
-
-        grid-template-columns:
-            1fr;
-
-        align-items:
-            center;
-
-        padding:
-            74px 0
-            170px;
-
-    }
-
-
-    .hero__content {
-
-        max-width:
-            650px;
-
-    }
-
-
-    .hero__signature {
-
-        display:
-            none;
-
-    }
-
-
-    .hero h1 {
-
-        font-size:
-            clamp(
-                50px,
-                8vw,
-                67px
-            );
-
-    }
-
-
-    .hero__trust {
-
-        width:
-            calc(
-                100% - 40px
-            );
-
-        bottom:
-            22px;
-
-    }
-
-}
-
-
-/* ============================================================
-   MOBILE
-============================================================ */
-
-@media(
-    max-width:640px
-) {
-
-    .hero {
-
-        min-height:
-            760px;
-
-    }
-
-
-    .hero__media {
-
-        background-position:
-            62% center;
-
-    }
-
-
-    /*
-        Mobile needs slightly more overlay
-        because text occupies most of the image.
-    */
-
-    .hero__veil {
-
-        background:
-
-            linear-gradient(
-
-                180deg,
-
-                rgba(
-                    247,
-                    243,
-                    235,
-                    0.86
-                )
-                0%,
-
-                rgba(
-                    247,
-                    243,
-                    235,
-                    0.74
-                )
-                47%,
-
-                rgba(
-                    247,
-                    243,
-                    235,
-                    0.38
-                )
-                75%,
-
-                rgba(
-                    56,
-                    31,
-                    18,
-                    0.13
-                )
-                100%
-
-            );
-
-    }
-
-
-    .hero-video {
-
-        filter:
-            saturate(
-                1.07
-            )
-            contrast(
-                1.04
-            )
-            brightness(
-                0.97
-            );
-
-    }
-
-
-    .hero__inner {
-
-        width:
-            calc(
-                100% - 30px
-            );
-
-        min-height:
-            760px;
-
-        align-items:
-            start;
-
-        padding:
-            74px 0
-            232px;
-
-    }
-
-
-    .hero__content {
-
-        padding-top:
-            24px;
-
-    }
-
-
-    .hero__eyebrow {
-
-        margin-bottom:
-            17px;
-
-        font-size:
-            9px;
-
-        letter-spacing:
-            1.8px;
-
-    }
-
-
-    .hero__eyebrow-line {
-
-        width:
-            25px;
-
-    }
-
-
-    .hero h1 {
-
-        font-size:
-            clamp(
-                43px,
-                12vw,
-                58px
-            );
-
-        line-height:
-            1;
-
-        letter-spacing:
-            -0.025em;
-
-    }
-
-
-    .hero__description {
-
-        max-width:
-            95%;
-
-        margin-top:
-            22px;
-
-        font-size:
-            14px;
-
-        line-height:
-            1.7;
-
-    }
-
-
-    .hero__buttons {
-
-        gap:
-            10px;
-
-        margin-top:
-            27px;
-
-    }
-
-
-    .hero__primary,
-    .hero__secondary {
-
-        min-height:
-            47px;
-
-        padding:
-            0 19px;
-
-        font-size:
-            11px;
-
-    }
-
-
-    .hero__assurance {
-
-        gap:
-            10px 15px;
-
-        margin-top:
-            20px;
-
-    }
-
-
-    .hero__trust {
-
-        grid-template-columns:
-            1fr;
-
-        width:
-            calc(
-                100% - 28px
-            );
-
-        bottom:
-            14px;
-
-        border-radius:
-            17px;
-
-    }
-
-
-    .hero-trust-card {
-
-        min-height:
-            58px;
-
-        justify-content:
-            flex-start;
-
-        padding:
-            9px 16px;
-
-    }
-
-
-    .hero-trust-card +
-    .hero-trust-card::before {
-
-        top:
-            0;
-
-        bottom:
-            auto;
-
-        left:
-            16px;
-
-        right:
-            16px;
-
-        width:
-            auto;
-
-        height:
-            1px;
-
-    }
-
-
-    .hero-trust-card__icon {
-
-        width:
-            31px;
-
-        height:
-            31px;
-
-    }
-
-
-    .hero-audio-toggle {
-
-        right:
-            18px;
-
-        bottom:
-            206px;
-
-    }
-
-}

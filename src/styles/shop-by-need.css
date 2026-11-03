@@ -1,0 +1,829 @@
+
+/* ============================================================
+   AUMVEDA — SECTION 04: SHOP BY NEED
+   PREMIUM CATEGORY CARDS — COMPLETE UPDATED CSS
+
+   DESIGN:
+   - Compact premium wellness section
+   - Four attractive photographic category cards
+   - Taller and balanced card proportions
+   - Soft rounded corners
+   - Dedicated cream-colored caption panels
+   - Readable category headings and descriptions
+   - Elegant circular navigation arrows
+   - Subtle premium shadows and hover effects
+   - Responsive desktop, tablet, and mobile
+
+   FUNCTIONALITY PRESERVED:
+   - Existing ShopByNeed.jsx
+   - Supabase Storage images
+   - CMS titles and descriptions
+   - Category navigation
+   - Local and API image fallbacks
+   - Mobile horizontal swipe
+============================================================ */
+
+
+/* ============================================================
+   01 — BOX MODEL
+============================================================ */
+
+.shop-by-need,
+.shop-by-need *,
+.shop-by-need *::before,
+.shop-by-need *::after {
+  box-sizing: border-box;
+}
+
+
+/* ============================================================
+   02 — SECTION ROOT
+============================================================ */
+
+.aumveda-home-page .rv-slot-shop_by_need,
+.aumveda-home-page .rv-slot-shop_by_need .shop-by-need,
+.shop-by-need {
+  position: relative;
+
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  margin: 0;
+
+  background: #faf6ed;
+}
+
+.aumveda-home-page
+.rv-slot-shop_by_need
+.shop-by-need,
+.shop-by-need {
+  padding: 15px clamp(14px, 2vw, 26px) 16px;
+
+  overflow: hidden;
+  isolation: isolate;
+
+  border: 0;
+  border-radius: 14px;
+
+  background: linear-gradient(
+    115deg,
+    #fffaf1 0%,
+    #faf4e9 54%,
+    #f8efe2 100%
+  );
+}
+
+.shop-by-need::before,
+.shop-by-need::after {
+  display: none;
+}
+
+
+/* ============================================================
+   03 — MAIN CONTENT CONTAINER
+============================================================ */
+
+.shop-by-need__container {
+  position: relative;
+  z-index: 1;
+
+  width: 100%;
+  max-width: 1500px;
+  min-width: 0;
+
+  margin: 0 auto;
+  padding: 0;
+}
+
+
+/* ============================================================
+   04 — SECTION HEADER
+============================================================ */
+
+.shop-by-need__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  width: 100%;
+
+  margin: 0 0 12px;
+  padding: 0;
+}
+
+.shop-by-need__header > div {
+  min-width: 0;
+}
+
+
+/* ============================================================
+   05 — SMALL SECTION LABEL
+============================================================ */
+
+.shop-by-need__eyebrow {
+  display: block;
+
+  margin: 0 0 4px;
+  padding: 0;
+
+  color: #a17a43;
+
+  font-family: inherit;
+  font-size: 9px;
+  font-weight: 800;
+
+  line-height: 1.25;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+
+/* ============================================================
+   06 — SECTION HEADING
+============================================================ */
+
+.shop-by-need__header h2 {
+  margin: 0;
+  padding: 0;
+
+  color: #372b21;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: clamp(23px, 2.1vw, 30px);
+  font-weight: 700;
+
+  line-height: 1.16;
+  letter-spacing: -0.035em;
+}
+
+
+/* ============================================================
+   07 — VIEW ALL LINK
+============================================================ */
+
+.shop-by-need__view-all {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 auto;
+
+  gap: 6px;
+
+  min-height: 30px;
+
+  margin: 0;
+  padding: 0 1px;
+
+  color: #3b583f;
+
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 750;
+
+  text-decoration: none;
+  white-space: nowrap;
+
+  transition:
+    color 180ms ease,
+    gap 180ms ease;
+}
+
+.shop-by-need__view-all svg {
+  display: block;
+
+  width: 14px;
+  height: 14px;
+}
+
+.shop-by-need__view-all:hover {
+  color: #174c32;
+  gap: 9px;
+}
+
+
+/* ============================================================
+   08 — SCROLL AREA
+============================================================ */
+
+.shop-by-need__scroll-area {
+  width: 100%;
+  min-width: 0;
+
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ============================================================
+   09 — FOUR-CARD DESKTOP GRID
+============================================================ */
+
+.shop-by-need__grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  align-items: stretch;
+
+  gap: 14px;
+
+  width: 100%;
+  min-width: 0;
+
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ============================================================
+   10 — PREMIUM CATEGORY CARD
+
+   Taller proportions create a better balance between
+   the photograph and the caption.
+
+   The entire card remains clickable.
+============================================================ */
+
+.shop-need-card {
+  position: relative;
+  isolation: isolate;
+
+  display: block;
+
+  width: 100%;
+  min-width: 0;
+
+  aspect-ratio: 1.22 / 1;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+
+  border: 1px solid #e9dece;
+  border-radius: 17px;
+
+  background: var(
+    --shop-card-bg,
+    #fffaf2
+  );
+
+  color: #35291f;
+  text-decoration: none;
+
+  box-shadow:
+    0 3px 9px rgba(64, 44, 27, 0.05),
+    0 8px 20px rgba(64, 44, 27, 0.045);
+
+  transition:
+    transform 250ms ease,
+    box-shadow 250ms ease,
+    border-color 250ms ease;
+}
+
+
+/* ============================================================
+   11 — PHOTOGRAPHIC AREA
+
+   Caption is 68px high.
+   The rest of the card displays the photograph.
+============================================================ */
+
+.shop-need-card__image {
+  position: absolute;
+  z-index: 0;
+
+  top: 0;
+  right: 0;
+  bottom: 68px;
+  left: 0;
+
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+
+  background: var(
+    --shop-card-bg,
+    #f1e6d5
+  );
+}
+
+
+/* ============================================================
+   12 — PHOTOGRAPH
+============================================================ */
+
+.shop-need-card__image img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  border: none;
+
+  object-fit: cover;
+  object-position: center 40%;
+
+  transform: scale(1);
+
+  transition:
+    transform 400ms cubic-bezier(
+      0.22,
+      1,
+      0.36,
+      1
+    );
+}
+
+
+/* ============================================================
+   13 — CATEGORY-SPECIFIC IMAGE POSITION
+============================================================ */
+
+.shop-need-card--hair
+.shop-need-card__image img {
+  object-position: center 38%;
+}
+
+.shop-need-card--skin
+.shop-need-card__image img {
+  object-position: center 35%;
+}
+
+.shop-need-card--nutrition
+.shop-need-card__image img {
+  object-position: center 50%;
+}
+
+.shop-need-card--personal
+.shop-need-card__image img {
+  object-position: center 48%;
+}
+
+
+/* ============================================================
+   14 — REMOVE OLD IMAGE OVERLAY
+============================================================ */
+
+.shop-need-card::after {
+  display: none;
+}
+
+
+/* ============================================================
+   15 — PREMIUM CAPTION PANEL
+
+   A separate cream panel creates a clean division
+   between the product photograph and its description.
+============================================================ */
+
+.shop-need-card__content {
+  position: absolute;
+  z-index: 2;
+
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  min-height: 68px;
+
+  margin: 0;
+  padding: 10px 13px;
+
+  border: 0;
+  border-top: 1px solid #eee4d6;
+
+  background: #fffaf3;
+
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+
+/* ============================================================
+   16 — CAPTION TEXT CONTAINER
+============================================================ */
+
+.shop-need-card__text {
+  flex: 1;
+  min-width: 0;
+}
+
+
+/* ============================================================
+   17 — CATEGORY TITLE
+============================================================ */
+
+.shop-need-card__text h3 {
+  margin: 0;
+  padding: 0;
+
+  color: #34291f;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: clamp(15px, 1.25vw, 18px);
+  font-weight: 700;
+
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+}
+
+
+/* ============================================================
+   18 — CATEGORY DESCRIPTION
+
+   Two lines allowed.
+   This avoids unnecessarily cutting descriptions
+   after only one line.
+============================================================ */
+
+.shop-need-card__text p {
+  display: -webkit-box;
+
+  margin: 5px 0 0;
+  padding: 0;
+
+  overflow: hidden;
+
+  color: #786d60;
+
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 450;
+  line-height: 1.35;
+
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+
+/* ============================================================
+   19 — CIRCULAR ARROW
+============================================================ */
+
+.shop-need-card__arrow {
+  display: grid;
+  place-items: center;
+
+  flex: 0 0 30px;
+
+  width: 30px;
+  height: 30px;
+
+  margin: 0;
+  padding: 0;
+
+  border: 1px solid #dbe6d7;
+  border-radius: 50%;
+
+  background: #edf3e9;
+  color: #28543a;
+
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.shop-need-card__arrow svg {
+  display: block;
+
+  width: 16px;
+  height: 16px;
+}
+
+
+/* ============================================================
+   20 — IMAGE FALLBACK
+
+   Retain the existing leaf fallback in ShopByNeed.jsx.
+============================================================ */
+
+.shop-need-card__fallback {
+  display: grid;
+  place-items: center;
+
+  width: 100%;
+  height: 100%;
+
+  color: #648067;
+
+  background: radial-gradient(
+    circle at 50% 40%,
+    #faf2e3 0%,
+    #e9dcc7 100%
+  );
+}
+
+
+/* ============================================================
+   21 — HOVER INTERACTIONS
+============================================================ */
+
+@media (hover: hover) {
+  .shop-need-card:hover {
+    transform: translateY(-4px);
+
+    border-color: #d4c7ae;
+
+    box-shadow:
+      0 8px 16px rgba(64, 44, 27, 0.07),
+      0 15px 28px rgba(64, 44, 27, 0.08);
+  }
+
+  .shop-need-card:hover
+  .shop-need-card__image img {
+    transform: scale(1.045);
+  }
+
+  .shop-need-card:hover
+  .shop-need-card__arrow {
+    background: #28543a;
+    color: #ffffff;
+
+    transform: translate(2px, -2px);
+  }
+}
+
+
+/* ============================================================
+   22 — FOCUS ACCESSIBILITY
+============================================================ */
+
+.shop-need-card:focus-visible,
+.shop-by-need__view-all:focus-visible {
+  outline: 2px solid #28543a;
+  outline-offset: 3px;
+}
+
+
+/* ============================================================
+   23 — TABLET
+
+   Keep all four cards in one row while allowing
+   caption and image proportions to adapt.
+============================================================ */
+
+@media (max-width: 1024px) {
+  .shop-by-need,
+  .aumveda-home-page
+  .rv-slot-shop_by_need
+  .shop-by-need {
+    padding: 14px 14px 15px;
+  }
+
+  .shop-by-need__header {
+    margin-bottom: 10px;
+  }
+
+  .shop-by-need__grid {
+    gap: 10px;
+  }
+
+  .shop-need-card {
+    aspect-ratio: 1.12 / 1;
+    border-radius: 14px;
+  }
+
+  .shop-need-card__image {
+    bottom: 68px;
+  }
+
+  .shop-need-card__content {
+    min-height: 68px;
+    padding: 8px 9px;
+  }
+
+  .shop-need-card__text h3 {
+    font-size: 14px;
+  }
+
+  .shop-need-card__text p {
+    font-size: 10px;
+    margin-top: 4px;
+  }
+
+  .shop-need-card__arrow {
+    flex-basis: 27px;
+    width: 27px;
+    height: 27px;
+  }
+}
+
+
+/* ============================================================
+   24 — MOBILE
+
+   Preserve native horizontal swiping.
+   Each card receives more space to display its details.
+============================================================ */
+
+@media (max-width: 700px) {
+  .shop-by-need,
+  .aumveda-home-page
+  .rv-slot-shop_by_need
+  .shop-by-need {
+    padding: 13px 0 13px;
+    border-radius: 10px;
+  }
+
+  .shop-by-need__header {
+    align-items: flex-end;
+
+    gap: 8px;
+
+    margin-bottom: 10px;
+    padding: 0 13px;
+  }
+
+  .shop-by-need__header h2 {
+    font-size: 23px;
+  }
+
+  .shop-by-need__eyebrow {
+    margin-bottom: 3px;
+    font-size: 8px;
+  }
+
+  .shop-by-need__view-all {
+    min-height: 26px;
+    font-size: 10px;
+  }
+
+  .shop-by-need__scroll-area {
+    width: 100%;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    padding: 2px 13px 7px;
+
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+
+    overscroll-behavior-x: contain;
+  }
+
+  .shop-by-need__scroll-area::-webkit-scrollbar {
+    display: none;
+  }
+
+  .shop-by-need__grid {
+    display: flex;
+    flex-wrap: nowrap;
+
+    gap: 11px;
+    width: max-content;
+
+    margin: 0;
+  }
+
+  .shop-need-card {
+    flex: 0 0 245px;
+
+    width: 245px;
+    min-width: 245px;
+
+    aspect-ratio: 1.18 / 1;
+
+    border-radius: 15px;
+
+    scroll-snap-align: start;
+  }
+
+  .shop-need-card__image {
+    bottom: 68px;
+  }
+
+  .shop-need-card__content {
+    min-height: 68px;
+    padding: 9px 12px;
+  }
+
+  .shop-need-card__text h3 {
+    font-size: 15px;
+  }
+
+  .shop-need-card__text p {
+    font-size: 10px;
+    margin-top: 4px;
+  }
+
+  .shop-need-card__arrow {
+    flex: 0 0 28px;
+
+    width: 28px;
+    height: 28px;
+  }
+}
+
+
+/* ============================================================
+   25 — SMALL MOBILE
+============================================================ */
+
+@media (max-width: 390px) {
+  .shop-by-need__header {
+    padding: 0 11px;
+  }
+
+  .shop-by-need__header h2 {
+    font-size: 21px;
+  }
+
+  .shop-by-need__view-all {
+    font-size: 9px;
+  }
+
+  .shop-by-need__scroll-area {
+    padding-right: 11px;
+    padding-left: 11px;
+  }
+
+  .shop-need-card {
+    flex-basis: 225px;
+
+    width: 225px;
+    min-width: 225px;
+  }
+
+  .shop-need-card__content {
+    padding: 8px 10px;
+  }
+}
+
+
+/* ============================================================
+   26 — TOUCH DEVICES
+============================================================ */
+
+@media (hover: none) {
+  .shop-need-card:hover {
+    transform: none;
+  }
+
+  .shop-need-card:hover
+  .shop-need-card__image img {
+    transform: none;
+  }
+
+  .shop-need-card:hover
+  .shop-need-card__arrow {
+    transform: none;
+  }
+}
+
+
+/* ============================================================
+   27 — REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .shop-need-card,
+  .shop-need-card__image img,
+  .shop-need-card__arrow,
+  .shop-by-need__view-all {
+    transition: none !important;
+  }
+
+  .shop-by-need__scroll-area {
+    scroll-behavior: auto;
+  }
+}
+
+
+/* ============================================================
+   END — AUMVEDA SHOP BY NEED
+   PREMIUM CATEGORY CARDS
+============================================================ */

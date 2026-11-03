@@ -1,0 +1,641 @@
+
+/* ============================================================
+   AUMVEDA — SECTION 08: CATEGORY CAMPAIGNS
+   PREMIUM COMPACT PROMOTIONAL CARDS
+
+   DESIGN:
+   - Three premium photographic campaign cards
+   - Soft 15px rounded corners
+   - Compact section height
+   - Improved image and text balance
+   - Elegant gradient blending
+   - Refined Shop Now controls
+   - Warm ivory section background
+   - Responsive tablet layout
+   - Native horizontal swipe on mobile
+
+   PRESERVED:
+   - Existing React component
+   - Supabase Storage imagery
+   - CMS titles, subtitles, and links
+   - Campaign background variables
+   - Existing navigation
+   - Mobile touch scrolling
+============================================================ */
+
+
+/* ============================================================
+   01 — BOX MODEL
+============================================================ */
+
+.category-campaigns,
+.category-campaigns *,
+.category-campaigns *::before,
+.category-campaigns *::after {
+  box-sizing: border-box;
+}
+
+
+/* ============================================================
+   02 — SECTION ROOT
+
+   Reduced unnecessary outer spacing.
+============================================================ */
+
+.category-campaigns,
+.aumveda-home-page
+.rv-slot-category_campaigns .category-campaigns {
+  position: relative;
+
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  margin: 0;
+  padding: 12px clamp(12px, 1.8vw, 24px) 13px;
+
+  overflow: hidden;
+
+  border: 0;
+  border-radius: 13px;
+
+  background: linear-gradient(
+    115deg,
+    #fffdf7 0%,
+    #faf7ef 55%,
+    #f7f1e8 100%
+  );
+}
+
+
+/* ============================================================
+   03 — SECTION CONTAINER
+============================================================ */
+
+.category-campaigns__container {
+  width: 100%;
+  max-width: 1500px;
+  min-width: 0;
+
+  margin: 0 auto;
+  padding: 0;
+}
+
+
+/* ============================================================
+   04 — THREE-COLUMN GRID
+============================================================ */
+
+.category-campaigns__grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  align-items: stretch;
+
+  gap: 12px;
+
+  width: 100%;
+  min-width: 0;
+
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ============================================================
+   05 — PREMIUM CAMPAIGN CARD
+
+   Slightly taller than before, but still compact.
+   Creates more room for imagery and clear text.
+============================================================ */
+
+.category-campaign {
+  position: relative;
+  isolation: isolate;
+
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  min-width: 0;
+
+  aspect-ratio: 2.15 / 1;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(70, 56, 39, 0.1);
+  border-radius: 15px;
+
+  background: var(
+    --campaign-bg,
+    #3b5c40
+  );
+
+  color: var(
+    --campaign-text,
+    #ffffff
+  );
+
+  text-decoration: none;
+
+  box-shadow:
+    0 3px 9px rgba(46, 39, 25, 0.05),
+    0 6px 16px rgba(46, 39, 25, 0.045);
+
+  transition:
+    transform 240ms ease,
+    box-shadow 240ms ease,
+    border-color 240ms ease;
+}
+
+
+/* ============================================================
+   06 — SUPABASE CAMPAIGN PHOTOGRAPHY
+
+   The image occupies the right section of the card.
+   Full image height is preserved.
+============================================================ */
+
+.category-campaign__image {
+  position: absolute;
+  z-index: 1;
+
+  top: 0;
+  right: 0;
+
+  display: block;
+
+  width: 72%;
+  height: 100%;
+
+  max-width: none;
+
+  margin: 0;
+  padding: 0;
+
+  object-fit: cover;
+  object-position: center right;
+
+  transform: scale(1);
+
+  transition:
+    transform 380ms cubic-bezier(
+      0.22,
+      1,
+      0.36,
+      1
+    );
+}
+
+
+/* ============================================================
+   07 — IMAGE GRADIENT OVERLAY
+
+   Provides readability on the left without
+   obscuring photography on the right.
+============================================================ */
+
+.category-campaign__overlay {
+  position: absolute;
+  z-index: 2;
+
+  inset: 0;
+
+  background: linear-gradient(
+    90deg,
+    var(--campaign-bg) 0%,
+    var(--campaign-bg) 22%,
+    color-mix(
+      in srgb,
+      var(--campaign-bg) 91%,
+      transparent
+    ) 38%,
+    color-mix(
+      in srgb,
+      var(--campaign-bg) 46%,
+      transparent
+    ) 59%,
+    transparent 85%
+  );
+
+  pointer-events: none;
+}
+
+
+/* ============================================================
+   08 — PROMOTIONAL CONTENT
+============================================================ */
+
+.category-campaign__content {
+  position: relative;
+  z-index: 3;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  gap: 0;
+
+  width: 62%;
+  min-width: 0;
+  min-height: 100%;
+
+  margin: 0;
+
+  padding: 12px 5px 12px 18px;
+
+  pointer-events: none;
+}
+
+
+/* ============================================================
+   09 — CAMPAIGN HEADING
+============================================================ */
+
+.category-campaign__title {
+  margin: 0;
+  padding: 0;
+
+  color: inherit;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: clamp(17px, 1.65vw, 23px);
+  font-weight: 700;
+
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+
+  text-wrap: balance;
+}
+
+
+/* ============================================================
+   10 — CAMPAIGN SUBTITLE
+
+   Two-line limit without excessive blank space.
+============================================================ */
+
+.category-campaign__subtitle {
+  display: -webkit-box;
+
+  width: 100%;
+  max-width: 205px;
+
+  margin: 6px 0 10px;
+  padding: 0;
+
+  overflow: hidden;
+
+  color: inherit;
+  opacity: 0.92;
+
+  font-family: inherit;
+  font-size: clamp(9px, 0.85vw, 11px);
+  font-weight: 450;
+
+  line-height: 1.35;
+
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+
+/* ============================================================
+   11 — SHOP NOW CTA
+
+   Retains full-card navigation.
+   The CTA is a visual element within the card.
+============================================================ */
+
+.category-campaign__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 auto;
+
+  gap: 6px;
+
+  min-height: 30px;
+
+  margin: 0;
+  padding: 0 13px;
+
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+
+  background: #fffdf8;
+  color: #2a4a32;
+
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 750;
+
+  line-height: 1;
+  white-space: nowrap;
+
+  box-shadow:
+    0 2px 6px rgba(35, 32, 27, 0.06);
+
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.category-campaign__cta svg {
+  flex: 0 0 auto;
+
+  width: 14px;
+  height: 14px;
+}
+
+
+/* ============================================================
+   12 — LIGHT CAMPAIGN VARIANT
+============================================================ */
+
+.category-campaign--light .category-campaign__cta {
+  background: #493021;
+  color: #fffdf8;
+
+  border-color: transparent;
+}
+
+
+/* ============================================================
+   13 — HOVER INTERACTIONS
+============================================================ */
+
+@media (hover: hover) {
+  .category-campaign:hover {
+    transform: translateY(-3px);
+
+    border-color: rgba(70, 56, 39, 0.18);
+
+    box-shadow:
+      0 7px 16px rgba(46, 39, 25, 0.075),
+      0 12px 25px rgba(46, 39, 25, 0.075);
+  }
+
+  .category-campaign:hover
+  .category-campaign__image {
+    transform: scale(1.045);
+  }
+
+  .category-campaign:hover
+  .category-campaign__cta {
+    background: #e8f0df;
+    color: #245139;
+
+    transform: translateX(2px);
+  }
+}
+
+
+/* ============================================================
+   14 — LAPTOP
+============================================================ */
+
+@media (max-width: 1200px) {
+  .category-campaigns,
+  .aumveda-home-page
+  .rv-slot-category_campaigns .category-campaigns {
+    padding: 11px 14px 12px;
+  }
+
+  .category-campaigns__grid {
+    gap: 10px;
+  }
+
+  .category-campaign {
+    aspect-ratio: 1.95 / 1;
+    border-radius: 13px;
+  }
+
+  .category-campaign__content {
+    width: 65%;
+    padding-left: 14px;
+  }
+
+  .category-campaign__title {
+    font-size: clamp(16px, 1.8vw, 21px);
+  }
+}
+
+
+/* ============================================================
+   15 — TABLET
+
+   Retain all three promotional cards.
+============================================================ */
+
+@media (max-width: 900px) {
+  .category-campaigns,
+  .aumveda-home-page
+  .rv-slot-category_campaigns .category-campaigns {
+    padding: 10px 11px 11px;
+  }
+
+  .category-campaigns__grid {
+    gap: 9px;
+  }
+
+  .category-campaign {
+    aspect-ratio: 1.55 / 1;
+    border-radius: 12px;
+  }
+
+  .category-campaign__content {
+    width: 70%;
+    padding: 9px 3px 9px 11px;
+  }
+
+  .category-campaign__title {
+    font-size: 15px;
+  }
+
+  .category-campaign__subtitle {
+    margin: 5px 0 8px;
+    font-size: 9px;
+  }
+
+  .category-campaign__cta {
+    min-height: 26px;
+
+    padding: 0 10px;
+
+    font-size: 9px;
+  }
+
+  .category-campaign__cta svg {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+
+/* ============================================================
+   16 — MOBILE HORIZONTAL SWIPE
+
+   Existing links and native swipe remain unchanged.
+============================================================ */
+
+@media (max-width: 650px) {
+  .category-campaigns,
+  .aumveda-home-page
+  .rv-slot-category_campaigns .category-campaigns {
+    padding: 10px 9px 11px;
+
+    border-radius: 10px;
+  }
+
+  .category-campaigns__grid {
+    display: flex;
+    flex-wrap: nowrap;
+
+    gap: 10px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    padding: 3px 0 7px;
+
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+  }
+
+  .category-campaigns__grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .category-campaign {
+    flex: 0 0 270px;
+
+    width: 270px;
+    min-width: 270px;
+
+    aspect-ratio: 1.9 / 1;
+
+    border-radius: 12px;
+
+    scroll-snap-align: start;
+  }
+
+  .category-campaign__image {
+    width: 73%;
+  }
+
+  .category-campaign__content {
+    width: 64%;
+
+    padding: 11px 4px 11px 14px;
+  }
+
+  .category-campaign__title {
+    font-size: 17px;
+  }
+
+  .category-campaign__subtitle {
+    margin: 5px 0 9px;
+
+    font-size: 9px;
+  }
+
+  .category-campaign__cta {
+    min-height: 27px;
+    padding: 0 11px;
+
+    font-size: 9px;
+  }
+}
+
+
+/* ============================================================
+   17 — SMALL MOBILE
+============================================================ */
+
+@media (max-width: 390px) {
+  .category-campaign {
+    flex-basis: 245px;
+
+    width: 245px;
+    min-width: 245px;
+  }
+
+  .category-campaign__content {
+    padding-left: 12px;
+  }
+
+  .category-campaign__title {
+    font-size: 16px;
+  }
+}
+
+
+/* ============================================================
+   18 — ACCESSIBILITY
+============================================================ */
+
+.category-campaign:focus-visible {
+  outline: 2px solid #b9965d;
+  outline-offset: 3px;
+}
+
+
+/* ============================================================
+   19 — TOUCH DEVICES
+============================================================ */
+
+@media (hover: none) {
+  .category-campaign:hover {
+    transform: none;
+  }
+
+  .category-campaign:hover
+  .category-campaign__image {
+    transform: none;
+  }
+
+  .category-campaign:hover
+  .category-campaign__cta {
+    transform: none;
+  }
+}
+
+
+/* ============================================================
+   20 — REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .category-campaign,
+  .category-campaign__image,
+  .category-campaign__cta {
+    transition: none !important;
+  }
+
+  .category-campaigns__grid {
+    scroll-behavior: auto;
+  }
+}
+
+/* ============================================================
+   END — AUMVEDA CATEGORY CAMPAIGNS
+============================================================ */
