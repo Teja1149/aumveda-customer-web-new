@@ -106,13 +106,6 @@ const HERO_BANNERS = [
     destination: "/products?search=skin",
     theme: "rose",
   },
-  {
-    id: "wellness",
-    title: "Everyday Wellness",
-    filename: "wellness-products-banner.webp",
-    destination: "/products?search=wellness",
-    theme: "gold",
-  },
 ];
 
 const SLIDES = HERO_BANNERS.map((banner) => ({
