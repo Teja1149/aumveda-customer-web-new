@@ -7,124 +7,421 @@ import {
 } from "react";
 
 import { Link } from "react-router-dom";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+
+import {
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+
+import { supabase } from "../../services/supabase";
 
 import "../../styles/hero.css";
 
 /* ============================================================
-   AUMVEDA — HERO BANNER
-   PREMIUM REFINED VERSION
+   AUMVEDA — DYNAMIC SUPABASE HERO CAROUSEL
 
-   SUPABASE:
-   Bucket: site_assets
-   Folder: products-banner
+   Project:
+   cheuntpecafsdcjumkzs
 
-   FUNCTIONALITY:
-   - Six product banners
-   - Smooth fade carousel
-   - Automatic rotation every 4 seconds
-   - Previous and Next arrows
+   Storage bucket:
+   site_assets
+
+   Storage folder:
+   products-banner
+
+   FEATURES:
+   - Automatic banner discovery
+   - No hardcoded image filenames
+   - Supports additional banner uploads
+   - Detects deleted banners
+   - Alphabetical ordering
+   - Refresh every 60 seconds
+   - Refresh on browser focus
+   - Four-second autoplay
+   - Navigation arrows
    - Pagination dots
-   - Pause on hover or keyboard focus
-   - Touch swipe on mobile
-   - Keyboard navigation
-   - Reduced-motion accessibility
-
-   DESIGN:
-   - 4.4:1 ultrawide viewport
-   - Complete artwork remains visible
-   - Soft image-derived background for ratio differences
-   - No duplicate promotional text
-   - Distinct card separated from Navbar
+   - Mobile swipe
+   - Keyboard controls
+   - Reduced-motion support
+   - Detailed diagnostic logging
 ============================================================ */
 
-const ROTATION_INTERVAL = 4000;
+const BUCKET = "site_assets";
+const FOLDER = "products-banner";
 
-const SUPABASE_URL = (
-  import.meta.env.VITE_SUPABASE_URL ||
-  "https://ihjbssbqwknyyzoewrik.supabase.co"
-).replace(/\/+$/, "");
+const AUTOPLAY_MS = 4000;
+const REFRESH_MS = 60000;
 
-const STORAGE_BUCKET = "site_assets";
-const STORAGE_FOLDER = "products-banner";
+const PAGE_SIZE = 100;
+const MAX_FILES = 500;
 
-function storageUrl(filename) {
-  if (!filename || !SUPABASE_URL) return "";
-
-  const path = [
-    STORAGE_BUCKET,
-    STORAGE_FOLDER,
-    filename,
-  ]
-    .map(encodeURIComponent)
-    .join("/");
-
-  return (
-    `${SUPABASE_URL}/storage/v1/object/public/${path}`
-  );
-}
-
-/*
-  Verify the full filenames in Supabase.
-  The screenshot previously provided truncated
-  several filenames.
-*/
-
-const HERO_BANNERS = [
-  {
-    id: "ancient",
-    title: "Ancient Wisdom for Modern Wellness",
-    filename: "ancient-products-banner.webp",
-    destination: "/products",
-    theme: "green",
-  },
-  {
-    id: "goodness",
-    title: "Discover Natural Goodness",
-    filename: "goodness-products-banner.webp",
-    destination: "/products",
-    theme: "gold",
-  },
-  {
-    id: "nature",
-    title: "Inspired by Nature",
-    filename: "nature-products-banner.webp",
-    destination: "/products",
-    theme: "green",
-  },
-  {
-    id: "natures",
-    title: "Nature's Wellness Collection",
-    filename: "natures-products-banner.webp",
-    destination: "/products",
-    theme: "rose",
-  },
-  {
-    id: "skin",
-    title: "Discover Skin Care",
-    filename: "skin-products-banner.webp",
-    destination: "/products?search=skin",
-    theme: "rose",
-  },
+const IMAGE_EXTENSIONS = [
+  "webp",
+  "png",
+  "jpg",
+  "jpeg",
+  "avif",
+  "gif",
 ];
 
-const SLIDES = HERO_BANNERS.map((banner) => ({
-  ...banner,
-  imageUrl: storageUrl(banner.filename),
-}));
+/* ============================================================
+   HELPERS
+============================================================ */
+
+function isImageFile(filename) {
+  if (typeof filename !== "string") {
+    return false;
+  }
+
+  const extension = filename
+    .split(".")
+    .pop()
+    ?.toLowerCase();
+
+  return IMAGE_EXTENSIONS.includes(extension);
+}
+
+function getBannerTitle(filename) {
+  return String(filename || "")
+    .replace(/\.[^.]+$/, "")
+    .replace(/[-_]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getBannerTheme(filename) {
+  const name = filename.toLowerCase();
+
+  if (
+    name.includes("skin") ||
+    name.includes("rose")
+  ) {
+    return "rose";
+  }
+
+  if (
+    name.includes("gold") ||
+    name.includes("diwali") ||
+    name.includes("immunity")
+  ) {
+    return "gold";
+  }
+
+  if (
+    name.includes("sleep") ||
+    name.includes("lavender")
+  ) {
+    return "lavender";
+  }
+
+  return "green";
+}
+
+function getBannerDestination(filename) {
+  const name = filename.toLowerCase();
+
+  if (name.includes("skin")) {
+    return "/products?search=skin";
+  }
+
+  if (name.includes("hair")) {
+    return "/products?search=hair";
+  }
+
+  if (name.includes("immunity")) {
+    return "/products?search=immunity";
+  }
+
+  return "/products";
+}
+
+/* ============================================================
+   LOAD STORAGE BANNERS
+
+   Does not require file.id to exist.
+   Excludes folders and unsupported files.
+============================================================ */
+
+async function loadStorageBanners() {
+  const files = [];
+
+  let offset = 0;
+
+  while (offset < MAX_FILES) {
+    const { data, error } = await supabase.storage
+      .from(BUCKET)
+      .list(FOLDER, {
+        limit: PAGE_SIZE,
+        offset,
+        sortBy: {
+          column: "name",
+          order: "asc",
+        },
+      });
+
+    if (error) {
+      throw error;
+    }
+
+    const page = Array.isArray(data)
+      ? data
+      : [];
+
+    console.info(
+      "[AUMVEDA HERO] Storage page:",
+      {
+        offset,
+        returned: page.length,
+        filenames: page.map((file) => file.name),
+      }
+    );
+
+    files.push(...page);
+
+    if (page.length < PAGE_SIZE) {
+      break;
+    }
+
+    offset += PAGE_SIZE;
+  }
+
+  const imageFiles = files.filter(
+    (file) =>
+      file &&
+      isImageFile(file.name)
+  );
+
+  const uniqueFiles = new Map();
+
+  for (const file of imageFiles) {
+    uniqueFiles.set(file.name, file);
+  }
+
+  const sortedFiles = [...uniqueFiles.values()]
+    .sort((a, b) =>
+      a.name.localeCompare(
+        b.name,
+        undefined,
+        {
+          numeric: true,
+          sensitivity: "base",
+        }
+      )
+    );
+
+  const banners = sortedFiles.map((file) => {
+    const storagePath =
+      `${FOLDER}/${file.name}`;
+
+    const { data } = supabase.storage
+      .from(BUCKET)
+      .getPublicUrl(storagePath);
+
+    const publicUrl = data?.publicUrl || "";
+
+    const updatedAt =
+      file.updated_at ||
+      file.created_at ||
+      "";
+
+    // Helps a replaced image load without keeping an
+    // older browser-cached version of the same filename.
+    const version = updatedAt
+      ? `?v=${encodeURIComponent(updatedAt)}`
+      : "";
+
+    return {
+      id: storagePath,
+      filename: file.name,
+      title:
+        getBannerTitle(file.name) ||
+        "AUMVEDA Wellness",
+      imageUrl: `${publicUrl}${version}`,
+      destination:
+        getBannerDestination(file.name),
+      theme: getBannerTheme(file.name),
+      updatedAt,
+    };
+  });
+
+  const validBanners = banners.filter(
+    (banner) => Boolean(banner.imageUrl)
+  );
+
+  console.info(
+    "[AUMVEDA HERO] Total valid banners:",
+    validBanners.length
+  );
+
+  return validBanners;
+}
+
+/* ============================================================
+   HERO COMPONENT
+============================================================ */
 
 export default function HeroSection() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
-  const [failedImages, setFailedImages] = useState({});
+  const [slides, setSlides] = useState([]);
+
+  const [activeIndex, setActiveIndex] =
+    useState(0);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  const [loadError, setLoadError] =
+    useState("");
+
+  const [isHovered, setIsHovered] =
+    useState(false);
+
+  const [isFocused, setIsFocused] =
+    useState(false);
+
+  const [reducedMotion, setReducedMotion] =
+    useState(false);
+
+  const [failedImages, setFailedImages] =
+    useState({});
 
   const touchStartRef = useRef(null);
 
-  const slideCount = SLIDES.length;
+  const requestIdRef = useRef(0);
+  const bannerSignatureRef = useRef("");
 
-  /* REDUCED MOTION */
+  const slideCount = slides.length;
+
+  /* ==========================================================
+     REFRESH BANNERS
+
+     Stable callback:
+     Does not depend on activeIndex.
+  ========================================================== */
+
+  const refreshBanners = useCallback(async () => {
+    const requestId = ++requestIdRef.current;
+
+    try {
+      const latest = await loadStorageBanners();
+
+      if (requestId !== requestIdRef.current) {
+        return;
+      }
+
+      const signature = latest
+        .map(
+          (slide) =>
+            `${slide.id}:${slide.updatedAt}`
+        )
+        .join("|");
+
+      const collectionChanged =
+        signature !== bannerSignatureRef.current;
+
+      if (collectionChanged) {
+        bannerSignatureRef.current = signature;
+
+        setSlides(latest);
+
+        setActiveIndex(0);
+        setFailedImages({});
+
+        console.info(
+          "[AUMVEDA HERO] Banner collection updated:",
+          latest.map((banner) => banner.filename)
+        );
+      }
+
+      if (latest.length === 0) {
+        console.warn(
+          "[AUMVEDA HERO] Storage returned no image files.",
+          "Check folder name and Storage SELECT policies."
+        );
+      }
+
+      setLoadError("");
+    } catch (error) {
+      if (requestId !== requestIdRef.current) {
+        return;
+      }
+
+      console.error(
+        "[AUMVEDA HERO] Unable to list banners:",
+        error
+      );
+
+      setLoadError(
+        error?.message ||
+        "Unable to retrieve banners."
+      );
+    } finally {
+      if (requestId === requestIdRef.current) {
+        setLoading(false);
+      }
+    }
+  }, []);
+
+  /* ==========================================================
+     INITIAL FETCH + REFRESH
+
+     Re-registers only when component mounts,
+     not when the current slide changes.
+  ========================================================== */
+
+  useEffect(() => {
+    refreshBanners();
+
+    function handleVisibilityChange() {
+      if (!document.hidden) {
+        refreshBanners();
+      }
+    }
+
+    function handleFocus() {
+      if (!document.hidden) {
+        refreshBanners();
+      }
+    }
+
+    document.addEventListener(
+      "visibilitychange",
+      handleVisibilityChange
+    );
+
+    window.addEventListener(
+      "focus",
+      handleFocus
+    );
+
+    const refreshInterval = window.setInterval(
+      () => {
+        if (!document.hidden) {
+          refreshBanners();
+        }
+      },
+      REFRESH_MS
+    );
+
+    return () => {
+      requestIdRef.current += 1;
+
+      document.removeEventListener(
+        "visibilitychange",
+        handleVisibilityChange
+      );
+
+      window.removeEventListener(
+        "focus",
+        handleFocus
+      );
+
+      window.clearInterval(refreshInterval);
+    };
+  }, [refreshBanners]);
+
+  /* ==========================================================
+     REDUCED MOTION
+  ========================================================== */
 
   useEffect(() => {
     if (
@@ -157,30 +454,49 @@ export default function HeroSection() {
     };
   }, []);
 
-  /* CAROUSEL NAVIGATION */
+  /* ==========================================================
+     NAVIGATION
+  ========================================================== */
 
   const nextSlide = useCallback(() => {
-    setActiveIndex(
-      (current) => (current + 1) % slideCount
-    );
+    setActiveIndex((current) => {
+      if (slideCount <= 1) {
+        return 0;
+      }
+
+      return (current + 1) % slideCount;
+    });
   }, [slideCount]);
 
   const previousSlide = useCallback(() => {
-    setActiveIndex(
-      (current) =>
-        (current - 1 + slideCount) % slideCount
-    );
+    setActiveIndex((current) => {
+      if (slideCount <= 1) {
+        return 0;
+      }
+
+      return (
+        current - 1 + slideCount
+      ) % slideCount;
+    });
   }, [slideCount]);
 
   const goToSlide = useCallback(
     (index) => {
-      if (index < 0 || index >= slideCount) return;
+      if (
+        index < 0 ||
+        index >= slideCount
+      ) {
+        return;
+      }
+
       setActiveIndex(index);
     },
     [slideCount]
   );
 
-  /* AUTOPLAY */
+  /* ==========================================================
+     AUTOPLAY
+  ========================================================== */
 
   useEffect(() => {
     if (
@@ -196,7 +512,7 @@ export default function HeroSection() {
       if (!document.hidden) {
         nextSlide();
       }
-    }, ROTATION_INTERVAL);
+    }, AUTOPLAY_MS);
 
     return () => {
       window.clearInterval(interval);
@@ -209,7 +525,9 @@ export default function HeroSection() {
     nextSlide,
   ]);
 
-  /* TOUCH SWIPE */
+  /* ==========================================================
+     TOUCH SWIPE
+  ========================================================== */
 
   function handleTouchStart(event) {
     touchStartRef.current =
@@ -218,7 +536,8 @@ export default function HeroSection() {
 
   function handleTouchEnd(event) {
     const startX = touchStartRef.current;
-    const endX = event.changedTouches[0]?.clientX;
+    const endX =
+      event.changedTouches[0]?.clientX;
 
     touchStartRef.current = null;
 
@@ -231,7 +550,9 @@ export default function HeroSection() {
 
     const difference = endX - startX;
 
-    if (Math.abs(difference) < 45) return;
+    if (Math.abs(difference) < 45) {
+      return;
+    }
 
     if (difference < 0) {
       nextSlide();
@@ -240,10 +561,14 @@ export default function HeroSection() {
     }
   }
 
-  /* KEYBOARD */
+  /* ==========================================================
+     KEYBOARD NAVIGATION
+  ========================================================== */
 
   function handleKeyDown(event) {
-    if (event.target !== event.currentTarget) return;
+    if (event.target !== event.currentTarget) {
+      return;
+    }
 
     if (event.key === "ArrowLeft") {
       event.preventDefault();
@@ -256,14 +581,18 @@ export default function HeroSection() {
     }
   }
 
-  /* IMAGE ERRORS */
+  /* ==========================================================
+     IMAGE ERROR HANDLING
+  ========================================================== */
 
   function markImageFailed(filename) {
     setFailedImages((previous) => {
-      if (previous[filename]) return previous;
+      if (previous[filename]) {
+        return previous;
+      }
 
       console.warn(
-        "AUMVEDA Hero image unavailable:",
+        "[AUMVEDA HERO] Image failed:",
         filename
       );
 
@@ -273,6 +602,64 @@ export default function HeroSection() {
       };
     });
   }
+
+  /* ==========================================================
+     INITIAL LOADING
+  ========================================================== */
+
+  if (loading && slides.length === 0) {
+    return (
+      <section
+        className="aum-hero"
+        aria-label="Loading AUMVEDA banners"
+        aria-busy="true"
+      >
+        <div className="aum-hero__frame">
+          <div className="aum-hero__viewport">
+            <div className="aum-hero__fallback">
+              <span>
+                Discover Natural Wellness
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  /* ==========================================================
+     NO BANNERS OR LISTING ERROR
+  ========================================================== */
+
+  if (slides.length === 0) {
+    return (
+      <section
+        className="aum-hero"
+        aria-label="AUMVEDA promotional banners"
+      >
+        <div className="aum-hero__frame">
+          <div className="aum-hero__viewport">
+            <Link
+              to="/products"
+              className="aum-hero__image-link"
+            >
+              <div className="aum-hero__fallback">
+                <span>
+                  {loadError
+                    ? "Explore AUMVEDA Wellness"
+                    : "Discover Natural Wellness"}
+                </span>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  /* ==========================================================
+     DYNAMIC SLIDER
+  ========================================================== */
 
   return (
     <section
@@ -301,11 +688,15 @@ export default function HeroSection() {
     >
       <div className="aum-hero__frame">
         <div className="aum-hero__viewport">
-          {SLIDES.map((slide, index) => {
-            const isActive = activeIndex === index;
-            const imageFailed = Boolean(
-              failedImages[slide.filename]
-            );
+
+          {slides.map((slide, index) => {
+            const isActive =
+              activeIndex === index;
+
+            const imageFailed =
+              Boolean(
+                failedImages[slide.filename]
+              );
 
             return (
               <article
@@ -320,7 +711,9 @@ export default function HeroSection() {
                 aria-hidden={!isActive}
                 inert={!isActive}
                 aria-roledescription="slide"
-                aria-label={`${index + 1} of ${slideCount}`}
+                aria-label={
+                  `${index + 1} of ${slideCount}`
+                }
               >
                 <Link
                   to={slide.destination}
@@ -330,9 +723,6 @@ export default function HeroSection() {
                 >
                   {!imageFailed ? (
                     <>
-                      {/* Backdrop fills unused sides
-                          when source ratios differ. */}
-
                       <div
                         className="aum-hero__backdrop"
                         aria-hidden="true"
@@ -345,8 +735,6 @@ export default function HeroSection() {
                           draggable={false}
                         />
                       </div>
-
-                      {/* Primary image remains uncropped. */}
 
                       <picture className="aum-hero__picture">
                         <img
@@ -382,6 +770,8 @@ export default function HeroSection() {
             );
           })}
 
+          {/* PREVIOUS / NEXT */}
+
           {slideCount > 1 && (
             <>
               <button
@@ -410,28 +800,39 @@ export default function HeroSection() {
             </>
           )}
 
+          {/* DOTS */}
+
           {slideCount > 1 && (
             <div
               className="aum-hero__dots"
               aria-label="Banner navigation"
             >
-              {SLIDES.map((slide, index) => (
+              {slides.map((slide, index) => (
                 <button
-                  type="button"
                   key={slide.id}
+                  type="button"
                   className={
                     "aum-hero__dot " +
-                    (index === activeIndex
-                      ? "aum-hero__dot--active"
-                      : "")
+                    (
+                      index === activeIndex
+                        ? "aum-hero__dot--active"
+                        : ""
+                    )
                   }
-                  aria-label={`Show banner ${index + 1}`}
-                  aria-pressed={index === activeIndex}
-                  onClick={() => goToSlide(index)}
+                  aria-label={
+                    `Show banner ${index + 1}`
+                  }
+                  aria-pressed={
+                    index === activeIndex
+                  }
+                  onClick={() =>
+                    goToSlide(index)
+                  }
                 />
               ))}
             </div>
           )}
+
         </div>
       </div>
     </section>
